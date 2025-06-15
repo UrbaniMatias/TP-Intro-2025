@@ -1,1 +1,8 @@
-# 2TP-Intro-2025
+# Segundo Trabajo Practivo Intro 2025 (Camejo)
+
+## Integrantes:
+
+- Catherine Merida Tapia 
+- Matías Urbani
+- Franco Cristaldo
+- Bautista Reinaldo Lopez
