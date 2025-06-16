@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Navbar con Logo y Botones</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-izq">
+            <img src="./imagenes/logo.png" alt="Logo" class="logo" />
+            <span class="titulo">LI-[INTER]</span>
+        </div>
+
+        <nav class="navbar-centro">
+            <a href="#inicio">Inicio</a>
+            <a href="#nuestros-libros">Nuestros Libros</a>
+            <a href="#nosotros">Sobre Nosotros</a>
+        </nav>
+
+        <div class="navbar-derecha">
+            <button class="btn btn-outline">Iniciar Sesión</button>
+            <button class="btn">Registrarse</button>
+        </div>
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+    </header>
+
+    <section id="inicio" class="seccion">
+        <div class="contenido-inicio">
+            <div class="textos">
+            <h2 class="linea1">Colección de libros</h2>
+            <h1 class="linea2">Didácticos</h1>
+            </div>
+            <div class="imagen">
+            <img src="./imagenes/libros.png" alt="Imagen libros decorativos" />
+            </div>
+        </div>
+        <div class="decoracion-circulo circulo1"></div>
+        <div class="decoracion-circulo circulo2"></div>
+    </section>
+
+    <section id="nuestros-libros">
+        <h2>NUESTROS LIBROS</h2>
+        <div class="carrusel-libros" id="contenedor-libros">
+            
+        </div>
+    </section>
+
+    <section id="nosotros" class="seccion">Sobre Nosotros</section>
+
+    <script src="carrusel-libros.js"></script>
+    <script>
+    const toggle = document.getElementById('menu-toggle');
+    const centro = document.querySelector('.navbar-centro');
+    const derecha = document.querySelector('.navbar-derecha');
+
+    toggle.addEventListener('click', () => {
+        centro.classList.toggle('activo');
+        derecha.classList.toggle('activo');
+    });
+    </script>
+
+</body>
+</html>
