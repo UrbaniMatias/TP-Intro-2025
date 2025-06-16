@@ -1,2 +1,6 @@
 
+.*
+
+!.gitignore
+
 backend/node_modules/
