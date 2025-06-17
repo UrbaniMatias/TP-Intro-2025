@@ -33,3 +33,4 @@ Paquetes siendo usados por el proyecto
 - nodemon
 - express-js
 - node-postgres
+- dotenv
