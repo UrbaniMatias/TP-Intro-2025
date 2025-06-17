@@ -1,5 +1,9 @@
 # Backend
 
+## API
+
+[Documentacion de la API](API.md)
+
 ## Scripts de Node
 
 ### Instalar los paquetes necesarios
