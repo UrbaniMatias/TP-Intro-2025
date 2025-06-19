@@ -1,6 +1,6 @@
 
 # Frontend
  
-## Integrantes del Front:
+## Integrantes del Front
 - Catherine 
 - Bautista
