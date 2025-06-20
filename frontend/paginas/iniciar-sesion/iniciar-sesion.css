@@ -8,14 +8,25 @@
 }
 
 body {
-  background: var(--fondo);
+  background: var(--fondo-1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Poppins', sans-serif;
   height: 100vh;
   margin: 0;
-  background-image: radial-gradient(circle at 10% 20%, rgba(253, 239, 239, 0.8) 0%, var(--fondo) 90%);
+  background-image: radial-gradient(circle at 10% 20%, rgba(253, 239, 239, 0.8) 0%, var(--fondo-1) 90%);
+}
+
+.container {
+  background-color: var(--blanco);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  width: 850px;
+  max-width: 95%;
+  min-height: 550px;
 }
 
 h1 {
@@ -82,17 +93,6 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(59, 179, 113, 0.2);
 }
 
-.container {
-  background-color: var(--blanco);
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-  width: 850px;
-  max-width: 95%;
-  min-height: 550px;
-}
-
 .form-container {
   position: absolute;
   top: 0;
@@ -108,31 +108,11 @@ input:focus {
   z-index: 2;
 }
 
-.overlay-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 100;
+.form a:hover {
+  color: var(--naranja);
+  text-decoration: underline;
 }
 
-.overlay {
-  background: linear-gradient(135deg, var(--naranja) 0%, var(--rojo) 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: var(--blanco);
-  position: relative;
-  left: -100%;
-  height: 100%;
-  width: 200%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Estilos para el texto de "Registrate" */
 form p {
   margin-top: 1.5rem;
   color: var(--negro-claro);
@@ -150,7 +130,6 @@ form a:hover {
   color: var(--naranja);
   text-decoration: underline;
 }
-
 .overlay-container {
   position: absolute;
   top: 0;
@@ -160,7 +139,6 @@ form a:hover {
   overflow: hidden;
   z-index: 100;
 }
-
 .overlay {
   background: linear-gradient(to right, var(--verde), var(--verde-claro));
   background-repeat: no-repeat;
@@ -170,4 +148,19 @@ form a:hover {
   left: -100%;
   height: 100%;
   width: 200%;
+}
+
+@media (max-width:600px){
+	body{
+  		background: linear-gradient(135deg, var(--verde) 0%, var(--verde-claro) 100%);
+	}
+	.container{
+		width: 400px;
+	}
+	.form-container{
+		width: 100%;
+	}
+	.overlay{
+		display: none;
+	}
 }
