@@ -35,6 +35,6 @@ npm run dev
 Paquetes siendo usados por el proyecto
 
 - nodemon
-- express-js
-- node-postgres
+- express
+- pg (postgres)
 - dotenv
