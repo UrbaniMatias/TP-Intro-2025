@@ -1,5 +1,9 @@
 # Backend
 
+## API
+
+[Documentacion de la API](API.md)
+
 ## Scripts de Node
 
 ### Instalar los paquetes necesarios
@@ -31,5 +35,6 @@ npm run dev
 Paquetes siendo usados por el proyecto
 
 - nodemon
-- express-js
-- node-postgres
+- express
+- pg (postgres)
+- dotenv
