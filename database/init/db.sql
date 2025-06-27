@@ -1,5 +1,3 @@
-CREATE DATABASE testDb;
-\c testDb;
 
 -- entidad 1
 CREATE TABLE aventura (
@@ -47,9 +45,3 @@ CREATE TABLE usuario_final (
 );
 
 -- PARA HACER: INSERTAR DATOS INICIALES DE LA BASE DE DATOS
-
--- lista las bases de datos
-\l;
-
--- lista las tablas en la base de dato actual
-\dt;

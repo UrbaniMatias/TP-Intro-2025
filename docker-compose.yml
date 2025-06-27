@@ -1,12 +1,12 @@
 services:
   database:
-    build: ./database
+    image: postgres:17-alpine3.22
     environment:
       POSTGRES_USER: testUser
       POSTGRES_PASSWORD: testPass
       POSTGRES_DB: testDb
     volumes:
-      - ./init:/docker-entrypoint-initdb.d/
+      - ./database/init:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
   front:
