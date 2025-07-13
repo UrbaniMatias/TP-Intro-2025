@@ -10,7 +10,7 @@ CREATE TABLE aventura (
 CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    contraseña VARCHAR(100) NOT NULL
+    contrasenia VARCHAR(100) NOT NULL
 );
 
 -- entidad 3
