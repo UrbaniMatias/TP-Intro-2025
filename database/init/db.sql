@@ -3,7 +3,7 @@
 CREATE TABLE aventura (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(200) NOT NULL
+    descripcion VARCHAR(200) NULL
 );
 
 -- entidad 2
