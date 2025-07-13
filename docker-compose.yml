@@ -9,8 +9,9 @@ services:
       - ./database/init:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
-  api:
-    build: ./backend
-    environment:
-      PORT: 3000
-    ports:
+    api:
+      build: ./backend
+      environment:
+        PORT: 3000
+      ports:
+        - "3000:3000"
