@@ -19,7 +19,7 @@ CREATE TABLE pagina (
     id_aventura INT NOT NULL REFERENCES aventura(id),
     titulo VARCHAR(100) NOT NULL,
     contenido VARCHAR(255) NOT NULL,
-    imagen VARCHAR(255)
+    imagen VARCHAR(255) NULL
 );
 
 -- relacion entre paginas
