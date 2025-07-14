@@ -9,14 +9,9 @@ services:
       - ./database/init:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
-  api:
-    build: ./backend
-    environment:
-      PORT: 3000
-    ports:
-  front:
-    image: httpd:alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - ./frontend/:/usr/local/apache2/htdocs/:ro
+    api:
+      build: ./backend
+      environment:
+        PORT: 3000
+      ports:
+        - "3000:3000"
