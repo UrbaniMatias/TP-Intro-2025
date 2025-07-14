@@ -1,35 +1,52 @@
 const conn = require("./db_connection");
 const Aventura = require("../models/aventura");
 
-// devuelve todas las aventuras
-async function getAventuras() {
-  let aventuras = [];
-  let res;
+async function getAllAventuras() {
+  const res = await conn.query("SELECT * FROM aventuras");
 
-  try {
-    res = await conn.query("SELECT * FROM aventuras");
-  } catch (error) {
-    console.error(error);
-    throw new Error("Fallo al consultar la base de datos");
-  }
-
-  res.rows.forEach((row) => {
-    aventuras += new Aventura(row.id, row.title, row.descripcion);
-  });
-
-  return aventuras;
+  return res.rows.map(
+    (row) => new Aventura(row.id, row.title, row.descripcion)
+  );
 }
 
-// devuelve la aventura si la encuentra
-// o lanza una excepcion en caso de error
-async function getAventuraById(id) {}
+async function getAventuraById(id) {
+  try {
+    const res = await conn.query(
+      "SELECT * FROM aventuras WHERE id = $1",
+      [id]
+    );
 
-// devuelve la aventura si la encuentra
-// o lanza una excepcion en caso de error
-async function getAventuraByTitle(title) {}
+    if (res.rowCount === 0) throw new Error("Aventura no encontrada");
 
-// devuelve la aventura creada
-// o lanza una excepcion en caso de error
-async function createAventura(titulo, descripcion) {}
+    return new Aventura(
+      res.rows[0].id,
+      res.rows[0].title,
+      res.rows[0].descripcion
+    );
+  } catch (error) {
+    console.error("Error en getAventuraById:", error);
+    throw error;
+  }
+}
 
-module.exports = { getAventuras, getAventuraById, getAventuraByTitle };
+// devuelve las aventuras que tengan titulo similar al ingresado
+// (busca coincidencias parciales del titulo)
+// o lanza una excepcion en caso de error
+async function getAventurasByTitle(title) {
+  try {
+    const res = await conn.query(
+      // ILIKE matchea coincidencias parciales
+      "SELECT * FROM aventuras WHERE title ILIKE $1",
+      [`%${title}%`]
+    );
+
+    return res.rows.map(
+      (row) => new Aventura(row.id, row.title, row.descripcion)
+    );
+  } catch (err) {
+    console.error("Error en getAventuraById:", err);
+    throw err;
+  }
+}
+
+module.exports = { getAllAventuras, getAventuraById, getAventurasByTitle };
