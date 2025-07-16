@@ -38,6 +38,4 @@ async function createUsuario(nombre, contrasenia) {
   }
 }
 
-module.exports = { getAllUsuarios, getUsuarioById, getUsuariosByTitle };
-
-module.exports = { get };
+module.exports = { getAllUsuarios, getUsuarioById, createUsuario };
