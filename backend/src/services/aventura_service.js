@@ -11,10 +11,7 @@ async function getAllAventuras() {
 
 async function getAventuraById(id) {
   try {
-    const res = await conn.query(
-      "SELECT * FROM aventuras WHERE id = $1",
-      [id]
-    );
+    const res = await conn.query("SELECT * FROM aventuras WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Aventura no encontrada");
 
@@ -44,7 +41,19 @@ async function getAventurasByTitle(title) {
       (row) => new Aventura(row.id, row.title, row.descripcion)
     );
   } catch (err) {
-    console.error("Error en getAventuraById:", err);
+    console.error("Error en getAventuraByTitle:", err);
+    throw err;
+  }
+}
+
+async function createAventura(title, descripcion) {
+  try {
+    const res = await conn.query(
+      "INSERT INTO aventuras (titulo, descripcion) VALUES ($1, $2)",
+      [titulo, descripcion]
+    );
+  } catch (error) {
+    console.error("Error en createAventura:", err);
     throw err;
   }
 }
