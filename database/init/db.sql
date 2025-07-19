@@ -4,8 +4,8 @@ CREATE TABLE aventura (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
     descripcion VARCHAR(200) NULL,
-    autor_id INT NOT NULLREFERENCES usuario(id),
-    genero VARCHAR(30),
+    autor_id INT NOT NULL REFERENCES usuario(id),
+    genero VARCHAR(30) NOT NULL,
     fecha_creacion DATE NOT NULL
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE usuario (
     contrasenia VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     fecha_registro DATE NOT NULL,
-    rol VARCHAR(20)
+    rol VARCHAR(20) NOT NULL
 );
 
 -- entidad 3
