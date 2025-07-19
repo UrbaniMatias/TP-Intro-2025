@@ -4,7 +4,7 @@ CREATE TABLE aventura (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
     descripcion VARCHAR(200) NULL,
-    autor_id INT REFERENCES usuario(id),
+    autor_id INT NOT NULLREFERENCES usuario(id),
     genero VARCHAR(30),
     fecha_creacion DATE NOT NULL
 );
@@ -13,7 +13,7 @@ CREATE TABLE aventura (
 CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    contraseña VARCHAR(100) NOT NULL,
+    contrasenia VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     fecha_registro DATE NOT NULL,
     rol VARCHAR(20)
@@ -26,8 +26,7 @@ CREATE TABLE pagina (
     titulo VARCHAR(100) NOT NULL,
     contenido VARCHAR(255) NOT NULL,
     imagen VARCHAR(255) NULL,
-    es_inicio BOOLEAN,
-    musica_fondo VARCHAR(255)
+    es_inicio BOOLEAN
 );
 
 -- relacion entre paginas
