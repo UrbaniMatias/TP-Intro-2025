@@ -43,9 +43,9 @@ async function getAventurasByTitle(titulo) {
     return res.rows.map(
       (row) => new Aventura(row.id, row.titulo, row.descripcion, row.autor_id, row.genero, row.fecha_creacion)
     );
-  } catch (err) {
-    console.error("Error en getAventuraByTitle:", err);
-    throw err;
+  } catch (error) {
+    console.error("Error en getAventuraByTitle:", error);
+    throw error;
   }
 }
 
@@ -56,8 +56,8 @@ async function createAventura(titulo, descripcion, autor_id, genero, fecha_creac
       [titulo, descripcion, autor_id, genero, fecha_creacion]
     );
   } catch (error) {
-    console.error("Error en createAventura:", err);
-    throw err;
+    console.error("Error en createAventura:", error);
+    throw error;
   }
 }
 
