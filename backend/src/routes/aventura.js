@@ -26,7 +26,17 @@ router.post("/:id_aventura/:id_pagina/opcion", (req, res) => {
 
 // GET /v1/aventura/:id_aventura
 router.get("/:id_aventura", (req, res) => {
-  res.send(`Obtener aventura ${req.params.id_aventura}`);
+  console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
+
+  try {
+    const aventura = aventura_service.getAventuraById(id_aventura);
+    const res_body = JSON.stringify(aventura);
+    console.log(`Response: ${res_body}`);
+    res.send(res_body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
 });
 
 // GET /v1/aventura/:id_aventura/paginas
