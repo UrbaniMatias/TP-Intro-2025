@@ -8,12 +8,15 @@ router.post("/", (req, res) => {
       req.params.titulo,
       req.params.descripcion,
       req.params.autor_id,
-      req.params.genero,
-      req.params.fecha_creacion
+      req.params.genero
     );
 
     console.log("/v1/aventura");
     console.log("response: " + aventura_id);
+
+    console.log(
+      `aventura creada: ${aventura_service.getAventuraById(aventura_id)}`
+    );
 
     res.send(aventura_id);
   } catch (error) {
