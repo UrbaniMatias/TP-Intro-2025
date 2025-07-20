@@ -2,23 +2,26 @@ const conn = require("./db_connection");
 const Aventura = require("../models/aventura");
 
 async function getAllAventuras() {
-  const res = await conn.query("SELECT * FROM aventuras");
+  const res = await conn.query("SELECT * FROM aventura");
 
   return res.rows.map(
-    (row) => new Aventura(row.id, row.title, row.descripcion)
+    (row) => new Aventura(row.id, row.titulo, row.descripcion, row.autor_id, row.genero, row.fecha_creacion)
   );
 }
 
 async function getAventuraById(id) {
   try {
-    const res = await conn.query("SELECT * FROM aventuras WHERE id = $1", [id]);
+    const res = await conn.query("SELECT * FROM aventura WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Aventura no encontrada");
 
     return new Aventura(
       res.rows[0].id,
-      res.rows[0].title,
-      res.rows[0].descripcion
+      res.rows[0].titulo,
+      res.rows[0].descripcion,
+      res.rows[0].autor_id,
+      res.rows[0].genero,
+      res.rows[0].fecha_creacion
     );
   } catch (error) {
     console.error("Error en getAventuraById:", error);
@@ -29,16 +32,16 @@ async function getAventuraById(id) {
 // devuelve las aventuras que tengan titulo similar al ingresado
 // (busca coincidencias parciales del titulo)
 // o lanza una excepcion en caso de error
-async function getAventurasByTitle(title) {
+async function getAventurasByTitle(titulo) {
   try {
     const res = await conn.query(
       // ILIKE matchea coincidencias parciales
-      "SELECT * FROM aventuras WHERE title ILIKE $1",
-      [`%${title}%`]
+      "SELECT * FROM aventura WHERE titulo ILIKE $1",
+      [`%${titulo}%`]
     );
 
     return res.rows.map(
-      (row) => new Aventura(row.id, row.title, row.descripcion)
+      (row) => new Aventura(row.id, row.titulo, row.descripcion, row.autor_id, row.genero, row.fecha_creacion)
     );
   } catch (err) {
     console.error("Error en getAventuraByTitle:", err);
@@ -46,11 +49,11 @@ async function getAventurasByTitle(title) {
   }
 }
 
-async function createAventura(title, descripcion) {
+async function createAventura(titulo, descripcion, autor_id, genero, fecha_creacion) {
   try {
     const res = await conn.query(
-      "INSERT INTO aventuras (titulo, descripcion) VALUES ($1, $2)",
-      [titulo, descripcion]
+      "INSERT INTO aventura (titulo, descripcion, autor_id, genero, fecha_creacion) VALUES ($1, $2, $3, $4, $5)",
+      [titulo, descripcion, autor_id, genero, fecha_creacion]
     );
   } catch (error) {
     console.error("Error en createAventura:", err);
@@ -58,4 +61,4 @@ async function createAventura(title, descripcion) {
   }
 }
 
-module.exports = { getAllAventuras, getAventuraById, getAventurasByTitle };
+module.exports = { getAllAventuras, getAventuraById, getAventurasByTitle, createAventura};
