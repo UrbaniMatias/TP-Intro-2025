@@ -40,12 +40,6 @@ router.get("/:id_aventura", (req, res) => {
   }
 });
 
-// GET /v1/aventura/:id_aventura/paginas
-router.get("/:id_aventura/paginas", (req, res) => {
-  const id_aventura = req.params.id_aventura;
-  console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}/paginas`);
-});
-
 // GET /v1/aventura/:id_aventura/:id_pagina
 router.get("/:id_aventura/:id_pagina", (req, res) => {
   res.send(
