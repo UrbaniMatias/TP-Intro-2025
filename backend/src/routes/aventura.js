@@ -1,20 +1,25 @@
 const router = express.Router();
-const aventura_service = require("../services/aventura_service")
+const aventura_service = require("../services/aventura_service");
 
 // POST /v1/aventura
 router.post("/", (req, res) => {
-  const aventura_id = aventura_service.createAventura(
-    req.params.titulo,
-    req.params.descripcion,
-    req.params.autor_id,
-    req.params.genero,
-    req.params.fecha_creacion
-  );
+  try {
+    const aventura_id = aventura_service.createAventura(
+      req.params.titulo,
+      req.params.descripcion,
+      req.params.autor_id,
+      req.params.genero,
+      req.params.fecha_creacion
+    );
 
-  console.log("/v1/aventura");
-  console.log("response: " + aventura_id);
+    console.log("/v1/aventura");
+    console.log("response: " + aventura_id);
 
-  res.send(aventura_id);
+    res.send(aventura_id);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
 });
 
 // POST /v1/aventura/:id_aventura/pagina
