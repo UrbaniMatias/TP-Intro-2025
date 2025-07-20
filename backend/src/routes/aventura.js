@@ -26,9 +26,10 @@ router.post("/:id_aventura/:id_pagina/opcion", (req, res) => {
 
 // GET /v1/aventura/:id_aventura
 router.get("/:id_aventura", (req, res) => {
-  console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
-
   try {
+    const id_aventura = req.params.id_aventura;
+    console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
+
     const aventura = aventura_service.getAventuraById(id_aventura);
     const res_body = JSON.stringify(aventura);
     console.log(`Response: ${res_body}`);
@@ -41,7 +42,8 @@ router.get("/:id_aventura", (req, res) => {
 
 // GET /v1/aventura/:id_aventura/paginas
 router.get("/:id_aventura/paginas", (req, res) => {
-  res.send(`Obtener páginas de aventura ${req.params.id_aventura}`);
+  const id_aventura = req.params.id_aventura;
+  console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}/paginas`);
 });
 
 // GET /v1/aventura/:id_aventura/:id_pagina
