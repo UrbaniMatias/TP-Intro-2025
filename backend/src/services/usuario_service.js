@@ -1,4 +1,4 @@
-const express = require("express");
+const conn = require("../services/db_connection");
 const Usuario = require("../models/usuario");
 
 async function getAllUsuarios() {
