@@ -4,9 +4,9 @@ const router = express.Router();
 
 // POST /v1/aventura
 router.post("/", (req, res) => {
-  const aventuras = aventura_service.getAllAventuras();
-
   console.log("POST /v1/aventura");
+
+  const aventuras = aventura_service.getAllAventuras();
   console.log(aventuras);
 
   res.send(aventuras);
