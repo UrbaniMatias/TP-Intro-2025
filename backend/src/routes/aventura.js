@@ -15,7 +15,9 @@ router.post("/", (req, res) => {
     console.log("response: " + aventura_id);
 
     console.log(
-      `aventura creada: ${aventura_service.getAventuraById(aventura_id)}`
+      `aventura creada: ${JSON.stringify(
+        aventura_service.getAventuraById(aventura_id)
+      )}`
     );
 
     res.send(aventura_id);
