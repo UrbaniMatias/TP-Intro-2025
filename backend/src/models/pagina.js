@@ -16,7 +16,7 @@ class Pagina {
       throw new Error("imagen inválida: debe ser un string o null");
 
     if (typeof es_inicio !== "boolean")
-      throw new Error("es inicio inválido: debe ser true o false");
+      throw new Error("es_inicio inválido: debe ser true o false");
 
     this.id = id;
     this.id_aventura = id_aventura;
