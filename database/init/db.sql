@@ -5,7 +5,7 @@ CREATE TABLE usuario (
     nombre VARCHAR(50) NOT NULL,
     contrasenia VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    fecha_registro DATE NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rol VARCHAR(20) NOT NULL
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE aventura (
     descripcion VARCHAR(200) NULL,
     autor_id INT NOT NULL REFERENCES usuario(id),
     genero VARCHAR(30) NOT NULL,
-    fecha_creacion DATE NOT NULL
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- entidad 3
