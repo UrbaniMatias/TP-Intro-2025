@@ -55,6 +55,8 @@ async function createAventura(titulo, descripcion, autor_id, genero, fecha_creac
       "INSERT INTO aventura (titulo, descripcion, autor_id, genero, fecha_creacion) VALUES ($1, $2, $3, $4, $5)",
       [titulo, descripcion, autor_id, genero, fecha_creacion]
     );
+
+    return res.rows[0].id;
   } catch (error) {
     console.error("Error en createAventura:", error);
     throw error;

@@ -1,9 +1,15 @@
+const aventura_service = require("../services/aventura_service");
 const express = require("express");
 const router = express.Router();
 
 // POST /v1/aventura
 router.post("/", (req, res) => {
-  res.send("Crear aventura");
+  const aventuras = aventura_service.getAllAventuras();
+
+  console.log("POST /v1/aventura");
+  console.log(aventuras);
+
+  res.send(aventuras);
 });
 
 // POST /v1/aventura/:id_aventura/pagina
