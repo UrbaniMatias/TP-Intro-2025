@@ -1,15 +1,5 @@
 
 -- entidad 1
-CREATE TABLE aventura (
-    id SERIAL PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(200) NULL,
-    autor_id INT NOT NULL REFERENCES usuario(id),
-    genero VARCHAR(30) NOT NULL,
-    fecha_creacion DATE NOT NULL
-);
-
--- entidad 2
 CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -17,6 +7,16 @@ CREATE TABLE usuario (
     email VARCHAR(100) UNIQUE NOT NULL,
     fecha_registro DATE NOT NULL,
     rol VARCHAR(20) NOT NULL
+);
+
+-- entidad 2
+CREATE TABLE aventura (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(200) NULL,
+    autor_id INT NOT NULL REFERENCES usuario(id),
+    genero VARCHAR(30) NOT NULL,
+    fecha_creacion DATE NOT NULL
 );
 
 -- entidad 3
