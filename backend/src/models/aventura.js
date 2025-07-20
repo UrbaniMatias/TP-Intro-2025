@@ -27,4 +27,4 @@ class Aventura {
   }
 }
 
-module.exports = aventura;
+module.exports = Aventura;
