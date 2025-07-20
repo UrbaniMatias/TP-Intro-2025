@@ -33,8 +33,8 @@ async function createUsuario(nombre, contrasenia) {
       [nombre, contrasenia]
     );
   } catch (error) {
-    console.error("Error en createUsuario:", err);
-    throw err;
+    console.error("Error en createUsuario:", error);
+    throw error;
   }
 }
 

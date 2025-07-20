@@ -58,9 +58,9 @@ async function getPaginasByTitle(title) {
           row.imagen
         )
     );
-  } catch (err) {
-    console.error("Error en getPaginaByTitle:", err);
-    throw err;
+  } catch (error) {
+    console.error("Error en getPaginaByTitle:", error);
+    throw error;
   }
 }
 
@@ -80,8 +80,8 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
       [id_aventura, title, contenido, imagen]
     );
   } catch (error) {
-    console.error("Error en createPagina:", err);
-    throw err;
+    console.error("Error en createPagina:", error);
+    throw error;
   }
 }
 
