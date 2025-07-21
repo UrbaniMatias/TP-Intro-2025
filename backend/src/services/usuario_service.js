@@ -23,7 +23,7 @@ async function getUsuarioById(id, contrasenia) {
   }
 }
 
-async function createUsuario(nombre, contrasenia) {
+async function createUsuario(nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento) {
   try {
     if (!nombre || nombre == "")
       throw new Error("El nombre debe ser un string no vacio");
