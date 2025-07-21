@@ -3,7 +3,6 @@ const aventura_service = require("../services/aventura_service");
 
 // GET /v1/aventuras
 router.get("/", async (req, res) => {
-  res.send("Listar todas las aventuras");
   try {
     console.log("Method: GET\nURI: /v1/aventuras");
 
