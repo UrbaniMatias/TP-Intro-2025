@@ -1,9 +1,15 @@
+const aventura_service = require("../services/aventura_service");
 const express = require("express");
 const router = express.Router();
 
 // POST /v1/aventura
 router.post("/", (req, res) => {
-  res.send("Crear aventura");
+  console.log("POST /v1/aventura");
+
+  const aventuras = aventura_service.getAllAventuras();
+  console.log(aventuras);
+
+  res.send(aventuras);
 });
 
 // POST /v1/aventura/:id_aventura/pagina
@@ -20,12 +26,18 @@ router.post("/:id_aventura/:id_pagina/opcion", (req, res) => {
 
 // GET /v1/aventura/:id_aventura
 router.get("/:id_aventura", (req, res) => {
-  res.send(`Obtener aventura ${req.params.id_aventura}`);
-});
+  try {
+    const id_aventura = req.params.id_aventura;
+    console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
 
-// GET /v1/aventura/:id_aventura/paginas
-router.get("/:id_aventura/paginas", (req, res) => {
-  res.send(`Obtener páginas de aventura ${req.params.id_aventura}`);
+    const aventura = aventura_service.getAventuraById(id_aventura);
+    const res_body = JSON.stringify(aventura);
+    console.log(`Response: ${res_body}`);
+    res.send(res_body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
 });
 
 // GET /v1/aventura/:id_aventura/:id_pagina

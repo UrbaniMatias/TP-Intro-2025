@@ -43,21 +43,23 @@ async function getAventurasByTitle(titulo) {
     return res.rows.map(
       (row) => new Aventura(row.id, row.titulo, row.descripcion, row.autor_id, row.genero, row.fecha_creacion)
     );
-  } catch (err) {
-    console.error("Error en getAventuraByTitle:", err);
-    throw err;
+  } catch (error) {
+    console.error("Error en getAventuraByTitle:", error);
+    throw error;
   }
 }
 
-async function createAventura(titulo, descripcion, autor_id, genero, fecha_creacion) {
+async function createAventura(titulo, descripcion, autor_id, genero) {
   try {
     const res = await conn.query(
-      "INSERT INTO aventura (titulo, descripcion, autor_id, genero, fecha_creacion) VALUES ($1, $2, $3, $4, $5)",
-      [titulo, descripcion, autor_id, genero, fecha_creacion]
+      "INSERT INTO aventura (titulo, descripcion, autor_id, genero) VALUES ($1, $2, $3, $4, $5)",
+      [titulo, descripcion, autor_id, genero]
     );
+
+    return res.rows[0].id;
   } catch (error) {
-    console.error("Error en createAventura:", err);
-    throw err;
+    console.error("Error en createAventura:", error);
+    throw error;
   }
 }
 
