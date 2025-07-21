@@ -2,14 +2,13 @@ const conn = require("../services/db_connection");
 const Usuario = require("../models/usuario");
 
 async function getAllUsuarios() {
-  const res = await conn.query("SELECT * FROM usuarios");
-
+  const res = await query("SELECT * FROM usuarios");
   return res.rows.map((row) => new Usuario(row.id, row.nombre));
 }
 
 async function getUsuarioById(id) {
   try {
-    const res = await conn.query("SELECT * FROM usuarios WHERE id = $1", [id]);
+    const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Usuario no encontrada");
 
@@ -28,9 +27,9 @@ async function createUsuario(nombre, contrasenia) {
     if (!contrasenia || contrasenia == "")
       throw new Error("La contrasenia debe ser un string no vacio");
 
-    const res = await conn.query(
-      "INSERT INTO usuarios (nombre, contrasenia) VALUES ($1, $2)",
-      [nombre, contrasenia]
+    const res = await query(
+      "INSERT INTO usuario (nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento) VALUES ($1, $2, $3, $4, $5)",
+      [nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento]
     );
   } catch (error) {
     console.error("Error en createUsuario:", error);
@@ -38,4 +37,40 @@ async function createUsuario(nombre, contrasenia) {
   }
 }
 
-module.exports = { getAllUsuarios, getUsuarioById, createUsuario };
+async function updateUsuario(id, nombre = null, contrasenia = null, email = null, fecha_de_nacimiento = null) {
+  try {
+    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
+    if (!id) throw new Error("ID de usuario requerido");
+    
+    if (nombre) {
+      query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);     
+    }
+   
+    if (contrasenia) {
+      query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [id, contrasenia]);
+    
+    }
+ 
+    if (email) {
+      query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);      
+  
+    };
+    if (fecha_de_nacimiento) {
+      query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);    }
+  } catch (error) {
+    console.error("Error en updateUsuario:", error);
+    throw error;
+  }
+}
+
+async function deleteUsuario(id) {
+  try {
+    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
+    const res = await query("DELETE FROM usuarios WHERE id = $1", [id]);
+  } catch (error) {
+    console.error("Error en deleteUsuario:", error);
+    throw error;
+  }
+}
+
+export default { getAllUsuarios, getUsuarioById, createUsuario, updateUsuario, deleteUsuario };
