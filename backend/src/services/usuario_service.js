@@ -10,7 +10,8 @@ async function getUsuarioById(id) {
   try {
     const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
-    if (res.rowCount === 0) throw new Error("Usuario no encontrada");
+    if (res.rowCount === 0)
+      throw new Error("Usuario no encontrado");
 
     return new Usuario(res.rows[0].id, res.rows[0].nombre);
   } catch (error) {
@@ -47,7 +48,7 @@ async function updateUsuarioById(id, nombre = null, contrasenia = null, email = 
       throw new Error("ID de usuario requerido");
     
     if (validateIdUsuario(id) == false)
-      throw new Error("ID de usuario invalida");
+      throw new Error("Usuario no encontrado");
 
     if (nombre)
       query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
@@ -68,8 +69,10 @@ async function updateUsuarioById(id, nombre = null, contrasenia = null, email = 
 
 async function deleteUsuarioById(id) {
   try {
-    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
     const res = await query("DELETE FROM usuarios WHERE id = $1", [id]);
+    
+    if (res.rowCount === 0)
+      throw new Error("Usuario no encontrado");
   } catch (error) {
     console.error("Error en deleteUsuarioById:", error);
     throw error;
