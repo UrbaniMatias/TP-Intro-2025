@@ -1,15 +1,6 @@
 const conn = require("./db_connection");
 const Pagina = require("../models/pagina");
 
-async function getAllPaginas() {
-  const res = await conn.query("SELECT * FROM paginas");
-
-  return res.rows.map(
-    (row) =>
-      new Pagina(row.id, row.id_aventura, row.title, row.contenido, row.imagen)
-  );
-}
-
 async function getPaginaById(id) {
   try {
     const res = await conn.query("SELECT * FROM paginas WHERE id = $1", [id]);
@@ -25,33 +16,6 @@ async function getPaginaById(id) {
     );
   } catch (error) {
     console.error("Error en getPaginaById:", error);
-    throw error;
-  }
-}
-
-// devuelve las Paginas que tengan titulo similar al ingresado
-// (busca coincidencias parciales del titulo)
-// o lanza una excepcion en caso de error
-async function getPaginaByTitulo(title) {
-  try {
-    const res = await conn.query(
-      // ILIKE matchea coincidencias parciales
-      "SELECT * FROM paginas WHERE title ILIKE $1",
-      [`%${title}%`]
-    );
-
-    return res.rows.map(
-      (row) =>
-        new Pagina(
-          row.id,
-          row.id_aventura,
-          row.title,
-          row.contenido,
-          row.imagen
-        )
-    );
-  } catch (error) {
-    console.error("Error en getPaginaByTitulo:", error);
     throw error;
   }
 }
@@ -76,5 +40,9 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
     throw error;
   }
 }
+
+async function updatePaginaById(id, titulo = null, contenido = null, imagen = null) {}
+
+async function deletePaginaById(id) {}
 
 module.exports = { getAllPaginas, getPaginaById, getPaginaByTitulo, createPagina };
