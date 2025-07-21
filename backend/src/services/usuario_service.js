@@ -6,11 +6,15 @@ async function getAllUsuarios() {
   return res.rows.map((row) => new Usuario(row.id, row.nombre));
 }
 
-async function getUsuarioById(id) {
+async function getUsuarioById(id, contrasenia) {
   try {
     const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
-    if (res.rowCount === 0) throw new Error("Usuario no encontrada");
+    if (res.rowCount === 0)
+      throw new Error("Usuario no encontrado");
+
+    if (res.row[0].contrasenia !== contrasenia)
+      throw new Error("Contrasenia incorrecta");
 
     return new Usuario(res.rows[0].id, res.rows[0].nombre);
   } catch (error) {
@@ -47,7 +51,7 @@ async function updateUsuarioById(id, nombre = null, contrasenia = null, email = 
       throw new Error("ID de usuario requerido");
     
     if (validateIdUsuario(id) == false)
-      throw new Error("ID de usuario invalida");
+      throw new Error("Usuario no encontrado");
 
     if (nombre)
       conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
@@ -69,12 +73,14 @@ async function updateUsuarioById(id, nombre = null, contrasenia = null, email = 
 
 async function deleteUsuarioById(id) {
   try {
-    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
     const res = await query("DELETE FROM usuarios WHERE id = $1", [id]);
+    
+    if (res.rowCount === 0)
+      throw new Error("Usuario no encontrado");
   } catch (error) {
     console.error("Error en deleteUsuarioById:", error);
     throw error;
   }
 }
 
-export default { getAllUsuarios, getUsuarioById, createUsuario, updateUsuarioById, deleteUsuarioById };
+module.exports = { getAllUsuarios, getUsuarioById, createUsuario, updateUsuarioById, deleteUsuarioById };
