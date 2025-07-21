@@ -1,14 +1,6 @@
 const conn = require("./db_connection");
 const Pagina = require("../models/pagina");
 
-/*
-id SERIAL PRIMARY KEY,
-id_aventura INT NOT NULL REFERENCES aventura(id),
-titulo VARCHAR(100) NOT NULL,
-contenido VARCHAR(255) NOT NULL,
-imagen VARCHAR(255) NULL
-*/
-
 async function getAllPaginas() {
   const res = await conn.query("SELECT * FROM paginas");
 
@@ -40,7 +32,7 @@ async function getPaginaById(id) {
 // devuelve las Paginas que tengan titulo similar al ingresado
 // (busca coincidencias parciales del titulo)
 // o lanza una excepcion en caso de error
-async function getPaginasByTitle(title) {
+async function getPaginaByTitulo(title) {
   try {
     const res = await conn.query(
       // ILIKE matchea coincidencias parciales
@@ -59,7 +51,7 @@ async function getPaginasByTitle(title) {
         )
     );
   } catch (error) {
-    console.error("Error en getPaginaByTitle:", error);
+    console.error("Error en getPaginaByTitulo:", error);
     throw error;
   }
 }
@@ -85,4 +77,4 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
   }
 }
 
-module.exports = { getAllPaginas, getPaginaById, getPaginasByTitle, createPagina };
+module.exports = { getAllPaginas, getPaginaById, getPaginaByTitulo, createPagina };
