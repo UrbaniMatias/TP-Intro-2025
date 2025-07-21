@@ -6,12 +6,15 @@ async function getAllUsuarios() {
   return res.rows.map((row) => new Usuario(row.id, row.nombre));
 }
 
-async function getUsuarioById(id) {
+async function getUsuarioById(id, contrasenia) {
   try {
     const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
     if (res.rowCount === 0)
       throw new Error("Usuario no encontrado");
+
+    if (res.row[0].contrasenia !== contrasenia)
+      throw new Error("Contrasenia incorrecta");
 
     return new Usuario(res.rows[0].id, res.rows[0].nombre);
   } catch (error) {
