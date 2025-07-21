@@ -20,6 +20,16 @@ async function getPaginaById(id) {
   }
 }
 
+async function getAllOpcionesByPaginaId(id) {
+  // id es id_pagina_origen
+
+  // CREATE TABLE opcion (
+  // id SERIAL PRIMARY KEY,
+  // descripcion VARCHAR(200) NOT NULL,
+  // id_pagina_origen INT NOT NULL REFERENCES pagina(id),
+  // id_pagina_destino INT REFERENCES pagina(id)
+}
+
 async function createPagina(title, id_aventura, title, contenido, imagen) {
   try {
     if (!id_aventura)
