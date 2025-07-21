@@ -45,4 +45,4 @@ async function updatePaginaById(id, titulo = null, contenido = null, imagen = nu
 
 async function deletePaginaById(id) {}
 
-module.exports = { getAllPaginas, getPaginaById, getPaginaByTitulo, createPagina };
+module.exports = { getPaginaById, createPagina, updatePaginaById, deletePaginaById };
