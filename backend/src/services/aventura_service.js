@@ -29,26 +29,6 @@ async function getAventuraById(id) {
   }
 }
 
-// devuelve las aventuras que tengan titulo similar al ingresado
-// (busca coincidencias parciales del titulo)
-// o lanza una excepcion en caso de error
-async function getAventuraByTitulo(titulo) {
-  try {
-    const res = await conn.query(
-      // ILIKE matchea coincidencias parciales
-      "SELECT * FROM aventura WHERE titulo ILIKE $1",
-      [`%${titulo}%`]
-    );
-
-    return res.rows.map(
-      (row) => new Aventura(row.id, row.titulo, row.descripcion, row.autor_id, row.genero, row.fecha_creacion)
-    );
-  } catch (error) {
-    console.error("Error en getAventuraByTitulo:", error);
-    throw error;
-  }
-}
-
 async function createAventura(titulo, descripcion, autor_id, genero) {
   try {
     const res = await conn.query(
@@ -63,4 +43,8 @@ async function createAventura(titulo, descripcion, autor_id, genero) {
   }
 }
 
-module.exports = { getAllAventuras, getAventuraById, getAventuraByTitulo, createAventura};
+async function deleteAventuraById(id) {}
+
+async function updateAventuraById(id, titulo = null, descripcion = null, autor_id = null, genero = null) {}
+
+module.exports = { getAllAventuras, getAventuraById, getAventuraByTitulo, createAventura, deleteAventuraById};
