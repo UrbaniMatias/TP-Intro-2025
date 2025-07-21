@@ -1,5 +1,5 @@
 class Usuario {
-  constructor(id, nombre, email, fecha_registro, rol) {
+  constructor(id, nombre, email, fecha_registro, fecha_de_nacimiento) {
     if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
       throw new Error("id invalido: debe ser un entero positivo");
 
@@ -12,14 +12,14 @@ class Usuario {
     if (typeof fecha_registro !== "string" || isNaN(new Date(fecha_registro)))
       throw new Error("fecha_registro inválida");
 
-    if (typeof rol !== "string" || rol.length === 0)
-      throw new Error("rol inválido: debe ser un string no vacío");
+    if (typeof fecha_de_nacimiento !== "string" || isNaN(new Date(fecha_de_nacimiento)))
+      throw new Error("fecha_de_nacimiento inválida");
 
     this.id = id;
     this.nombre = nombre;
     this.email = email;
     this.fecha_registro = fecha_registro;
-    this.rol = rol;
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
   }
 }
 
