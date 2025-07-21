@@ -37,7 +37,7 @@ async function createUsuario(nombre, contrasenia) {
   }
 }
 
-async function updateUsuario(id, nombre = null, contrasenia = null, email = null, fecha_de_nacimiento = null) {
+async function updateUsuarioById(id, nombre = null, contrasenia = null, email = null, fecha_de_nacimiento = null) {
   try {
     if (res.rowCount === 0) throw new Error("Usuario no encontrado");
     if (!id) throw new Error("ID de usuario requerido");
@@ -58,19 +58,19 @@ async function updateUsuario(id, nombre = null, contrasenia = null, email = null
     if (fecha_de_nacimiento) {
       query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);    }
   } catch (error) {
-    console.error("Error en updateUsuario:", error);
+    console.error("Error en updateUsuarioById:", error);
     throw error;
   }
 }
 
-async function deleteUsuario(id) {
+async function deleteUsuarioById(id) {
   try {
     if (res.rowCount === 0) throw new Error("Usuario no encontrado");
     const res = await query("DELETE FROM usuarios WHERE id = $1", [id]);
   } catch (error) {
-    console.error("Error en deleteUsuario:", error);
+    console.error("Error en deleteUsuarioById:", error);
     throw error;
   }
 }
 
-export default { getAllUsuarios, getUsuarioById, createUsuario, updateUsuario, deleteUsuario };
+export default { getAllUsuarios, getUsuarioById, createUsuario, updateUsuarioById, deleteUsuarioById };
