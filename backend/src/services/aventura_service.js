@@ -29,10 +29,31 @@ async function getAventuraById(id) {
   }
 }
 
+async function getAventuraByTitulo(titulo) {
+  try {
+    const res = await conn.query("SELECT * FROM aventura WHERE titulo ILIKE $1",[`%${titulo}%`]);
+
+    return res.rows.map(
+      (row) =>
+        new Aventura(
+          row.id,
+          row.titulo,
+          row.descripcion,
+          row.autor_id,
+          row.genero,
+          row.fecha_creacion
+        )
+    );
+  } catch (error) {
+    console.error("Error en getAventuraByTitulo:", error);
+    throw error;
+  }
+}
+
 async function createAventura(titulo, descripcion, autor_id, genero) {
   try {
     const res = await conn.query(
-      "INSERT INTO aventura (titulo, descripcion, autor_id, genero) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO aventura (titulo, descripcion, autor_id, genero) VALUES ($1, $2, $3, $4)",
       [titulo, descripcion, autor_id, genero]
     );
 
@@ -43,8 +64,44 @@ async function createAventura(titulo, descripcion, autor_id, genero) {
   }
 }
 
-async function deleteAventuraById(id) {}
+async function deleteAventuraById(id) {  try {
+    const res = await conn.query("DELETE FROM aventura WHERE id = $1", [id]);
+    if (res.rowCount === 0) throw new Error("Aventura no encontrada");
 
-async function updateAventuraById(id, titulo = null, descripcion = null, autor_id = null, genero = null) {}
+  } catch (error) {
+    console.error("Error en deleteAventuraById:", error);
+    throw error;
+  }
+}
 
-module.exports = { getAllAventuras, getAventuraById, getAventuraByTitulo, createAventura, deleteAventuraById};
+async function validateIdAventura(id) {
+  return (await conn.query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
+}
+
+async function updateAventuraById(id, titulo = null, descripcion = null, autor_id = null, genero = null) {
+  try {
+    if (!id)
+      throw new Error("ID de Aventura requerido");
+    
+    if (validateIdAventura(id) == false)
+      throw new Error("ID de la aventura invalida");
+
+    if (titulo)
+      query("UPDATE aventura SET titulo = $2 WHERE id = $1", [id, titulo]);
+   
+    if (descripcion)
+      query("UPDATE aventura SET descripcion= $2 WHERE id = $1", [id, descripcion]);
+ 
+    if (autor_id)
+      query("UPDATE aventura SET autor_id = $2 WHERE id = $1", [id, autor_id]);
+
+    if (genero)
+      query("UPDATE aventura SET genero = $2 WHERE id = $1", [id, genero]);
+
+  } catch (error) {
+    console.error("Error en updateUsuarioById:", error);
+    throw error;
+  }
+}
+
+module.exports = { getAllAventuras, getAventuraById, getAventuraByTitulo, createAventura, deleteAventuraById, updateAventuraById};
