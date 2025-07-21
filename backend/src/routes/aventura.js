@@ -1,6 +1,6 @@
-const aventura_service = require("../services/aventura_service");
 const express = require("express");
 const router = express.Router();
+const aventura_service = require("../services/aventura_service");
 
 // POST /v1/aventura
 router.post("/", (req, res) => {

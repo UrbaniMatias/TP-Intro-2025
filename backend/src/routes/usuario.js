@@ -1,3 +1,4 @@
+const express = require("express");
 const router = express.Router();
 const usuario_service = require("../services/usuario_service");
 

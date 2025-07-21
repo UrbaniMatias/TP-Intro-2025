@@ -1,3 +1,4 @@
+const express = require("express");
 const router = express.Router();
 const aventura_service = require("../services/aventura_service");
 
