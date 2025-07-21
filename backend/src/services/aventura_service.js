@@ -29,26 +29,6 @@ async function getAventuraById(id) {
   }
 }
 
-async function getAventuraByTitulo(titulo) {
-  try {
-    const res = await conn.query("SELECT * FROM aventura WHERE titulo ILIKE $1",[`%${titulo}%`]);
-
-    return res.rows.map(
-      (row) =>
-        new Aventura(
-          row.id,
-          row.titulo,
-          row.descripcion,
-          row.autor_id,
-          row.genero,
-          row.fecha_creacion
-        )
-    );
-  } catch (error) {
-    console.error("Error en getAventuraByTitulo:", error);
-    throw error;
-  }
-}
 
 async function createAventura(titulo, descripcion, autor_id, genero) {
   try {
@@ -87,21 +67,21 @@ async function updateAventuraById(id, titulo = null, descripcion = null, autor_i
       throw new Error("ID de la aventura invalida");
 
     if (titulo)
-      query("UPDATE aventura SET titulo = $2 WHERE id = $1", [id, titulo]);
+      conn.query("UPDATE aventura SET titulo = $2 WHERE id = $1", [id, titulo]);
    
     if (descripcion)
-      query("UPDATE aventura SET descripcion= $2 WHERE id = $1", [id, descripcion]);
+      conn.query("UPDATE aventura SET descripcion= $2 WHERE id = $1", [id, descripcion]);
  
     if (autor_id)
-      query("UPDATE aventura SET autor_id = $2 WHERE id = $1", [id, autor_id]);
+      conn.query("UPDATE aventura SET autor_id = $2 WHERE id = $1", [id, autor_id]);
 
     if (genero)
-      query("UPDATE aventura SET genero = $2 WHERE id = $1", [id, genero]);
+      conn.query("UPDATE aventura SET genero = $2 WHERE id = $1", [id, genero]);
 
   } catch (error) {
-    console.error("Error en updateUsuarioById:", error);
+    console.error("Error en updateAventuraById:", error);
     throw error;
   }
 }
 
-module.exports = { getAllAventuras, getAventuraById, getAventuraByTitulo, createAventura, deleteAventuraById, updateAventuraById};
+module.exports = { getAllAventuras, getAventuraById, createAventura, deleteAventuraById, updateAventuraById};

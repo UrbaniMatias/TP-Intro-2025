@@ -50,16 +50,17 @@ async function updateUsuarioById(id, nombre = null, contrasenia = null, email = 
       throw new Error("ID de usuario invalida");
 
     if (nombre)
-      query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
+      conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
    
     if (contrasenia)
-      query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [id, contrasenia]);
+      conn.query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [id, contrasenia]);
  
     if (email)
-      query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
+      conn.query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
 
     if (fecha_de_nacimiento)
-      query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);
+      conn.query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);
+    
   } catch (error) {
     console.error("Error en updateUsuarioById:", error);
     throw error;
