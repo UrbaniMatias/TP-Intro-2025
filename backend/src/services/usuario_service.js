@@ -82,4 +82,4 @@ async function deleteUsuarioById(id) {
   }
 }
 
-export default { getAllUsuarios, getUsuarioById, createUsuario, updateUsuarioById, deleteUsuarioById };
+module.exports = { getAllUsuarios, getUsuarioById, createUsuario, updateUsuarioById, deleteUsuarioById };
