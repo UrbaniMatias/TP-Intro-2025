@@ -37,26 +37,29 @@ async function createUsuario(nombre, contrasenia) {
   }
 }
 
+async function validateIdUsuario(id) {
+  return (await conn.query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
+}
+
 async function updateUsuarioById(id, nombre = null, contrasenia = null, email = null, fecha_de_nacimiento = null) {
   try {
-    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
-    if (!id) throw new Error("ID de usuario requerido");
+    if (!id)
+      throw new Error("ID de usuario requerido");
     
-    if (nombre) {
-      query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);     
-    }
+    if (validateIdUsuario(id) == false)
+      throw new Error("ID de usuario invalida");
+
+    if (nombre)
+      query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
    
-    if (contrasenia) {
+    if (contrasenia)
       query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [id, contrasenia]);
-    
-    }
  
-    if (email) {
-      query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);      
-  
-    };
-    if (fecha_de_nacimiento) {
-      query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);    }
+    if (email)
+      query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
+
+    if (fecha_de_nacimiento)
+      query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [id, fecha_nacimiento]);
   } catch (error) {
     console.error("Error en updateUsuarioById:", error);
     throw error;
