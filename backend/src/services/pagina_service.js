@@ -1,5 +1,6 @@
 const conn = require("./db_connection");
 const Pagina = require("../models/pagina");
+const Opcion = require("../models/opcion");
 
 async function getPaginaById(id) {
   try {
@@ -21,22 +22,34 @@ async function getPaginaById(id) {
 }
 
 async function getAllOpcionesByPaginaId(id) {
-  // id es id_pagina_origen
+  try {
+    const res = await conn.query(
+      "SELECT * FROM opcion WHERE id_pagina_origen = $1",
+      [id]
+    );
 
-  // CREATE TABLE opcion (
-  // id SERIAL PRIMARY KEY,
-  // descripcion VARCHAR(200) NOT NULL,
-  // id_pagina_origen INT NOT NULL REFERENCES pagina(id),
-  // id_pagina_destino INT REFERENCES pagina(id)
+    if (res.rowCount === 0)
+      throw new Error("Fallo al optener las opciones de la pagina");
+
+    return res.rows.map((row) =>
+      Opcion(
+        row.id,
+        row.descripcion,
+        row.id_pagina_origen,
+        row.id_pagina_destino
+      )
+    );
+  } catch (error) {
+    console.error("Error en getAllOpcionesByPaginaId", error);
+    throw error;
+  }
 }
 
 async function createPagina(title, id_aventura, title, contenido, imagen) {
   try {
-    if (!id_aventura)
-      throw new Error("El id de la aventura es invalido");
+    if (!id_aventura) throw new Error("El id de la aventura es invalido");
 
-    if (title === "")
-      throw new Error("El titulo debe ser un string no vacio");
+    if (title === "") throw new Error("El titulo debe ser un string no vacio");
 
     if (contenido === "")
       throw new Error("El contenido debe ser un string no vacio");
@@ -51,8 +64,18 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
   }
 }
 
-async function updatePaginaById(id, titulo = null, contenido = null, imagen = null) {}
+async function updatePaginaById(
+  id,
+  titulo = null,
+  contenido = null,
+  imagen = null
+) {}
 
 async function deletePaginaById(id) {}
 
-module.exports = { getPaginaById, createPagina, updatePaginaById, deletePaginaById };
+module.exports = {
+  getPaginaById,
+  createPagina,
+  updatePaginaById,
+  deletePaginaById,
+};
