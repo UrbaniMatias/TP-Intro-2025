@@ -1,5 +1,4 @@
-// JS/api-libros.js
-const API_BASE = "http://localhost:3002";
+const API_BASE = "http://localhost:3003";
 const portada_defecto = "../imagenes/portada_default.jpg";
 
 async function obtenerLibros() {
