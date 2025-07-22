@@ -11,9 +11,9 @@ router.post("/", (req, res) => {
     const nuevo_usuario = usuario_service.createUsuario(
       req.body.nombre,
       req.body.contrasenia,
-      email,
-      fecha_registro,
-      fecha_de_nacimiento
+      req.body.email,
+      req.body.fecha_registro,
+      req.body.fecha_de_nacimiento
     );
 
     res.send(nuevo_usuario);
