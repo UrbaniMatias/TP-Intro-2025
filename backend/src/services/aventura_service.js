@@ -1,5 +1,5 @@
-import conn from "./db_connection";
-import Aventura from "../models/aventura";
+import conn from "./db_connection.js";
+import Aventura from "../models/aventura.js";
 
 async function getAllAventuras() {
   const res = await conn.query("SELECT * FROM aventura");

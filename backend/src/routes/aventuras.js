@@ -1,5 +1,5 @@
 import { Router } from "express";
-import aventura_service from "../services/aventura_service";
+import aventura_service from "../services/aventura_service.js";
 
 const router = Router();
 
