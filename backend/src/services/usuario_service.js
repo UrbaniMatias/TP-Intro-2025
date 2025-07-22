@@ -27,7 +27,6 @@ async function createUsuario(
   nombre,
   contrasenia,
   email,
-  fecha_registro,
   fecha_de_nacimiento
 ) {
   try {
@@ -38,8 +37,8 @@ async function createUsuario(
       throw new Error("La contrasenia debe ser un string no vacio");
 
     const res = await conn.query(
-      "INSERT INTO usuario (nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento) VALUES ($1, $2, $3, $4, $5)",
-      [nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento]
+      "INSERT INTO usuario (nombre, contrasenia, email, fecha_de_nacimiento) VALUES ($1, $2, $3, $4, $5)",
+      [nombre, contrasenia, email, fecha_de_nacimiento]
     );
 
     return Usuario(
