@@ -2,13 +2,13 @@ import conn from "../services/db_connection.js";
 import Usuario from "../models/usuario.js";
 
 async function getAllUsuarios() {
-  const res = await conn.query("SELECT * FROM usuarios");
+  const res = await conn.query("SELECT * FROM usuario");
   return res.rows.map((row) => new Usuario(row.id, row.nombre));
 }
 
 async function getUsuarioById(id, contrasenia) {
   try {
-    const res = await conn.query("SELECT * FROM usuarios WHERE id = $1", [id]);
+    const res = await conn.query("SELECT * FROM usuario WHERE id = $1", [id]);
 
     if (res.rowCount === 0)
       throw new Error("Usuario no encontrado");
@@ -100,7 +100,7 @@ async function updateUsuarioById(
 
 async function deleteUsuarioById(id) {
   try {
-    const res = await conn.query("DELETE FROM usuarios WHERE id = $1", [id]);
+    const res = await conn.query("DELETE FROM usuario WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Usuario no encontrado");
   } catch (error) {
