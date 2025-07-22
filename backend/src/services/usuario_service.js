@@ -51,6 +51,9 @@ async function createUsuario(nombre, contrasenia, email, fecha_de_nacimiento) {
       [nombre, contrasenia, email, fecha_de_nacimiento]
     );
 
+    if (res.rowCount === 0)
+      throw new Error("Fallo al insertar el nuevo usuario a la base de datos");
+
     return new Usuario(
       res.rows[0].id,
       res.rows[0].nombre,
