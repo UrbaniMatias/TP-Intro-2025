@@ -42,6 +42,7 @@ async function createUsuario(
     );
 
     return new Usuario(
+      res.id,
       res.nombre,
       res.contrasenia,
       res.email,
