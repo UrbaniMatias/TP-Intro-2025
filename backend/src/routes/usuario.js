@@ -13,10 +13,10 @@ router.post("/", async (req, res) => {
       req.body.fecha_de_nacimiento
     );
 
-    res.send(nuevo_usuario);
+    res.status(200).send(nuevo_usuario);
   } catch (error) {
     console.error(error);
-    res.status(501);
+    res.status(501).send("Error al crear el usuario");
   }
 });
 
