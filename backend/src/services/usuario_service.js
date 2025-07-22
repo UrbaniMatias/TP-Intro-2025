@@ -41,7 +41,7 @@ async function createUsuario(
       [nombre, contrasenia, email, fecha_de_nacimiento]
     );
 
-    return Usuario(
+    return new Usuario(
       res.nombre,
       res.contrasenia,
       res.email,
