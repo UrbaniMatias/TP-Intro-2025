@@ -6,11 +6,13 @@ const router = Router();
 // POST /v1/usuario
 router.post("/", async (req, res) => {
   try {
+    const { nombre, contrasenia, email, fecha_de_nacimiento } = req.body;
+
     const nuevo_usuario = await usuario_service.createUsuario(
-      req.body.nombre,
-      req.body.contrasenia,
-      req.body.email,
-      req.body.fecha_de_nacimiento
+      nombre,
+      contrasenia,
+      email,
+      fecha_de_nacimiento
     );
 
     res.status(200).send(nuevo_usuario);
