@@ -55,7 +55,7 @@ async function deleteAventuraById(id) {  try {
 }
 
 async function validateIdAventura(id) {
-  return (await conn.query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
+  return (await conn.query("SELECT 1 FROM aventura WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
 }
 
 async function updateAventuraById(id, titulo = null, descripcion = null, autor_id = null, genero = null) {
