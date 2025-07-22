@@ -30,8 +30,7 @@ router.post("/", async (req, res) => {
 
     res.send(aventura_id);
   } catch (error) {
-    console.error(error);
-    res.status(500);
+    res.status(500).send("Error al agregar una aventura");
   }
 });
 
@@ -58,8 +57,7 @@ router.get("/:id_aventura", async (req, res) => {
     console.log(`Response: ${res_body}`);
     res.send(res_body);
   } catch (error) {
-    console.error(error);
-    res.status(500);
+    res.status(500).send("Error al obtener la aventura");
   }
 });
 

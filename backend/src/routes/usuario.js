@@ -17,7 +17,6 @@ router.post("/", async (req, res) => {
 
     res.status(200).send(nuevo_usuario);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Error al crear el usuario");
   }
 });
