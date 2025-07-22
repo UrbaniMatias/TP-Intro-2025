@@ -1,5 +1,5 @@
-const conn = require("./db_connection");
-const Aventura = require("../models/aventura");
+import conn from "./db_connection";
+import Aventura from "../models/aventura";
 
 async function getAllAventuras() {
   const res = await conn.query("SELECT * FROM aventura");
@@ -84,4 +84,4 @@ async function updateAventuraById(id, titulo = null, descripcion = null, autor_i
   }
 }
 
-module.exports = { getAllAventuras, getAventuraById, createAventura, deleteAventuraById, updateAventuraById};
+export default { getAllAventuras, getAventuraById, createAventura, deleteAventuraById, updateAventuraById};

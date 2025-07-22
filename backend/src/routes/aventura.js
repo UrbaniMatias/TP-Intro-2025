@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const aventura_service = require("../services/aventura_service");
+import { Router } from "express";
+import aventura_service from "../services/aventura_service";
+
+const router = Router();
 
 // POST /v1/aventura
 router.post("/", (req, res) => {
@@ -90,4 +91,4 @@ router.delete("/:id_aventura/:id_pagina/:id_opcion", (req, res) => {
   );
 });
 
-module.exports = router;
+export default router;

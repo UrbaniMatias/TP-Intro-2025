@@ -1,4 +1,4 @@
-class Opcion {
+export default class Opcion {
     constructor(id, descripcion, id_pagina_origen, id_pagina_destino) {
         if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
         throw new Error("id invalido: debe ser un entero positivo");
@@ -18,5 +18,3 @@ class Opcion {
         this.id_pagina_destino = id_pagina_destino;
     }
 }
-
-module.exports = Opcion;

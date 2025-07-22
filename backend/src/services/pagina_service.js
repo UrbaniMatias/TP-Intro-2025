@@ -1,10 +1,10 @@
-const conn = require("./db_connection");
-const Pagina = require("../models/pagina");
-const Opcion = require("../models/opcion");
+import { query } from "./db_connection";
+import Pagina from "../models/pagina";
+import Opcion from "../models/opcion";
 
 async function getPaginaById(id) {
   try {
-    const res = await conn.query("SELECT * FROM paginas WHERE id = $1", [id]);
+    const res = await query("SELECT * FROM paginas WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Pagina no encontrada");
 
@@ -63,7 +63,7 @@ async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
       throw new Error("es_inicio inválido: debe ser boolean");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, title, contenido, imagen, es_inicio) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO paginas (id_aventura, title, contenido, imagen) VALUES ($1, $2, $3, $4, $5)",
       [id_aventura, title, contenido, imagen, es_inicio]
     );
   } catch (error) {
@@ -113,7 +113,7 @@ async function deletePaginaById(id) {
   }
 }
 
-module.exports = {
+export default {
   getPaginaById,
   createPagina,
   updatePaginaById,

@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const aventura_service = require("../services/aventura_service");
+import { Router } from "express";
+import aventura_service from "../services/aventura_service";
+
+const router = Router();
 
 // GET /v1/aventuras
 router.get("/", async (req, res) => {
@@ -17,4 +18,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

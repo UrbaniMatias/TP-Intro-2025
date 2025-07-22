@@ -1,4 +1,4 @@
-class Aventura {
+export default class Aventura {
   constructor(id, titulo, descripcion, autor_id, genero, fecha_creacion) {
     if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
       throw new Error("id invalido: debe ser un entero positivo");
@@ -26,5 +26,3 @@ class Aventura {
     this.fecha_creacion = fecha_creacion;
   }
 }
-
-module.exports = Aventura;

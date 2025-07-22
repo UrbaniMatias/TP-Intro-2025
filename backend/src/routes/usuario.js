@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const usuario_service = require("../services/usuario_service");
+import { Router } from "express";
+import usuario_service from "../services/usuario_service";
+
+const router = Router();
 
 // POST /v1/usuario
 router.post("/", (req, res) => {
@@ -44,4 +45,4 @@ router.delete("/:id_usuario", (req, res) => {
   res.send(`Eliminar usuario ${req.params.id_usuario}`);
 });
 
-module.exports = router;
+export default router;
