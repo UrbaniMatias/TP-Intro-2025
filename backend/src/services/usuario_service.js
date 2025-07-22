@@ -3,7 +3,17 @@ import Usuario from "../models/usuario.js";
 
 async function getAllUsuarios() {
   const res = await conn.query("SELECT * FROM usuario");
-  return res.rows.map((row) => new Usuario(row.id, row.nombre));
+  return res.rows.map(
+    (row) =>
+      new Usuario(
+        res.rows[0].id,
+        res.rows[0].nombre,
+        res.rows[0].contrasenia,
+        res.rows[0].email,
+        res.rows[0].fecha_registro,
+        res.rows[0].fecha_de_nacimiento
+      )
+  );
 }
 
 async function getUsuarioById(id, contrasenia) {
@@ -16,19 +26,19 @@ async function getUsuarioById(id, contrasenia) {
     if (res.row[0].contrasenia !== contrasenia)
       throw new Error("Contrasenia incorrecta");
 
-    return new Usuario(res.rows[0].id, res.rows[0].nombre);
+    return new Usuario(res.id,
+      res.rows[0].nombre,
+      res.rows[0].contrasenia,
+      res.rows[0].email,
+      res.rows[0].fecha_registro,
+      res.rows[0].fecha_de_nacimiento);
   } catch (error) {
     console.error("Error en getUsuarioById:", error);
     throw error;
   }
 }
 
-async function createUsuario(
-  nombre,
-  contrasenia,
-  email,
-  fecha_de_nacimiento
-) {
+async function createUsuario(nombre, contrasenia, email, fecha_de_nacimiento) {
   try {
     if (!nombre || nombre == "")
       throw new Error("El nombre debe ser un string no vacio");
@@ -42,11 +52,12 @@ async function createUsuario(
     );
 
     return new Usuario(
-      res.nombre,
-      res.contrasenia,
-      res.email,
-      res.fecha_registro,
-      res.fecha_de_nacimiento
+      res.rows[0].id,
+      res.rows[0].nombre,
+      res.rows[0].contrasenia,
+      res.rows[0].email,
+      res.rows[0].fecha_registro,
+      res.rows[0].fecha_de_nacimiento
     );
   } catch (error) {
     console.error("Error en createUsuario:", error);
