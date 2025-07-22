@@ -1,4 +1,4 @@
-class Usuario {
+export default class Usuario {
   constructor(id, nombre, email, fecha_registro, fecha_de_nacimiento) {
     if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
       throw new Error("id invalido: debe ser un entero positivo");
@@ -22,5 +22,3 @@ class Usuario {
     this.fecha_de_nacimiento = fecha_de_nacimiento;
   }
 }
-
-module.exports = Usuario;

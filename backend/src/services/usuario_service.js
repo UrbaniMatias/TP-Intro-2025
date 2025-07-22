@@ -1,5 +1,5 @@
-const conn = require("../services/db_connection");
-const Usuario = require("../models/usuario");
+import { query as _query } from "../services/db_connection";
+import Usuario from "../models/usuario";
 
 async function getAllUsuarios() {
   const res = await query("SELECT * FROM usuarios");
@@ -10,7 +10,8 @@ async function getUsuarioById(id, contrasenia) {
   try {
     const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
-    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
+    if (res.rowCount === 0)
+      throw new Error("Usuario no encontrado");
 
     if (res.row[0].contrasenia !== contrasenia)
       throw new Error("Contrasenia incorrecta");
@@ -56,7 +57,7 @@ async function createUsuario(
 
 async function validateIdUsuario(id) {
   return (
-    (await conn.query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id]))
+    (await _query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id]))
       .rowCount !== 0
   );
 }
@@ -75,19 +76,19 @@ async function updateUsuarioById(
       throw new Error("Usuario no encontrado");
 
     if (nombre)
-      conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
+      _query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
 
     if (contrasenia)
-      conn.query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
+      _query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
         id,
         contrasenia,
       ]);
 
     if (email)
-      conn.query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
+      _query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
 
     if (fecha_de_nacimiento)
-      conn.query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
+      _query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
         id,
         fecha_nacimiento,
       ]);
@@ -108,7 +109,7 @@ async function deleteUsuarioById(id) {
   }
 }
 
-module.exports = {
+export default {
   getAllUsuarios,
   getUsuarioById,
   createUsuario,

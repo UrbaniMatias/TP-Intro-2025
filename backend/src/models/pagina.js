@@ -1,4 +1,4 @@
-class Pagina {
+export default class Pagina {
   constructor(id, id_aventura, titulo, contenido, imagen, es_inicio) {
     if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
       throw new Error("id invalido: debe ser un entero positivo");
@@ -26,5 +26,3 @@ class Pagina {
     this.es_inicio = es_inicio;
   }
 }
-
-module.exports = Pagina;

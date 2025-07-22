@@ -1,6 +1,6 @@
-const pg = require("pg");
+import { Pool } from "pg";
 
-const con = new pg.Pool();
+const con = new Pool();
 await con.connect();
 
-module.exports = con;
+export default con;

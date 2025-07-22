@@ -1,29 +1,29 @@
+import express, { json } from "express";
+
 console.log("Cargando variables de entorno");
 require("dotenv").config(); // carga las variables de entorno
-
-const express = require("express");
 
 console.log("Creando la app de express");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(json());
 
 // Routers
 console.log("Cargando el router usuario");
-const usuarioRouter = require("./routes/usuario");
+import usuarioRouter from "./routes/usuario";
 app.use("/v1/usuario", usuarioRouter);
 
 console.log("Cargando el router usuarios");
-const usuariosRouter = require("./routes/usuarios");
+import usuariosRouter from "./routes/usuarios";
 app.use("/v1/usuarios", usuariosRouter);
 
 console.log("Cargando el router aventura");
-const aventuraRouter = require("./routes/aventura");
+import aventuraRouter from "./routes/aventura";
 app.use("/v1/aventura", aventuraRouter);
 
 console.log("Cargando el router aventuras");
-const aventurasRouter = require("./routes/aventuras");
+import aventurasRouter from "./routes/aventuras";
 app.use("/v1/aventuras", aventurasRouter);
 
 console.log("Iniciando el puerto");

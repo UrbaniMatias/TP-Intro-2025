@@ -1,10 +1,10 @@
-const conn = require("./db_connection");
-const Pagina = require("../models/pagina");
-const Opcion = require("../models/opcion");
+import { query } from "./db_connection";
+import Pagina from "../models/pagina";
+import Opcion from "../models/opcion";
 
 async function getPaginaById(id) {
   try {
-    const res = await conn.query("SELECT * FROM paginas WHERE id = $1", [id]);
+    const res = await query("SELECT * FROM paginas WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Pagina no encontrada");
 
@@ -23,7 +23,7 @@ async function getPaginaById(id) {
 
 async function getAllOpcionesByPaginaId(id) {
   try {
-    const res = await conn.query(
+    const res = await query(
       "SELECT * FROM opcion WHERE id_pagina_origen = $1",
       [id]
     );
@@ -54,7 +54,7 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
     if (contenido === "")
       throw new Error("El contenido debe ser un string no vacio");
 
-    const res = await conn.query(
+    const res = await query(
       "INSERT INTO paginas (id_aventura, title, contenido, imagen) VALUES ($1, $2, $3, $4)",
       [id_aventura, title, contenido, imagen]
     );
@@ -73,7 +73,7 @@ async function updatePaginaById(
 
 async function deletePaginaById(id) {}
 
-module.exports = {
+export default {
   getPaginaById,
   createPagina,
   updatePaginaById,
