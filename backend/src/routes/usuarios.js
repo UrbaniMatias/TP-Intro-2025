@@ -13,8 +13,8 @@ router.get("/", async (req, res) => {
     console.log(`Response: ${res_body}`);
     res.send(res_body);
   } catch (error) {
-    console.error(error);
-    res.status(500);
+    console.log(error);
+    res.status(500).send("Error al obtener todos los usuarios");
   }
 });
 
