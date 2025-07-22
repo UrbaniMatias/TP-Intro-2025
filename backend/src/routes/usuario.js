@@ -1,9 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const usuario_service = require("../services/usuario_service");
 
 // POST /v1/usuario
 router.post("/", (req, res) => {
-  res.send("Crear usuario");
+  try {
+    res.send("Crear usuario");
+
+    const nuevo_usuario = usuario_service.createUsuario(
+      req.body.nombre,
+      req.body.contrasenia
+    );
+
+    res.send(nuevo_usuario);
+  } catch (error) {
+    console.error(error);
+    res.status(501);
+  }
 });
 
 // GET /v1/usuario/:id_usuario

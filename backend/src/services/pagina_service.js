@@ -1,5 +1,6 @@
 const conn = require("./db_connection");
 const Pagina = require("../models/pagina");
+const Opcion = require("../models/opcion");
 
 async function getPaginaById(id) {
   try {
@@ -20,14 +21,38 @@ async function getPaginaById(id) {
   }
 }
 
+async function getAllOpcionesByPaginaId(id) {
+  try {
+    const res = await conn.query(
+      "SELECT * FROM opcion WHERE id_pagina_origen = $1",
+      [id]
+    );
+
+    if (res.rowCount === 0)
+      throw new Error("Fallo al optener las opciones de la pagina");
+
+    return res.rows.map((row) =>
+      Opcion(
+        row.id,
+        row.descripcion,
+        row.id_pagina_origen,
+        row.id_pagina_destino
+      )
+    );
+  } catch (error) {
+    console.error("Error en getAllOpcionesByPaginaId", error);
+    throw error;
+  }
+}
+
 async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
   try {
-    if (titulo === "")
-      throw new Error("El titulo debe ser un string no vacio");
-
     if (!id_aventura)
       throw new Error("El id de la aventura es invalido");
-    
+
+    if (title === "")
+      throw new Error("El titulo debe ser un string no vacio");
+
     if (contenido === "")
       throw new Error("El contenido debe ser un string no vacio");
     
@@ -88,4 +113,9 @@ async function deletePaginaById(id) {
   }
 }
 
-module.exports = { getPaginaById, createPagina, updatePaginaById, deletePaginaById };
+module.exports = {
+  getPaginaById,
+  createPagina,
+  updatePaginaById,
+  deletePaginaById,
+};
