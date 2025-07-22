@@ -1,10 +1,10 @@
-import { query } from "./db_connection";
-import Pagina from "../models/pagina";
-import Opcion from "../models/opcion";
+import conn from "./db_connection.js";
+import Pagina from "../models/pagina.js";
+import Opcion from "../models/opcion.js";
 
 async function getPaginaById(id) {
   try {
-    const res = await query("SELECT * FROM paginas WHERE id = $1", [id]);
+    const res = await conn.query("SELECT * FROM paginas WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Pagina no encontrada");
 

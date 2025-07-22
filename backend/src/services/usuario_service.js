@@ -1,14 +1,14 @@
-import { query as _query } from "../services/db_connection";
-import Usuario from "../models/usuario";
+import conn from "../services/db_connection.js";
+import Usuario from "../models/usuario.js";
 
 async function getAllUsuarios() {
-  const res = await query("SELECT * FROM usuarios");
+  const res = await conn.query("SELECT * FROM usuarios");
   return res.rows.map((row) => new Usuario(row.id, row.nombre));
 }
 
 async function getUsuarioById(id, contrasenia) {
   try {
-    const res = await query("SELECT * FROM usuarios WHERE id = $1", [id]);
+    const res = await conn.query("SELECT * FROM usuarios WHERE id = $1", [id]);
 
     if (res.rowCount === 0)
       throw new Error("Usuario no encontrado");
@@ -37,7 +37,7 @@ async function createUsuario(
     if (!contrasenia || contrasenia == "")
       throw new Error("La contrasenia debe ser un string no vacio");
 
-    const res = await query(
+    const res = await conn.query(
       "INSERT INTO usuario (nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento) VALUES ($1, $2, $3, $4, $5)",
       [nombre, contrasenia, email, fecha_registro, fecha_de_nacimiento]
     );
@@ -57,7 +57,7 @@ async function createUsuario(
 
 async function validateIdUsuario(id) {
   return (
-    (await _query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id]))
+    (await conn.query("SELECT 1 FROM usuario WHERE id = $1 LIMIT 1", [id]))
       .rowCount !== 0
   );
 }
@@ -76,19 +76,19 @@ async function updateUsuarioById(
       throw new Error("Usuario no encontrado");
 
     if (nombre)
-      _query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
+      conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
 
     if (contrasenia)
-      _query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
+      conn.query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
         id,
         contrasenia,
       ]);
 
     if (email)
-      _query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
+      conn.query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
 
     if (fecha_de_nacimiento)
-      _query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
+      conn.query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
         id,
         fecha_nacimiento,
       ]);
@@ -100,7 +100,7 @@ async function updateUsuarioById(
 
 async function deleteUsuarioById(id) {
   try {
-    const res = await query("DELETE FROM usuarios WHERE id = $1", [id]);
+    const res = await conn.query("DELETE FROM usuarios WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Usuario no encontrado");
   } catch (error) {
