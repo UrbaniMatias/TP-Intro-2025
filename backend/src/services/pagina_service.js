@@ -1,22 +1,6 @@
-const conn = require("./db_connection");
-const Pagina = require("../models/pagina");
-
-/*
-id SERIAL PRIMARY KEY,
-id_aventura INT NOT NULL REFERENCES aventura(id),
-titulo VARCHAR(100) NOT NULL,
-contenido VARCHAR(255) NOT NULL,
-imagen VARCHAR(255) NULL
-*/
-
-async function getAllPaginas() {
-  const res = await conn.query("SELECT * FROM paginas");
-
-  return res.rows.map(
-    (row) =>
-      new Pagina(row.id, row.id_aventura, row.title, row.contenido, row.imagen)
-  );
-}
+import conn from "./db_connection.js";
+import Pagina from "../models/pagina.js";
+import Opcion from "../models/opcion.js";
 
 async function getPaginaById(id) {
   try {
@@ -37,34 +21,31 @@ async function getPaginaById(id) {
   }
 }
 
-// devuelve las Paginas que tengan titulo similar al ingresado
-// (busca coincidencias parciales del titulo)
-// o lanza una excepcion en caso de error
-async function getPaginasByTitle(title) {
+async function getAllOpcionesByPaginaId(id) {
   try {
     const res = await conn.query(
-      // ILIKE matchea coincidencias parciales
-      "SELECT * FROM paginas WHERE title ILIKE $1",
-      [`%${title}%`]
+      "SELECT * FROM opcion WHERE id_pagina_origen = $1",
+      [id]
     );
 
-    return res.rows.map(
-      (row) =>
-        new Pagina(
-          row.id,
-          row.id_aventura,
-          row.title,
-          row.contenido,
-          row.imagen
-        )
+    if (res.rowCount === 0)
+      throw new Error("Fallo al optener las opciones de la pagina");
+
+    return res.rows.map((row) =>
+      Opcion(
+        row.id,
+        row.descripcion,
+        row.id_pagina_origen,
+        row.id_pagina_destino
+      )
     );
   } catch (error) {
-    console.error("Error en getPaginaByTitle:", error);
+    console.error("Error en getAllOpcionesByPaginaId", error);
     throw error;
   }
 }
 
-async function createPagina(title, id_aventura, title, contenido, imagen) {
+async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
   try {
     if (!id_aventura)
       throw new Error("El id de la aventura es invalido");
@@ -74,10 +55,16 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
 
     if (contenido === "")
       throw new Error("El contenido debe ser un string no vacio");
+    
+    if (imagen === "")
+      throw new Error("Imagen inválida: debe ser string o null");
+
+    if (typeof es_inicio !== "boolean")
+      throw new Error("es_inicio inválido: debe ser boolean");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, title, contenido, imagen) VALUES ($1, $2, $3, $4)",
-      [id_aventura, title, contenido, imagen]
+      "INSERT INTO paginas (id_aventura, title, contenido, imagen) VALUES ($1, $2, $3, $4, $5)",
+      [id_aventura, title, contenido, imagen, es_inicio]
     );
   } catch (error) {
     console.error("Error en createPagina:", error);
@@ -85,4 +72,50 @@ async function createPagina(title, id_aventura, title, contenido, imagen) {
   }
 }
 
-module.exports = { getAllPaginas, getPaginaById, getPaginasByTitle, createPagina };
+async function validateIdPagina(id) {
+  return (await conn.query("SELECT 1 FROM pagina WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
+}
+
+async function updatePaginaById(id, titulo = null, contenido = null, imagen = null) {
+    try {
+    if (!id)
+      throw new Error("ID de pagina requerido");
+    
+    if (validateIdPagina(id) == false)
+      throw new Error("Pagina no encontrado");
+
+    if (titulo)
+      conn.query("UPDATE pagina SET titulo = $2 WHERE id = $1", [id, titulo]);
+   
+    if (contenido)
+      conn.query("UPDATE pagina SET contenido = $2 WHERE id = $1", [id, contenido]);
+ 
+    if (imagen)
+      conn.query("UPDATE pagina SET imagen = $2 WHERE id = $1", [id, imagen]);
+
+  } catch (error) {
+    console.error("Error en updatePaginaById:", error);
+    throw error;
+  }
+}
+
+
+async function deletePaginaById(id) {  
+  try {
+    const res = await conn.query("DELETE FROM pagina WHERE id = $1", [id]);
+
+    if (res.rowCount === 0)
+      throw new Error("Página no encontrada");
+
+  } catch (error) {
+    console.error("Error en deletePaginaById:", error);
+    throw error;
+  }
+}
+
+export default {
+  getPaginaById,
+  createPagina,
+  updatePaginaById,
+  deletePaginaById,
+};

@@ -1,9 +1,23 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import usuario_service from "../services/usuario_service.js";
+
+const router = Router();
 
 // POST /v1/usuario
 router.post("/", (req, res) => {
-  res.send("Crear usuario");
+  try {
+    res.send("Crear usuario");
+
+    const nuevo_usuario = usuario_service.createUsuario(
+      req.body.nombre,
+      req.body.contrasenia
+    );
+
+    res.send(nuevo_usuario);
+  } catch (error) {
+    console.error(error);
+    res.status(501);
+  }
 });
 
 // GET /v1/usuario/:id_usuario
@@ -31,4 +45,4 @@ router.delete("/:id_usuario", (req, res) => {
   res.send(`Eliminar usuario ${req.params.id_usuario}`);
 });
 
-module.exports = router;
+export default router;

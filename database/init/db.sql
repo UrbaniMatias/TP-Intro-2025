@@ -1,4 +1,5 @@
 
+
 -- entidad 1
 CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,

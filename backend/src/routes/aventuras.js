@@ -1,9 +1,21 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import aventura_service from "../services/aventura_service.js";
+
+const router = Router();
 
 // GET /v1/aventuras
-router.get("/", (req, res) => {
-  res.send("Listar todas las aventuras");
+router.get("/", async (req, res) => {
+  try {
+    console.log("Method: GET\nURI: /v1/aventuras");
+
+    const aventuras = await aventura_service.getAllAventuras();
+    const res_body = JSON.stringify(aventuras);
+    console.log(`Response: ${res_body}`);
+    res.send(res_body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
 });
 
-module.exports = router;
+export default router;
