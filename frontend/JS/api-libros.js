@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3003";
+const API_BASE = "http://localhost:3003/v1";
 const portada_defecto = "../imagenes/portada_default.jpg";
 
 async function obtenerLibros() {
@@ -108,4 +108,24 @@ function mostrarLibros(aventuras, usuarios) {
   });
 }
 
-export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, portada_defecto };
+async function crearUsuario(infoUsuario) {
+  try {
+    const response = await fetch(`${API_BASE}/usuarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(infoUsuario),
+    });
+
+    if (!response.ok) throw new Error("Error al crear el usuario");
+
+    const nuevoUsuario = await response.json();
+    console.log("Usuario creado:", nuevoUsuario);
+    return nuevoUsuario;
+  } catch (error) {
+    console.error("Error al crear usuario:", error.message);
+    throw error;
+  }
+}
+
+
+export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, crearUsuario, portada_defecto };
