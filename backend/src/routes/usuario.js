@@ -12,7 +12,6 @@ router.post("/", (req, res) => {
       req.body.nombre,
       req.body.contrasenia,
       req.body.email,
-      req.body.fecha_registro,
       req.body.fecha_de_nacimiento
     );
 
