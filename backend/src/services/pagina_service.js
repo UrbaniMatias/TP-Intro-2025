@@ -120,4 +120,5 @@ export default {
   createPagina,
   updatePaginaById,
   deletePaginaById,
+  getAllPaginasFinalesByUsuarioId
 };
