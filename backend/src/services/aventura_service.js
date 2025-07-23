@@ -89,17 +89,7 @@ async function updateAventuraById(id, titulo = null, descripcion = null, autor_i
     if (portada)
       conn.query("UPDATE aventura SET portada = $2 WHERE id = $1", [id, portada]);
 
-    const res = conn.query("SELECT * FROM aventura WHERE id = $1", [id]);
-
-    return new Aventura(
-      res.rows[0].id,
-      res.rows[0].titulo,
-      res.rows[0].descripcion,
-      res.rows[0].autor_id,
-      res.rows[0].genero,
-      res.rows[0].fecha_creacion,
-      res.rows[0].portada
-    );
+    return getAventuraById(id);
   } catch (error) {
     console.error("Error en updateAventuraById:", error);
     throw error;
