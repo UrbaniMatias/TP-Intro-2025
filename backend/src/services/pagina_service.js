@@ -113,6 +113,8 @@ async function deletePaginaById(id) {
   }
 }
 
+async function getAllPaginasFinalesByUsuarioId(id_usuario) {}
+
 export default {
   getPaginaById,
   createPagina,
