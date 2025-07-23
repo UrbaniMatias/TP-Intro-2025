@@ -208,7 +208,7 @@ router.delete("/pagina/opcion/:id_opcion", async (req, res) => {
     const id_opcion = req.params.id_opcion;
     console.log(`id_opcion: ${id_opcion}`);
 
-    if (pagina_service.deletePaginaById(id_opcion)) {
+    if (opcion_service.deleteOpcionById(id_opcion)) {
       res.status(200).send("OK");
     } else {
       res.status(401).send("Unauthorized");
