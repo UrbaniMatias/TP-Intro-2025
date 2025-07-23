@@ -169,7 +169,20 @@ router.put("/pagina/:id_pagina/opcion", async (req, res) => {
 
 // DELETE /v1/aventura/:id_aventura
 router.delete("/:id_aventura", async (req, res) => {
-  res.send(`Eliminar aventura ${req.params.id_aventura}`);
+  try {
+    console.log(`Method: DELETE\nURI: /v1/aventura/:id_aventura`);
+
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
+
+    if (aventura_service.deleteAventuraById(id_aventura)) {
+      res.status(200).send("OK");
+    } else {
+      res.status(401).send("Unauthorized");
+    }
+  } catch (error) {
+    res.status(500).send("Error al eliminar la aventura");
+  }
 });
 
 // DELETE /v1/aventura/pagina/:id_pagina
