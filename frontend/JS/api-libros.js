@@ -1,5 +1,5 @@
 const API_BASE = "http://localhost:3000/v1";
-const portada_defecto = "../imagenes/portada_default.jpg";
+const portada_defecto = "./imagenes/portada_default2.jpg";
 
 async function obtenerLibros() {
   try {
