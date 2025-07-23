@@ -71,9 +71,7 @@ router.post("/:id_aventura/pagina", async (req, res) => {
 // POST /v1/aventura/pagina/:id_pagina/opcion
 router.post("/pagina/:id_pagina/opcion", async (req, res) => {
   try {
-    console.log(
-      "Method: POST\nURI: /v1/aventura/pagina/:id_pagina/opcion"
-    );
+    console.log("Method: POST\nURI: /v1/aventura/pagina/:id_pagina/opcion");
 
     const id_pagina = req.params.id_pagina;
     console.log(`id_pagina: ${id_pagina}`);
@@ -103,7 +101,7 @@ router.post("/pagina/:id_pagina/opcion", async (req, res) => {
 // GET /v1/aventura/:id_aventura
 router.get("/:id_aventura", async (req, res) => {
   try {
-    console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
+    console.log(`Method: GET\nURI: /v1/aventura/:id_aventura`);
 
     const id_aventura = req.params.id_aventura;
     console.log(`id_aventura: ${id_aventura}`);
@@ -119,9 +117,19 @@ router.get("/:id_aventura", async (req, res) => {
 
 // GET /v1/aventura/pagina/:id_pagina
 router.get("/pagina/:id_pagina", async (req, res) => {
-  res.send(
-    `Obtener página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
-  );
+  try {
+    console.log(`Method: GET\nURI: /v1/aventura/pagina/:id_pagina`);
+
+    const id_pagina = req.params.id_pagina;
+    console.log(`id_pagina: ${id_pagina}`);
+
+    const pagina = pagina_service.getPaginaById(id_pagina);
+    console.log(`Response: ${pagina}`);
+
+    res.send(pagina);
+  } catch (error) {
+    res.status(500).send("Error al obtener la pagina");
+  }
 });
 
 // GET /v1/aventura/pagina/:id_pagina/opciones
