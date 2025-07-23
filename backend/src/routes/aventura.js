@@ -106,13 +106,15 @@ router.post("/:id_aventura/:id_pagina/opcion", async (req, res) => {
 // GET /v1/aventura/:id_aventura
 router.get("/:id_aventura", async (req, res) => {
   try {
-    const id_aventura = req.params.id_aventura;
     console.log(`Method: GET\nURI: /v1/aventura/${id_aventura}`);
 
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
+
     const aventura = aventura_service.getAventuraById(id_aventura);
-    const res_body = JSON.stringify(aventura);
-    console.log(`Response: ${res_body}`);
-    res.send(res_body);
+    console.log(`Response: ${aventura}`);
+
+    res.send(aventura);
   } catch (error) {
     res.status(500).send("Error al obtener la aventura");
   }
