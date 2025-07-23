@@ -18,7 +18,7 @@ CREATE TABLE aventura (
     genero VARCHAR(50) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     portada VARCHAR(1024) NULL,
-    id_pagina_inicial INT NOT NULL REFERENCES pagina(id)
+    id_pagina_inicial INT NULL REFERENCES pagina(id)
 );
 
 -- entidad 3
