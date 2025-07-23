@@ -33,11 +33,11 @@ async function getAventuraById(id) {
 async function createAventura(titulo, descripcion, autor_id, genero, portada) {
   try {
     const res = await conn.query(
-      "INSERT INTO aventura (titulo, descripcion, autor_id, genero, portada) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO aventura (titulo, descripcion, autor_id, genero, portada) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [titulo, descripcion, autor_id, genero, portada]
     );
 
-    if (res.rowCount === 0) throw new Error("Aventura no encontrada");
+    if (res.rowCount === 0) throw new Error("No se pudo crear la Aventura");
 
     return new Aventura(
       res.rows[0].id,
