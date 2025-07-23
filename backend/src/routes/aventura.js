@@ -11,7 +11,6 @@ router.post("/", async (req, res) => {
     console.log("Method: POST\nURI: /v1/aventura");
 
     const { titulo, descripcion, autor_id, genero } = req.body;
-
     console.log(
       `
       titulo: ${titulo},
@@ -27,7 +26,6 @@ router.post("/", async (req, res) => {
       autor_id,
       genero
     );
-
     console.log(`Response: ${nueva_aventura}`);
 
     res.send(nueva_aventura);
@@ -43,7 +41,6 @@ router.post("/:id_aventura/pagina", async (req, res) => {
 
     const { id_aventura, titulo, contenido, imagen, imagen_de_fondo } =
       req.body;
-
     console.log(
       `
         id_aventura: ${id_aventura},
@@ -61,8 +58,8 @@ router.post("/:id_aventura/pagina", async (req, res) => {
       imagen,
       imagen_de_fondo
     );
-
     console.log(`Response: ${nueva_pagina}`);
+
     res.send(nueva_pagina);
   } catch (error) {
     res.status(501).send("Error al crear la pagina");
