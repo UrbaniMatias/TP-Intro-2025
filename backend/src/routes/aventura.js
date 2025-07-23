@@ -95,6 +95,8 @@ router.post("/:id_aventura/:id_pagina/opcion", async (req, res) => {
       id_pagina_origen,
       id_pagina_destino
     );
+    console.log(`Response: ${nueva_opcion}`);
+
     res.send(nueva_opcion);
   } catch (error) {
     res.status(501).send("Error al crear la opcion");
