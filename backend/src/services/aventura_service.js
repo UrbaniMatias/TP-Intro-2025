@@ -29,7 +29,6 @@ async function getAventuraById(id) {
   }
 }
 
-
 async function createAventura(titulo, descripcion, autor_id, genero) {
   try {
     const res = await conn.query(

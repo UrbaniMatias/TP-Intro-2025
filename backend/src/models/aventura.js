@@ -14,8 +14,8 @@ export default class Aventura {
 
     if (typeof genero !== "string" || genero.length === 0)
       throw new Error("género inválido");
-      
-    if (typeof fecha_creacion !== "string" || isNaN(new Date(fecha_creacion)))
+
+    if (!(typeof fecha_creacion === "string" || fecha_creacion instanceof Date))
       throw new Error("fecha_creacion inválida");
 
     this.id = id;
@@ -23,6 +23,6 @@ export default class Aventura {
     this.descripcion = descripcion;
     this.autor_id = autor_id;
     this.genero = genero;
-    this.fecha_creacion = fecha_creacion;
+    this.fecha_creacion = new Date(fecha_creacion).toLocaleTimeString();
   }
 }
