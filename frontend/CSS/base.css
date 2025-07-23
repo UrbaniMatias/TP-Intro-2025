@@ -46,6 +46,7 @@
   border-radius: 8px;
   text-align: center;
   transition: background-color 0.4s ease, color 0.4s ease;
+  margin-right: 5px;
 }
 .btn-curvo{
   border-radius: 50px;

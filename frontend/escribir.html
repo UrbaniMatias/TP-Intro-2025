@@ -10,25 +10,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body class="pagina-libros">
-    <div class="primero" style="display: none;">
+    <div class="informacion-principal" style="display: block;">
         <div class="barra">
             <div class="volver">
-                    <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
-                    <!-- history.back() sirve para volver atrás -->
+                <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
+                <!-- history.back() sirve para volver atrás -->
             </div>
             <div class="botones">
                 <a onclick="history.back()" class="btn gr btn-gris btn-simple">Cancelar</a>
-                <a class="btn gr btn-verde btn-simple">Guardar</a>
+                <a id="boton-siguiente" class="btn gr btn-verde btn-simple">Siguiente</a>
             </div>
         </div>
-        <div class="contenido">
-            <div class="subir-portada">
+        <div class="info-libro">
+            <div class="subir-portada upload-container">
                 <div class="portada-container">
-                    <img class="portada" src="./imagenes/portada_default.jpg"> 
-                    <a class="btn gr btn-verde btn-simple btn-icon">
-                        <span class="material-symbols-outlined icon-blanco">add</span>
-                        <span>Agregar portada</span>
+                    <img src="./imagenes/portada_default.jpg" class="portada">
+                    <a class="btn gr btn-verde btn-simple btn-icon upload-btn">
+                    <span class="material-symbols-outlined icon-blanco">add</span>
+                    <span>Agregar portada</span>
                     </a>
+                    <input type="file" accept="image/*" class="file-input" style="display: none;">
                 </div>
             </div>
             <div class="container-detalles">
@@ -51,84 +52,145 @@
                         </select>
                     </div>
                     <hr>
-                    <!-- <label>Tags</label>
-                        <span class="btn-curvo sb-leve tag">agregar tag +</span> -->
                 </div>
             </div>
         </div>
     </div>
-    <div class="capitulo">
-        <div class="barra">
+    <div class="editor-container">
+        <aside class="sidebar">
             <div class="volver">
-                    <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
-                    <!-- history.back() sirve para volver atrás -->
+                <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
+                <!-- history.back() sirve para volver atrás -->
             </div>
-            <div class="botones">
-                <a class="btn gr btn-verde btn-simple">Publicar todo</a>
+            <h2 class="titulo-libro">Mi Gran Historia</h2>
+            <ul class="lista-capitulos">
+            <li>Capítulo 1: El Comienzo</li>
+            <li>Capítulo 2: El Misterio</li>
+            <li><button id="agregar-capitulo">+ Agregar capítulo</button></li>
+            </ul>
+        </aside>
+        <main class="area-principal">
+            
+            <div class="barra-superior">
+            <a class="btn gr btn-curvo cb-verde">Guardar</a>
             </div>
-        </div>
-        <div class="imagen">
-            <a class="font-Lato">SUBIR IMAGEN </a>
-        </div>
-        <div class="detalles-capitulo">
-            <input type="text" id="titulo" class="input" placeholder="Titulo del capitulo" />
+
+            <div class="subida-imagen upload-container">
+                <img src="./imagenes/image-combiner-svgrepo-com.svg" class="icon-imagen">
+                <input type="file" accept="image/*" class="file-input" style="display: none;">
+            </div>
+
+            <div class="detalles-capitulo">
+            <input type="text" id="titulo" class="input" placeholder="Título del capítulo" />
             <hr>
             <textarea id="contenido" placeholder="Escribí el capítulo aquí..."></textarea>
             <hr>
+            
             <div class="opciones-container" id="opcionesContainer">
                 <h3 class="font-Lato">Opciones del camino</h3>
             </div>
+
             <div class="formulario-opcion" id="formularioOpcion" style="display: none;">
                 <input type="text" id="mensajeOpcion" placeholder="Mensaje de la opción (ej: Entrar al bosque)" />
-                <input type="text" id="redirigirOpcion" placeholder="Redirigir a (ej: capitulo2.html)" />
+                <input type="number" id="redirigirOpcion" placeholder="Redirigir a (ej: 6)" />
                 <button class="btn gr btn-gris btn-simple" onclick="aceptarOpcion()">Aceptar</button>
             </div>
+
             <a id="botonAgregarOpcion" class="btn gr btn-verde btn-simple btn-icon" onclick="mostrarFormulario()">
-                <span class="material-symbols-outlined">add</span>
-                <span>Agregar opcion</span>
-            </a> 
-        </div>
-        <hr>
-        <a id="botonAgregarCapitulo" class="btn gr btn-verde btn-simple btn-icon" onclick="mostrarFormulario()">
-                <span class="material-symbols-outlined">add</span>
-                <span>Agregar capitulo </span>
-        </a> 
+                <span>+ Agregar opción</span>
+            </a>
+            </div>
+
+        </main>
     </div>
+
     <div id="alerta" class="alerta-centro gr sb-negra font-Lato" style="display: none;">
         <p id="mensajeAlerta"></p>
     </div>
-
+<!-- script para cambiar de datos principales a escribir capitulo -->
+    <script>
+        document.getElementById("boton-siguiente").addEventListener("click", function () {
+            document.querySelector(".informacion-principal").style.display = "none";
+            document.querySelector(".editor-container").style.display = "flex"; 
+        });
+        window.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".editor-container").style.display = "none";
+        });
+    </script>
+<!-- Script para agregar opciones -->
     <script>
         function mostrarFormulario() {
-  document.getElementById('formularioOpcion').style.display = 'block';
-  document.getElementById('botonAgregarOpcion').style.display = 'none';
-}
+            document.getElementById('formularioOpcion').style.display = 'block';
+            document.getElementById('botonAgregarOpcion').style.display = 'none';
+            }
 
-function aceptarOpcion() {
-  const mensaje = document.getElementById('mensajeOpcion').value;
-  const redireccion = document.getElementById('redirigirOpcion').value;
+            function aceptarOpcion() {
+            const mensaje = document.getElementById('mensajeOpcion').value;
+            const redireccion = document.getElementById('redirigirOpcion').value;
 
-  if (mensaje.trim() === '' || redireccion.trim() === '') {
-    mostrarAlerta('¡Completá ambos campos!');
-    return;
-  }
+            if (mensaje.trim() === '' || redireccion.trim() === '') {
+                mostrarAlerta('¡Completá ambos campos!');
+                return;
+            }
 
-  const card = document.createElement('div');
-  card.className = 'card-opcion';
-  card.innerHTML = `
-    <p>${mensaje}</p>
-    <a href="${redireccion}" target="_blank">Ir a: ${redireccion}</a>
-  `;
+            const card = document.createElement('div');
+            card.className = 'card-opcion';
+            card.innerHTML = `
+                <p>${mensaje}</p>
+                <a>Ir a pagina : ${redireccion}</a>
+            `;
 
-  document.getElementById('opcionesContainer').appendChild(card);
+            document.getElementById('opcionesContainer').appendChild(card);
 
-  // Reset
-  document.getElementById('mensajeOpcion').value = '';
-  document.getElementById('redirigirOpcion').value = '';
-  document.getElementById('formularioOpcion').style.display = 'none';
-  document.getElementById('botonAgregarOpcion').style.display = 'block';
-}
+            // Reset
+            document.getElementById('mensajeOpcion').value = '';
+            document.getElementById('redirigirOpcion').value = '';
+            document.getElementById('formularioOpcion').style.display = 'none';
+            document.getElementById('botonAgregarOpcion').style.display = 'block';
+        }
+        function mostrarAlerta(mensaje) {
+                const alerta = document.getElementById('alerta');
+                const mensajeAlerta = document.getElementById('mensajeAlerta');
+
+                mensajeAlerta.textContent = mensaje;
+                alerta.style.display = 'block';
+
+                // Opcional: ocultar la alerta automáticamente después de 3 segundos
+                setTimeout(() => {
+                    alerta.style.display = 'none';
+                }, 3000);
+            }
+    </script>
+    <!-- Script para subir imagen -->
+    <script>
+        document.querySelectorAll('.upload-container').forEach(container => {
+        const trigger = container.querySelector('.upload-btn') || container; //Determino qué elemento actúa como “botón” para abrir el selector de archivos
+        
+        const inputFile = container.querySelector('.file-input');  // Obtengo el input oculto y la imagen para vista previa
+        const imgPreview = container.querySelector('img');
+
+        if (!trigger || !inputFile || !imgPreview) return; //Chequeo que todos los elementos existan, sino salgo
+
+        trigger.addEventListener('click', () => { // Escucho el clic para abrir el selector de archivos
+            inputFile.click();
+        });
+
+        inputFile.addEventListener('change', (e) => { //cuando el usuario selecciona archivo
+            const file = e.target.files[0]; //Tomo el primer archivo que seleccionó el usuario 
+                                            // e.target es el input que disparó el evento.    
+            if (file) {
+            const reader = new FileReader(); //leemos el archivo
+            reader.onload = (event) => { //cuando se termina de leer el archivo
+                imgPreview.src = event.target.result; //se muestra la imagen seleccionada
+            };
+            reader.readAsDataURL(file); //Esta línea dispara la lectura del archivo, y lo convierte en un DataURL
+            // Cuando termine, se ejecuta el .onload que definimos arriba.
+            }
+        });
+
+        });
 
     </script>
+
 </body>
 </html>
