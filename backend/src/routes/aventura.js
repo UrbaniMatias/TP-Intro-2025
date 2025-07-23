@@ -1,6 +1,7 @@
 import { Router } from "express";
 import aventura_service from "../services/aventura_service.js";
 import pagina_service from "../services/pagina_service.js";
+import opcion_service from "../services/opcion_service.js";
 
 const router = Router();
 
@@ -134,9 +135,19 @@ router.get("/pagina/:id_pagina", async (req, res) => {
 
 // GET /v1/aventura/pagina/:id_pagina/opciones
 router.get("/pagina/:id_pagina/opciones", async (req, res) => {
-  res.send(
-    `Obtener opciones de la página ${req.params.id_pagina} en aventura ${req.params.id_aventura}`
-  );
+  try {
+    console.log(`Method: GET\nURI: /v1/aventura/pagina/:id_pagina/opciones`);
+
+    const id_pagina = req.params.id_pagina;
+    console.log(`id_pagina: ${id_pagina}`);
+
+    const opciones = opcion_service.getAllOpcionesByPaginaId(id_pagina);
+    console.log(`Response: ${opciones}`);
+
+    res.send(opciones);
+  } catch (error) {
+    res.status(500).send("Error al obtener las opciones de la pagina");
+  }
 });
 
 // PUT /v1/aventura/:id_aventura
