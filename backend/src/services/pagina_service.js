@@ -13,7 +13,8 @@ async function getPaginaById(id) {
       res.rows[0].id_aventura,
       res.rows[0].titulo,
       res.rows[0].contenido,
-      res.rows[0].imagen
+      res.rows[0].imagen,
+      res.rows[0].imagen_de_fondo
     );
   } catch (error) {
     console.error("Error en getPaginaById:", error);
@@ -45,7 +46,7 @@ async function getAllOpcionesByPaginaId(id) {
   }
 }
 
-async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
+async function createPagina(titulo, id_aventura, contenido, imagen, imagen_de_fondo) {
   try {
     if (!id_aventura)
       throw new Error("El id de la aventura es invalido");
@@ -59,11 +60,11 @@ async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
     if (imagen === "")
       throw new Error("Imagen inválida: debe ser string o null");
 
-    if (typeof es_inicio !== "boolean")
-      throw new Error("es_inicio inválido: debe ser boolean");
+    if (imagen_de_fondo === "")
+      throw new Error("Imagen_de_fondo inválida: debe ser string o null");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, es_inicio) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, imagen_de_fondo) VALUES ($1, $2, $3, $4, $5)",
       [id_aventura, titulo, contenido, imagen, es_inicio]
     );
   } catch (error) {
@@ -76,7 +77,7 @@ async function validateIdPagina(id) {
   return (await conn.query("SELECT 1 FROM pagina WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
 }
 
-async function updatePaginaById(id, titulo = null, contenido = null, imagen = null) {
+async function updatePaginaById(id, titulo = null, contenido = null, imagen = null, imagen_de_fondo = null) {
     try {
     if (!id)
       throw new Error("ID de pagina requerido");
@@ -92,6 +93,9 @@ async function updatePaginaById(id, titulo = null, contenido = null, imagen = nu
  
     if (imagen)
       conn.query("UPDATE pagina SET imagen = $2 WHERE id = $1", [id, imagen]);
+
+    if (imagen_de_fondo)
+      conn.query("UPDATE pagina SET imagen_de_fondo = $2 WHERE id = $1", [id, imagen_de_fondo]);
 
   } catch (error) {
     console.error("Error en updatePaginaById:", error);
