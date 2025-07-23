@@ -30,7 +30,7 @@ async function getAventuraById(id) {
   }
 }
 
-async function createAventura(titulo, descripcion, autor_id, genero) {
+async function createAventura(titulo, descripcion, autor_id, genero, portada) {
   try {
     const res = await conn.query(
       "INSERT INTO aventura (titulo, descripcion, autor_id, genero, portada) VALUES ($1, $2, $3, $4, $5)",
