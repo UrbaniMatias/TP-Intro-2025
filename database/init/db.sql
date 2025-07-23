@@ -17,7 +17,8 @@ CREATE TABLE aventura (
     autor_id INT NOT NULL REFERENCES usuario(id),
     genero VARCHAR(30) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    portada VARCHAR(255) NULL
+    portada VARCHAR(255) NULL,
+    id_pagina_inicial INT NOT NULL REFERENCES pagina(id)
 );
 
 -- entidad 3
@@ -27,7 +28,7 @@ CREATE TABLE pagina (
     titulo VARCHAR(100) NOT NULL,
     contenido VARCHAR(255) NOT NULL,
     imagen VARCHAR(255) NULL,
-    es_inicio BOOLEAN
+    imagen_de_fondo VARCHAR(255) NULL
 );
 
 -- relacion entre paginas
