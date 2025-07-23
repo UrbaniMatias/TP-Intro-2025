@@ -22,30 +22,6 @@ async function getPaginaById(id) {
   }
 }
 
-async function getAllOpcionesByPaginaId(id) {
-  try {
-    const res = await conn.query(
-      "SELECT * FROM opcion WHERE id_pagina_origen = $1",
-      [id]
-    );
-
-    if (res.rowCount === 0)
-      throw new Error("Fallo al optener las opciones de la pagina");
-
-    return res.rows.map((row) =>
-      Opcion(
-        row.id,
-        row.descripcion,
-        row.id_pagina_origen,
-        row.id_pagina_destino
-      )
-    );
-  } catch (error) {
-    console.error("Error en getAllOpcionesByPaginaId", error);
-    throw error;
-  }
-}
-
 async function createPagina(titulo, id_aventura, contenido, imagen, imagen_de_fondo) {
   try {
     if (!id_aventura)
@@ -65,7 +41,15 @@ async function createPagina(titulo, id_aventura, contenido, imagen, imagen_de_fo
 
     const res = await conn.query(
       "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, imagen_de_fondo) VALUES ($1, $2, $3, $4, $5)",
-      [id_aventura, titulo, contenido, imagen, es_inicio]
+      [id_aventura, titulo, contenido, imagen, imagen_de_fondo]
+    );
+    return new Pagina(
+      res.rows[0].id,
+      res.rows[0].titulo,
+      res.rows[0].id_aventura,
+      res.rows[0].contenido,
+      res.rows[0].imagen,
+      res.rows[0].imagen_de_fondo
     );
   } catch (error) {
     console.error("Error en createPagina:", error);
@@ -97,6 +81,7 @@ async function updatePaginaById(id, titulo = null, contenido = null, imagen = nu
     if (imagen_de_fondo)
       conn.query("UPDATE pagina SET imagen_de_fondo = $2 WHERE id = $1", [id, imagen_de_fondo]);
 
+    return getPaginaById(id);
   } catch (error) {
     console.error("Error en updatePaginaById:", error);
     throw error;
