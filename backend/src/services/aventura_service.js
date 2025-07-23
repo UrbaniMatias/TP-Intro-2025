@@ -81,6 +81,7 @@ async function updateAventuraById(id, titulo = null, descripcion = null, autor_i
     if (portada)
       conn.query("UPDATE aventura SET portada = $2 WHERE id = $1", [id, portada]);
 
+    return getAventuraById(id);
   } catch (error) {
     console.error("Error en updateAventuraById:", error);
     throw error;
