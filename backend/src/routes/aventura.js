@@ -1,5 +1,6 @@
 import { Router } from "express";
 import aventura_service from "../services/aventura_service.js";
+import pagina_service from "../services/pagina_service.js";
 
 const router = Router();
 
@@ -27,7 +28,7 @@ router.post("/", async (req, res) => {
     );
 
     console.log(`Response: ${nueva_aventura}`);
-    
+
     res.send(nueva_aventura);
   } catch (error) {
     res.status(500).send("Error al agregar una aventura");
@@ -36,7 +37,35 @@ router.post("/", async (req, res) => {
 
 // POST /v1/aventura/:id_aventura/pagina
 router.post("/:id_aventura/pagina", async (req, res) => {
-  res.send(`Crear página en aventura ${req.params.id_aventura}`);
+  try {
+    console.log("Method: POST\nURI: /v1/aventura/:id_aventura/pagina");
+
+    const { id_aventura, titulo, contenido, imagen, imagen_de_fondo } =
+      req.body;
+
+    console.log(
+      `
+        id_aventura: ${id_aventura},
+        titulo: ${titulo},
+        contenido: ${contenido},
+        imagen: ${imagen},
+        imagen_de_fondo: ${imagen_de_fondo}
+        `
+    );
+
+    const nueva_pagina = pagina_service.createPagina(
+      titulo,
+      id_aventura,
+      contenido,
+      imagen,
+      imagen_de_fondo
+    );
+
+    console.log(`Response: ${nueva_pagina}`);
+    res.send(nueva_pagina);
+  } catch (error) {
+    res.status(501).send("Error al crear la pagina");
+  }
 });
 
 // POST /v1/aventura/:id_aventura/:id_pagina/opcion
