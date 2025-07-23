@@ -107,5 +107,43 @@ function mostrarLibros(aventuras, usuarios) {
     container.appendChild(card);
   });
 }
+async function mostrarUnicoLibro(id) {
+  try {
+    const libroRes = await fetch(`${API_BASE}/aventuras/${id}`);
+    const libro = await libroRes.json();
 
-export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, portada_defecto };
+    if (!libro) {
+      throw new Error("Libro no encontrado");
+    }
+
+    const autorRes = await fetch(`${API_BASE}/usuarios/${libro.id_usuario}`); //con esto recibo los datos del autor
+    const autor = await autorRes.json(); //aca convierto los datos en un objeto de js
+
+    const nombreAutor = autor ? autor.nombre : "Autor desconocido"; //verifica que el nombre exista, sino devuelve error
+    const portada = libro.portada || portada_defecto;
+
+    const container = document.getElementById("container-libros"); //hago esta estructura para contener el libro
+    container.innerHTML = `
+      <div class="card">
+        <img class="card-imagen" src="${portada}" alt="Portada de ${libro.titulo}" />
+        <h3 class="card-titulo">${libro.titulo}</h3>
+        <h4 class="card-autor">${nombreAutor}</h4>
+        <div class="card-descripcion">
+          <p>${libro.descripcion || "Sin descripción disponible."}</p>
+        </div>
+        <div class="card-actions">
+          <a class="btn-libros" href="./leer.html">
+            <span class="btn-icon">▶</span>
+            <span class="btn-text">Empezar a leer</span>
+          </a>
+        </div>
+      </div>
+    `;
+  } catch (error) {
+    console.error("Error al mostrar el libro:", error.message);
+    const errorDiv = document.getElementById("error");
+    if (errorDiv) errorDiv.style.display = "block";
+  }
+}
+
+export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, portada_defecto };
