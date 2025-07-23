@@ -62,7 +62,7 @@ router.post("/:id_aventura/pagina", async (req, res) => {
 
     res.send(nueva_pagina);
   } catch (error) {
-    res.status(501).send("Error al crear la pagina");
+    res.status(500).send("Error al crear la pagina");
   }
 });
 
@@ -92,7 +92,7 @@ router.post("/pagina/:id_pagina/opcion", async (req, res) => {
 
     res.send(nueva_opcion);
   } catch (error) {
-    res.status(501).send("Error al crear la opcion");
+    res.status(500).send("Error al crear la opcion");
   }
 });
 
