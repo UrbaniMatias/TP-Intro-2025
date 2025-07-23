@@ -17,7 +17,7 @@ CREATE TABLE aventura (
     autor_id INT NOT NULL REFERENCES usuario(id),
     genero VARCHAR(30) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    portada VARCHAR(255) NOT NULL
+    portada VARCHAR(255) NULL
 );
 
 -- entidad 3
