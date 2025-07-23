@@ -6,23 +6,29 @@ const router = Router();
 // POST /v1/aventura
 router.post("/", async (req, res) => {
   try {
-    const aventura_id = aventura_service.createAventura(
-      req.params.titulo,
-      req.params.descripcion,
-      req.params.autor_id,
-      req.params.genero
-    );
+    console.log("Method: POST\nURI: /v1/aventura");
 
-    console.log("/v1/aventura");
-    console.log("response: " + aventura_id);
+    const { titulo, descripcion, autor_id, genero } = req.body;
 
     console.log(
-      `aventura creada: ${JSON.stringify(
-        aventura_service.getAventuraById(aventura_id)
-      )}`
+      `
+      titulo: ${titulo},
+      descripcion: ${descripcion},
+      autor_id: ${autor_id},
+      genero: ${genero}
+      `
     );
 
-    res.send(aventura_id);
+    const nueva_aventura = aventura_service.createAventura(
+      titulo,
+      descripcion,
+      autor_id,
+      genero
+    );
+
+    console.log(`Response: ${nueva_aventura}`);
+    
+    res.send(nueva_aventura);
   } catch (error) {
     res.status(500).send("Error al agregar una aventura");
   }
