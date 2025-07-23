@@ -52,5 +52,3 @@ CREATE TABLE usuario_final (
     id_usuario INT NOT NULL REFERENCES usuario(id),
     id_final INT NOT NULL REFERENCES finales(id)
 );
-
--- PARA HACER: INSERTAR DATOS INICIALES DE LA BASE DE DATOS
