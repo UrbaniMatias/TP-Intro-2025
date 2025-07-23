@@ -70,9 +70,35 @@ router.post("/:id_aventura/pagina", async (req, res) => {
 
 // POST /v1/aventura/:id_aventura/:id_pagina/opcion
 router.post("/:id_aventura/:id_pagina/opcion", async (req, res) => {
-  res.send(
-    `Crear opción en página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
-  );
+  try {
+    console.log(
+      "Method: POST\nURI: /v1/aventura/:id_aventura/:id_pagina/opcion"
+    );
+
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
+
+    const id_pagina = req.params.id_pagina;
+    console.log(`id_pagina: ${id_pagina}`);
+
+    const { descripcion, id_pagina_origen, id_pagina_destino } = req.body;
+    console.log(
+      `
+      descripcion: ${descripcion},
+      id_pagina_origen: ${id_pagina_origen},
+      id_pagina_destino: ${id_pagina_destino}
+      `
+    );
+
+    const nueva_opcion = opcion_service.createOpcion(
+      descripcion,
+      id_pagina_origen,
+      id_pagina_destino
+    );
+    res.send(nueva_opcion);
+  } catch (error) {
+    res.status(501).send("Error al crear la opcion");
+  }
 });
 
 // GET /v1/aventura/:id_aventura
