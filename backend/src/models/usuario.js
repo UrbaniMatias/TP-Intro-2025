@@ -22,7 +22,7 @@ export default class Usuario {
     this.id = id;
     this.nombre = nombre;
     this.email = email;
-    this.fecha_registro = new Date(fecha_registro);
-    this.fecha_de_nacimiento = new Date(fecha_de_nacimiento);
+    this.fecha_registro = new Date(fecha_registro).toLocaleTimeString();
+    this.fecha_de_nacimiento = new Date(fecha_de_nacimiento).toLocaleDateString();
   }
 }

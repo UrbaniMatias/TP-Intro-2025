@@ -4,14 +4,14 @@ import Opcion from "../models/opcion.js";
 
 async function getPaginaById(id) {
   try {
-    const res = await conn.query("SELECT * FROM paginas WHERE id = $1", [id]);
+    const res = await conn.query("SELECT * FROM pagina WHERE id = $1", [id]);
 
     if (res.rowCount === 0) throw new Error("Pagina no encontrada");
 
     return new Pagina(
       res.rows[0].id,
       res.rows[0].id_aventura,
-      res.rows[0].title,
+      res.rows[0].titulo,
       res.rows[0].contenido,
       res.rows[0].imagen
     );
@@ -50,7 +50,7 @@ async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
     if (!id_aventura)
       throw new Error("El id de la aventura es invalido");
 
-    if (title === "")
+    if (titulo === "")
       throw new Error("El titulo debe ser un string no vacio");
 
     if (contenido === "")
@@ -63,8 +63,8 @@ async function createPagina(titulo, id_aventura, contenido, imagen, es_inicio) {
       throw new Error("es_inicio inválido: debe ser boolean");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, title, contenido, imagen) VALUES ($1, $2, $3, $4, $5)",
-      [id_aventura, title, contenido, imagen, es_inicio]
+      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, es_inicio) VALUES ($1, $2, $3, $4, $5)",
+      [id_aventura, titulo, contenido, imagen, es_inicio]
     );
   } catch (error) {
     console.error("Error en createPagina:", error);
@@ -113,9 +113,12 @@ async function deletePaginaById(id) {
   }
 }
 
+async function getAllPaginasFinalesByUsuarioId(id_usuario) {}
+
 export default {
   getPaginaById,
   createPagina,
   updatePaginaById,
   deletePaginaById,
+  getAllPaginasFinalesByUsuarioId
 };
