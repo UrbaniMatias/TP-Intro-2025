@@ -6,7 +6,18 @@ const router = Router();
 // POST /v1/usuario
 router.post("/", async (req, res) => {
   try {
+    console.log("Method: POST\nURI: /v1/usuario");
+
     const { nombre, contrasenia, email, fecha_de_nacimiento } = req.body;
+
+    console.log(
+      `
+      nombre: ${nombre},
+      contrasenia: ${contrasenia},
+      email: ${email},
+      fecha_de_nacimiento: ${fecha_de_nacimiento}
+      `
+    );
 
     const nuevo_usuario = await usuario_service.createUsuario(
       nombre,
@@ -14,6 +25,8 @@ router.post("/", async (req, res) => {
       email,
       fecha_de_nacimiento
     );
+
+    console.log(nuevo_usuario);
 
     res.status(200).send(nuevo_usuario);
   } catch (error) {
