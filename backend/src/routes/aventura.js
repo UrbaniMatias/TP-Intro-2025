@@ -5,12 +5,6 @@ const router = Router();
 
 // POST /v1/aventura
 router.post("/", async (req, res) => {
-  console.log("POST /v1/aventura");
-
-  const aventuras = aventura_service.getAllAventuras();
-  console.log(aventuras);
-
-  res.send(aventuras);
   try {
     const aventura_id = aventura_service.createAventura(
       req.params.titulo,
