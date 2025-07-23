@@ -1,0 +1,131 @@
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Registro</title>
+    <link rel="stylesheet" href="CSS/base.css" />
+    <link rel="stylesheet" href="./CSS/validacion.css" />
+    <style>
+        .form-container { 
+            display: none;  /* Oculta todos los formularios por defecto */ 
+        }
+        .form-container.active { 
+            display: block; /* Muestra solo el formulario con clase "active" */ 
+        }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <div id="form-login" class="form-container validacion-container active">
+        <form action="#">
+            <h1>Iniciar Sesión</h1>
+            <input id="usuario-login" type="text" placeholder="Usuario" />
+            <input id="contraseña-login" type="password" placeholder="Contraseña" />
+            <div id="login-error" class="mensaje-error"></div>
+
+            <button type="submit">Iniciar Sesión</button>
+            <p>¿No tienes una cuenta? <a href="#" onclick="mostrarFormulario('registro')">Regístrate</a></p>
+        </form>
+        </div>
+
+        <div id="form-registro" class="form-container validacion-container">
+        <form action="#">
+            <h1>Crea tu cuenta</h1>
+            <input id="usuario-registro" type="text" placeholder="Nombre de usuario" />
+            <input id="contraseña-registro" type="password" placeholder="Contraseña" />
+            <input id="validar-contraseña" type="password" placeholder="Confirmar contraseña" />
+            <button type="submit">Crear cuenta</button>
+        </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay"></div>
+        </div>
+    </div>
+
+    <script>
+    function mostrarFormulario(tipo) {
+        const login = document.getElementById('form-login');
+        const registro = document.getElementById('form-registro');
+
+        if (tipo === 'login') {
+        login.classList.add('active'); /*Añade una clase CSS (active) al elemento (login).*/
+        registro.classList.remove('active'); /*Elimina una clase CSS (active) del elemento (registro).*/
+        } else if (tipo === 'registro') {
+        login.classList.remove('active');
+        registro.classList.add('active');
+        } else {
+        // Por defecto mostrar login
+        login.classList.add('active');
+        registro.classList.remove('active');
+        }
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    /* window.location.search -> Obtiene la parte de la URL después del ? (query string).
+    new URLSearchParams -> Crea un objeto especial que convierte el query string en una estructura manipulable.
+    urlParams ahora es un objeto que representa:
+    { "form" => "registro"}
+    */
+    const form = urlParams.get('form'); 
+    /*
+    urlParams.get('clave'):
+    Busca el valor del parámetro 'form' en la URL.
+    Si existe: Retorna su valor (ej: "registro").
+    Si no existe: Retorna null
+    */
+    mostrarFormulario(form);
+    </script>
+    <script>
+  // LOGIN
+  async function login(nombre, contraseña) {
+    const res = await fetch(`http://localhost:3007/usuario?nombre=${nombre}&contraseña=${contraseña}`);
+    const data = await res.json();
+
+    if (data.length === 1) {
+      localStorage.setItem('usuario', JSON.stringify(data[0]));
+      location.href = "index.html";
+    } else {
+      document.getElementById('login-error').textContent = "Credenciales incorrectas.";
+    }
+  }
+
+  document.querySelector('#form-login form').addEventListener('submit', e => {
+    e.preventDefault();
+    const nombre = document.getElementById('usuario-login').value.trim();
+    const pass = document.getElementById('contraseña-login').value.trim();
+
+    if (nombre && pass) login(nombre, pass);
+    else alert("Completá los campos.");
+  });
+
+  // REGISTRO
+  document.querySelector('#form-registro form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const nombre = document.getElementById('usuario-registro').value.trim();
+    const pass1 = document.getElementById('contraseña-registro').value.trim();
+    const pass2 = document.getElementById('validar-contraseña').value.trim();
+
+    if (!nombre || !pass1 || !pass2) return alert("Faltan datos.");
+    if (pass1 !== pass2) return alert("Las contraseñas no coinciden.");
+
+    const res = await fetch('http://localhost:3002/usuario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, contraseña: pass1 })
+    });
+
+    if (res.ok) {
+      alert("Registro exitoso. Iniciá sesión.");
+      mostrarFormulario('login');
+    } else {
+      const error = await res.text();
+      alert("Error: " + error);
+    }
+  });
+</script>
+
+    </script>
+
+    </body>
+    </html>

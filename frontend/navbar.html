@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LI-[INTER]</title>
+    <link rel="stylesheet" href="./CSS/base.css" />
+    <link rel="stylesheet" href="./CSS/navbar.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="./imagenes/favicon.svg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-izq">
+            <img class="logo" src="./imagenes/favicon.svg">
+            <a class="logo-texto font-Montserrat">RAMTORIA</a>
+        </div>
+
+        <div class="navbar-centro">
+            <a href="./index.html">Inicio</a>
+            <a href="./libros.html">Biblioteca</a>
+            <div class="desplegable" id="menuEscribir">
+                <a class="desple-btn">Escribir <span class="material-symbols-outlined">stat_minus_1</span></a>
+                <div class="desplegable-content">
+                    <a href="escribir.html" class="nueva-historia-link">
+                        <span class="material-symbols-outlined">border_color</span>
+                         Nueva Historia</a>
+                    <a href="mis-historias.html" class="seguir-escribiendo">
+                        <span class="material-symbols-outlined">newsstand</span>
+                         Seguir escribiendo</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-derecha">    
+            <div id="btnValidacion">
+                <a href="validacion.html?form=login" class="btn gr btn-transparente verde-invertido-sb sb-verde btn-sb-navbar">Iniciar Sesión</a>
+                <a href="validacion.html?form=registro" class="btn gr btn-verde sb-verde btn-sb-navbar">Registrarse</a>
+            </div>
+            <div id="userSection" style="display: none;">
+                <div class="user-dropdown">
+                <button class="user-btn">
+                    <span id="usernameDisplay"></span>
+                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                </button>
+                <div class="user-dropdown-content">
+                    <a href="#" id="logoutBtn"><span class="material-symbols-outlined">logout</span> Cerrar sesión</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <script>
+    function mostrarUsuario() {
+    const user = JSON.parse(localStorage.getItem('usuario'));
+
+    const btnValidacion = document.getElementById('btnValidacion');
+    const userSection = document.getElementById('userSection');
+    const menuEscribir = document.getElementById('menuEscribir');
+
+    if (user) {
+        btnValidacion.style.display = 'none';
+        userSection.style.display = 'flex';
+        menuEscribir.style.display = 'block';  // Mostrar menú "Escribir"
+        document.getElementById('usernameDisplay').textContent = user.nombre;
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.onclick = () => {
+                localStorage.removeItem('usuario');
+                mostrarUsuario();
+                window.location.href = 'index.html'; // redirigimos a index.html
+            };
+        }
+    } else {
+        btnValidacion.style.display = 'flex';
+        userSection.style.display = 'none';
+        menuEscribir.style.display = 'none';  // Ocultar menú "Escribir"
+    }
+}
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        mostrarUsuario();
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('usuario');
+                mostrarUsuario();
+            });
+        }
+    });
+    </script>
+
+</body>
+</html>

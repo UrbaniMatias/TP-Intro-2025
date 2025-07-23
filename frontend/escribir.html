@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Historia</title>
+    <link rel="icon" href="./imagenes/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/base.css"/>
+    <link rel="stylesheet" href="./CSS/escribir.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body class="pagina-libros">
+    <div class="primero" style="display: none;">
+        <div class="barra">
+            <div class="volver">
+                    <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
+                    <!-- history.back() sirve para volver atrás -->
+            </div>
+            <div class="botones">
+                <a onclick="history.back()" class="btn gr btn-gris btn-simple">Cancelar</a>
+                <a class="btn gr btn-verde btn-simple">Guardar</a>
+            </div>
+        </div>
+        <div class="contenido">
+            <div class="subir-portada">
+                <div class="portada-container">
+                    <img class="portada" src="./imagenes/portada_default.jpg"> 
+                    <a class="btn gr btn-verde btn-simple btn-icon">
+                        <span class="material-symbols-outlined icon-blanco">add</span>
+                        <span>Agregar portada</span>
+                    </a>
+                </div>
+            </div>
+            <div class="container-detalles">
+                <h1>Detalles de la historia</h1>
+                <hr>
+                <div class="detalles">
+                    <label>Titulo</label>
+                    <input class="input" type="text" placeholder="Titulo de su historia" />
+                    <label>Descripcion</label>
+                    <textarea class="textarea"></textarea>
+                    <hr>
+                    <div class="categoria-container">
+                        <label for="categoria">Categoria: </label>
+                        <select id="categoria" class="categoria-select">
+                            <option class="font-Poppins" value="value">Seleccione la categoria</option>
+                            <option value="value">Terror</option>
+                            <option value="value">Ficcion</option>
+                            <option value="value">Romance</option>
+                            <option value="value">Drama</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <!-- <label>Tags</label>
+                        <span class="btn-curvo sb-leve tag">agregar tag +</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="capitulo">
+        <div class="barra">
+            <div class="volver">
+                    <span onclick="history.back()" class="material-symbols-outlined">arrow_back_ios</span>
+                    <!-- history.back() sirve para volver atrás -->
+            </div>
+            <div class="botones">
+                <a class="btn gr btn-verde btn-simple">Publicar todo</a>
+            </div>
+        </div>
+        <div class="imagen">
+            <a class="font-Lato">SUBIR IMAGEN </a>
+        </div>
+        <div class="detalles-capitulo">
+            <input type="text" id="titulo" class="input" placeholder="Titulo del capitulo" />
+            <hr>
+            <textarea id="contenido" placeholder="Escribí el capítulo aquí..."></textarea>
+            <hr>
+            <div class="opciones-container" id="opcionesContainer">
+                <h3 class="font-Lato">Opciones del camino</h3>
+            </div>
+            <div class="formulario-opcion" id="formularioOpcion" style="display: none;">
+                <input type="text" id="mensajeOpcion" placeholder="Mensaje de la opción (ej: Entrar al bosque)" />
+                <input type="text" id="redirigirOpcion" placeholder="Redirigir a (ej: capitulo2.html)" />
+                <button class="btn gr btn-gris btn-simple" onclick="aceptarOpcion()">Aceptar</button>
+            </div>
+            <a id="botonAgregarOpcion" class="btn gr btn-verde btn-simple btn-icon" onclick="mostrarFormulario()">
+                <span class="material-symbols-outlined">add</span>
+                <span>Agregar opcion</span>
+            </a> 
+        </div>
+        <hr>
+        <a id="botonAgregarCapitulo" class="btn gr btn-verde btn-simple btn-icon" onclick="mostrarFormulario()">
+                <span class="material-symbols-outlined">add</span>
+                <span>Agregar capitulo </span>
+        </a> 
+    </div>
+    <div id="alerta" class="alerta-centro gr sb-negra font-Lato" style="display: none;">
+        <p id="mensajeAlerta"></p>
+    </div>
+
+    <script>
+        function mostrarFormulario() {
+  document.getElementById('formularioOpcion').style.display = 'block';
+  document.getElementById('botonAgregarOpcion').style.display = 'none';
+}
+
+function aceptarOpcion() {
+  const mensaje = document.getElementById('mensajeOpcion').value;
+  const redireccion = document.getElementById('redirigirOpcion').value;
+
+  if (mensaje.trim() === '' || redireccion.trim() === '') {
+    mostrarAlerta('¡Completá ambos campos!');
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className = 'card-opcion';
+  card.innerHTML = `
+    <p>${mensaje}</p>
+    <a href="${redireccion}" target="_blank">Ir a: ${redireccion}</a>
+  `;
+
+  document.getElementById('opcionesContainer').appendChild(card);
+
+  // Reset
+  document.getElementById('mensajeOpcion').value = '';
+  document.getElementById('redirigirOpcion').value = '';
+  document.getElementById('formularioOpcion').style.display = 'none';
+  document.getElementById('botonAgregarOpcion').style.display = 'block';
+}
+
+    </script>
+</body>
+</html>

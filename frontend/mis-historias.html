@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis historias</title>
+    <link rel="stylesheet" href="./CSS/navbar.css" />
+    <link rel="stylesheet" href="./CSS/mis-historias.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="pagina-clara">
+    <div id="navbar-container"></div>
+    <div class="contenido">
+      <div class="header">
+        <h2 class="gr font-Montserrat">Mis historias</h2>
+        <a class="btn gr btn-verde btn-simple btn-icon" href="./escribir.html">
+          <span class="material-symbols-outlined">add</span>
+          <span>Historia Nueva</span>
+        </a>
+      </div>
+      <div class="historias sb-gris">
+        <div class="arriba">
+            <h3 class="font-Lato subrayado subrayado--verde">Todas las historias</h3>
+        </div>
+        <div id="historias-container" class="abajo">
+            <div id="cargando" class="mensaje-info">
+              <i class="fas fa-circle-notch fa-spin fa-2x icono"></i> <br> Cargando tus historias...
+    
+            </div>
+            <div id="error" class="mensaje-info" style="display: none;">
+              <i class="fa-solid fa-circle-exclamation fa-2x icono"></i> <br> Ocurrió un error al cargar tus historias.
+
+            </div>
+            <div id="sin-historias" class="mensaje-info" style="display: none;">
+              No has creado ninguna historia todavía.
+              <a href="./escribir.html" class="btn btn-verde">Crear primera historia</a>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="./JS/navbar.js"></script>
+    <script>
+      const API_BASE = "http://localhost:3007";
+const portada_defecto = "./imagenes/portada_default.jpg";
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const cargando = document.getElementById("cargando");
+  const error = document.getElementById("error");
+  const sinHistorias = document.getElementById("sin-historias");
+
+  try {
+    // Verificamos usuario logueado (ajustar si el nombre de clave es otro)
+    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
+
+    if (!usuarioActual || !usuarioActual.id) {
+      throw new Error("No hay usuario logueado.");
+    }
+
+    // Obtenemos todas las aventuras
+    const res = await fetch(`${API_BASE}/aventura`);
+    const aventuras = await res.json();
+
+    // Filtramos las del usuario actual
+    const misAventuras = aventuras.filter(
+      aventura => aventura.id_usuario === usuarioActual.id
+    );
+
+    mostrarHistorias(misAventuras);
+  } catch (err) {
+    console.error("Error:", err.message);
+    error.style.display = "block";
+  } finally {
+    cargando.style.display = "none";
+  }
+});
+
+function mostrarHistorias(historias) {
+  const container = document.getElementById("historias-container");
+
+  if (!historias || historias.length === 0) {
+    document.getElementById("sin-historias").style.display = "block";
+    return;
+  }
+
+  historias.forEach(h => {
+    const portada = h.portada && h.portada.trim() !== "" ? h.portada : portada_defecto;
+
+    const card = document.createElement("div");
+    card.className = "historia sb-blanco";
+
+    card.innerHTML = `
+      <div class="contenido-izq">
+        <div class="rel-portada">
+          <img src="${portada}" alt="Portada de ${h.titulo}" width="80" height="80" style="border-radius: 6px; object-fit: cover;">
+        </div>
+        <div class="datos">
+          <h4 class="card-titulo">${h.titulo}</h4>
+          <p class="card-autor">${h.descripcion || "Sin descripción."}</p>
+        </div>
+      </div>
+      <div class="botones">
+        <a href="./historia.html?id=${h.id}" class="btn btn-verde btn-simple">Ver</a>
+        <a href="./editar.html?id=${h.id}" class="btn btn-simple">Editar</a>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+    </script>
+</body>
+</html>
