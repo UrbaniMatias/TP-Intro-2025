@@ -37,7 +37,15 @@ async function createAventura(titulo, descripcion, autor_id, genero, portada) {
       [titulo, descripcion, autor_id, genero, portada]
     );
 
-    return res.rows[0].id;
+    return new Aventura(
+      res.rows[0].id,
+      res.rows[0].titulo,
+      res.rows[0].descripcion,
+      res.rows[0].autor_id,
+      res.rows[0].genero,
+      res.rows[0].fecha_creacion,
+      res.rows[0].portada
+    );
   } catch (error) {
     console.error("Error en createAventura:", error);
     throw error;
