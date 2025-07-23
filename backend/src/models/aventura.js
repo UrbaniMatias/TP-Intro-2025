@@ -23,6 +23,6 @@ export default class Aventura {
     this.descripcion = descripcion;
     this.autor_id = autor_id;
     this.genero = genero;
-    this.fecha_creacion = fecha_creacion;
+    this.fecha_creacion = new Date(fecha_creacion).toLocaleTimeString();
   }
 }
