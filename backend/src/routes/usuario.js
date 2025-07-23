@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
       fecha_de_nacimiento
     );
 
-    console.log(nuevo_usuario);
+    console.log(`Response: ${nuevo_usuario}`);
 
     res.status(200).send(nuevo_usuario);
   } catch (error) {
@@ -36,27 +36,44 @@ router.post("/", async (req, res) => {
 
 // GET /v1/usuario/:id_usuario
 router.get("/:id_usuario", async (req, res) => {
-  res.send(`Obtener usuario ${req.params.id_usuario}`);
+  try {
+    console.log("Method: GET\nURI: /v1/usuario/:id_usuario");
+
+    const { id } = res.params;
+
+    console.log(`id_usuario: ${id}`);
+
+    const usuario = await usuario_service.getUsuarioById(id);
+
+    console.log(`Response: ${usuario}`);
+
+    res.status(200).send(usuario);
+  } catch (error) {
+    res.status(500).send("Error al obtener el usuario");
+  }
 });
 
 // GET /v1/usuario/:id_usuario/finales
 router.get("/:id_usuario/finales", async (req, res) => {
-  res.send(`Finales del usuario ${req.params.id_usuario}`);
+    res.status(501).send("Error al obtener los finales que completo el usuario");
 });
 
 // PUT /v1/usuario/:id_usuario
 router.put("/:id_usuario", async (req, res) => {
-  res.send(`Actualizar usuario ${req.params.id_usuario}`);
+  console.log(`Actualizar usuario ${req.params.id_usuario}`);
+  res.status(501).send("Error al actualizar el usuario");
 });
 
 // PUT /v1/usuario/:id_usuario/finales
 router.put("/:id_usuario/finales", async (req, res) => {
-  res.send(`Actualizar finales del usuario ${req.params.id_usuario}`);
+  console.log(`Actualizar finales del usuario ${req.params.id_usuario}`);
+  res.status(501).send("Error al actualizar los finales de usuario");
 });
 
 // DELETE /v1/usuario/:id_usuario
 router.delete("/:id_usuario", async (req, res) => {
-  res.send(`Eliminar usuario ${req.params.id_usuario}`);
+  console.log(`Eliminar usuario ${req.params.id_usuario}`);
+  res.status(501).send("Error al eliminar el usuario");
 });
 
 export default router;
