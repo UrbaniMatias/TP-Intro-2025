@@ -40,7 +40,7 @@ async function createPagina(titulo, id_aventura, contenido, imagen, imagen_de_fo
       throw new Error("Imagen_de_fondo inválida: debe ser string o null");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, imagen_de_fondo) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, imagen_de_fondo) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [id_aventura, titulo, contenido, imagen, imagen_de_fondo]
     );
     return new Pagina(

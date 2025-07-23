@@ -28,11 +28,11 @@ async function getAllOpcionesByPaginaId(id) {
 async function createOpcion(descripcion, id_pagina_origen, id_pagina_destino) {
   try {
     const res = await conn.query(
-      "INSERT INTO opcion (descripcion, id_pagina_origen, id_pagina_destino) VALUES ($1, $2, $3)",
+      "INSERT INTO opcion (descripcion, id_pagina_origen, id_pagina_destino) VALUES ($1, $2, $3) RETURNING *",
       [descripcion, id_pagina_origen, id_pagina_destino]
     );
 
-    if (res.rowCount === 0) throw new Error("Opcion no encontrada");
+    if (res.rowCount === 0) throw new Error("No se pudo crear la opción");
 
     return new Opcion(
       res.rows[0].id,
