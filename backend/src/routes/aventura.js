@@ -68,31 +68,28 @@ router.post("/:id_aventura/pagina", async (req, res) => {
   }
 });
 
-// POST /v1/aventura/:id_aventura/:id_pagina/opcion
-router.post("/:id_aventura/:id_pagina/opcion", async (req, res) => {
+// POST /v1/aventura/pagina/:id_pagina/opcion
+router.post("/pagina/:id_pagina/opcion", async (req, res) => {
   try {
     console.log(
-      "Method: POST\nURI: /v1/aventura/:id_aventura/:id_pagina/opcion"
+      "Method: POST\nURI: /v1/aventura/pagina/:id_pagina/opcion"
     );
-
-    const id_aventura = req.params.id_aventura;
-    console.log(`id_aventura: ${id_aventura}`);
 
     const id_pagina = req.params.id_pagina;
     console.log(`id_pagina: ${id_pagina}`);
 
-    const { descripcion, id_pagina_origen, id_pagina_destino } = req.body;
+    const { descripcion, id_pagina_destino } = req.body;
     console.log(
       `
       descripcion: ${descripcion},
-      id_pagina_origen: ${id_pagina_origen},
+      id_pagina_origen: ${id_pagina},
       id_pagina_destino: ${id_pagina_destino}
       `
     );
 
     const nueva_opcion = opcion_service.createOpcion(
       descripcion,
-      id_pagina_origen,
+      id_pagina,
       id_pagina_destino
     );
     console.log(`Response: ${nueva_opcion}`);
@@ -120,15 +117,15 @@ router.get("/:id_aventura", async (req, res) => {
   }
 });
 
-// GET /v1/aventura/:id_aventura/:id_pagina
-router.get("/:id_aventura/:id_pagina", async (req, res) => {
+// GET /v1/aventura/pagina/:id_pagina
+router.get("/pagina/:id_pagina", async (req, res) => {
   res.send(
     `Obtener página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
   );
 });
 
-// GET /v1/aventura/:id_aventura/:id_pagina/opciones
-router.get("/:id_aventura/:id_pagina/opciones", async (req, res) => {
+// GET /v1/aventura/pagina/:id_pagina/opciones
+router.get("/pagina/:id_pagina/opciones", async (req, res) => {
   res.send(
     `Obtener opciones de la página ${req.params.id_pagina} en aventura ${req.params.id_aventura}`
   );
@@ -144,8 +141,8 @@ router.put("/:id_aventura/pagina", async (req, res) => {
   res.send(`Actualizar página en aventura ${req.params.id_aventura}`);
 });
 
-// PUT /v1/aventura/:id_aventura/:id_pagina/opcion
-router.put("/:id_aventura/:id_pagina/opcion", async (req, res) => {
+// PUT /v1/aventura/pagina/:id_pagina/opcion
+router.put("/pagina/:id_pagina/opcion", async (req, res) => {
   res.send(
     `Actualizar opción en página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
   );
@@ -156,15 +153,15 @@ router.delete("/:id_aventura", async (req, res) => {
   res.send(`Eliminar aventura ${req.params.id_aventura}`);
 });
 
-// DELETE /v1/aventura/:id_aventura/:id_pagina
-router.delete("/:id_aventura/:id_pagina", async (req, res) => {
+// DELETE /v1/aventura/pagina/:id_pagina
+router.delete("/pagina/:id_pagina", async (req, res) => {
   res.send(
     `Eliminar página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
   );
 });
 
-// DELETE /v1/aventura/:id_aventura/:id_pagina/:id_opcion
-router.delete("/:id_aventura/:id_pagina/:id_opcion", async (req, res) => {
+// DELETE /v1/aventura/pagina/opcion/:id_opcion
+router.delete("/pagina/opcion/:id_opcion", async (req, res) => {
   res.send(
     `Eliminar opción ${req.params.id_opcion} de página ${req.params.id_pagina} en aventura ${req.params.id_aventura}`
   );
