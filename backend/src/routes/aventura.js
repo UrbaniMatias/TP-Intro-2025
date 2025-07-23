@@ -187,9 +187,20 @@ router.delete("/:id_aventura", async (req, res) => {
 
 // DELETE /v1/aventura/pagina/:id_pagina
 router.delete("/pagina/:id_pagina", async (req, res) => {
-  res.send(
-    `Eliminar página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
-  );
+  try {
+    console.log(`Method: DELETE\nURI: /v1/aventura/pagina/:id_pagina`);
+
+    const id_pagina = req.params.id_pagina;
+    console.log(`id_pagina: ${id_pagina}`);
+
+    if (pagina_service.deletePaginaById(id_pagina)) {
+      res.status(200).send("OK");
+    } else {
+      res.status(401).send("Unauthorized");
+    }
+  } catch (error) {
+    res.status(500).send("Error al eliminar la pagina");
+  }
 });
 
 // DELETE /v1/aventura/pagina/opcion/:id_opcion
