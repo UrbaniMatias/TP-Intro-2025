@@ -26,12 +26,23 @@ async function obtenerLibros() {
   }
 }
 
-async function crearLibro(libroData) {
+async function crearLibro(infoLibro) {
   try {
+
+    const libro = {
+      autor_id: infoLibro.autor_id || 0,
+      contrasenia: infoLibro.contrasenia || "",
+      titulo: infoLibro.titulo || "",
+      descripcion: infoLibro.descripcion || "",
+      genero: infoLibro.genero || "",
+      portada: infoLibro.portada || "",
+      id_pagina_inicial: 0
+    };
+
     const response = await fetch(`${API_BASE}/aventuras`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(libroData),
+      body: JSON.stringify(libro),
     });
 
     if (!response.ok) throw new Error("Error al crear el libro");
@@ -45,12 +56,13 @@ async function crearLibro(libroData) {
   }
 }
 
-async function actualizarLibro(id, libroData) {
+
+async function actualizarLibro(id, infoLibro) {
   try {
     const response = await fetch(`${API_BASE}/aventuras/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(libroData),
+      body: JSON.stringify(infoLibro),
     });
 
     if (!response.ok) throw new Error("Error al actualizar el libro");
@@ -146,4 +158,32 @@ async function mostrarUnicoLibro(id) {
   }
 }
 
-export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, portada_defecto };
+async function crearPagina(idAventura, infoPagina) {
+  try {
+    const pagina = {
+      titulo: infoPagina.titulo || "",
+      contenido: infoPagina.contenido || "",
+      imagen: infoPagina.imagen || "",
+      imagen_de_fondo: infoPagina.imagen_de_fondo || "",
+    };
+
+    // Enviar la solicitud POST con el formato correcto
+    const response = await fetch(`${API_BASE}/aventuras/${idAventura}/pagina`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(pagina),
+    });
+
+    if (!response.ok) throw new Error("Error al crear la página");
+
+    const nuevaPagina = await response.json();
+    console.log("Página creada:", nuevaPagina);
+    return nuevaPagina;
+  } catch (error) {
+    console.error("Error al crear una nueva página:", error.message);
+    throw error;
+  }
+}
+
+
+export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, crearPagina, portada_defecto };
