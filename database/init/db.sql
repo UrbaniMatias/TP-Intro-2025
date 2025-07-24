@@ -27,8 +27,7 @@ CREATE TABLE pagina (
     numero INT NOT NULL,
     titulo VARCHAR(100) NOT NULL,
     contenido VARCHAR(500) NOT NULL,
-    imagen VARCHAR(1024) NULL,
-    imagen_de_fondo VARCHAR(1024) NULL
+    imagen VARCHAR(1024) NULL
 );
 
 -- relacion entre paginas
