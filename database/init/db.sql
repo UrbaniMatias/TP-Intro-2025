@@ -17,14 +17,14 @@ CREATE TABLE aventura (
     autor_id INT NOT NULL REFERENCES usuario(id),
     genero VARCHAR(50) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    portada VARCHAR(1024) NULL,
-    id_pagina_inicial INT NOT NULL REFERENCES pagina(id)
+    portada VARCHAR(1024) NULL
 );
 
 -- entidad 3
 CREATE TABLE pagina (
     id SERIAL PRIMARY KEY,
     id_aventura INT NOT NULL REFERENCES aventura(id),
+    numero INT NOT NULL,
     titulo VARCHAR(100) NOT NULL,
     contenido VARCHAR(500) NOT NULL,
     imagen VARCHAR(1024) NULL,
@@ -34,9 +34,10 @@ CREATE TABLE pagina (
 -- relacion entre paginas
 CREATE TABLE opcion (
     id SERIAL PRIMARY KEY,
+    id_aventura NOT NULL REFERENCES aventura(id),
     descripcion VARCHAR(500) NOT NULL,
-    id_pagina_origen INT NOT NULL REFERENCES pagina(id),
-    id_pagina_destino INT REFERENCES pagina(id)
+    numero_pagina_origen INT,
+    numero_pagina_final INT 
 );
 
 -- relacion entre aventura y pagina
