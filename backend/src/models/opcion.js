@@ -7,20 +7,20 @@ export default class Opcion {
         if (typeof descripcion !== "string" || titulo.length == 0)
             throw new Error("descripcion invalida: debe ser un string no vacio");
 
-        if (typeof id_pagina_origen !== "number" || !Number.isInteger(id) || id <= 0)
-            throw new Error("id_pagina_origen invalido: debe ser un entero positivo");
+        if (typeof id_aventura !== "number" || !Number.isInteger(id_aventura) || id_aventura <= 0)
+            throw new Error("id_aventura invalido: debe ser un entero positivo");
 
-        if (typeof numero_pagina_destino !== "number" || !Number.isInteger(id) || id <= 0)
+        if (typeof numero_pagina_destino !== "number" || !Number.isInteger(numero_pagina_destino) || numero_pagina_destino <= 0)
             throw new Error("numero_pagina_destino invalido: debe ser un entero positivo");
 
-        if (typeof numero_pagina_origen !== "number" || !Number.isInteger(id) || id <= 0)
+        if (typeof numero_pagina_origen !== "number" || !Number.isInteger(numero_pagina_origen) || numero_pagina_origen <= 0)
             throw new Error("numero_pagina_origen invalido: debe ser un entero positivo");
 
         
     
         this.id = id;
         this.descripcion = descripcion;
-        this.id_pagina_origen = id_pagina_origen;
+        this.id_aventura = id_aventura;
         this.numero_pagina_destino = numero_pagina_destino;
         this.numero_pagina_origen = numero_pagina_origen;
 
