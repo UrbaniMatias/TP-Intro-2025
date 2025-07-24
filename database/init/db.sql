@@ -33,7 +33,7 @@ CREATE TABLE pagina (
 -- relacion entre paginas
 CREATE TABLE opcion (
     id SERIAL PRIMARY KEY,
-    id_aventura NOT NULL REFERENCES aventura(id),
+    id_aventura INT NOT NULL REFERENCES aventura(id),
     descripcion VARCHAR(500) NOT NULL,
     numero_pagina_origen INT,
     numero_pagina_final INT 
