@@ -45,8 +45,7 @@ async function createPagina(
   titulo,
   id_aventura,
   contenido,
-  imagen,
-
+  imagen
 ) {
   try {
     if (!id_aventura) throw new Error("El id de la aventura es invalido");

@@ -1,11 +1,11 @@
 import conn from "./db_connection";
 import Opcion from "../models/opcion";
 
-async function getAllOpcionesByPaginaId(id) {
+async function getAllOpcionesByPaginaNumero(numero_pagina_origen) {
   try {
     const res = await conn.query(
-      "SELECT * FROM opcion WHERE id_pagina_origen = $1",
-      [id]
+      "SELECT * FROM opcion WHERE numero_pagina_origen = $1",
+      [numero_pagina_origen]
     );
 
     if (res.rowCount === 0)
@@ -15,8 +15,9 @@ async function getAllOpcionesByPaginaId(id) {
       Opcion(
         row.id,
         row.descripcion,
-        row.id_pagina_origen,
-        row.id_pagina_destino
+        row.id_aventura,
+        row.numero_pagina_origen,
+        row.numero_pagina_destino
       )
     );
   } catch (error) {
@@ -25,20 +26,21 @@ async function getAllOpcionesByPaginaId(id) {
   }
 }
 
-async function createOpcion(descripcion, id_pagina_origen, id_pagina_destino) {
+async function createOpcion(descripcion, numero_pagina_origen, numero_pagina_destino) {
   try {
     const res = await conn.query(
-      "INSERT INTO opcion (descripcion, id_pagina_origen, id_pagina_destino) VALUES ($1, $2, $3) RETURNING *",
-      [descripcion, id_pagina_origen, id_pagina_destino]
+      "INSERT INTO opcion (descripcion, numero_pagina_origen, numero_pagina_destino) VALUES ($1, $2, $3) RETURNING *",
+      [descripcion, numero_pagina_origen, numero_pagina_destino]
     );
 
     if (res.rowCount === 0) throw new Error("No se pudo crear la opción");
 
     return new Opcion(
       res.rows[0].id,
+      res.rows[0].id_aventura,
       res.rows[0].descripcion,
-      res.rows[0].id_pagina_origen,
-      res.rows[0].id_pagina_destino
+      res.rows[0].numero_pagina_origen,
+      res.rows[0].numero_pagina_destino
     );
   } catch (error) {
     console.error("Error en createOpcion:", error);
@@ -66,8 +68,8 @@ async function validateIdOpcion(id) {
 async function updateOpcionById(
   id,
   descripcion = null,
-  id_pagina_origen = null,
-  id_pagina_destino = null
+  numero_pagina_origen = null,
+  numero_pagina_destino = null
 ) {
     try {
     if (!id)
@@ -79,11 +81,11 @@ async function updateOpcionById(
     if (descripcion)
       conn.query("UPDATE opcion SET descripcion= $2 WHERE id = $1", [id, descripcion]);
  
-    if (id_pagina_origen)
-      conn.query("UPDATE opcion SET id_pagina_origen = $2 WHERE id = $1", [id, id_pagina_origen]);
+    if (numero_pagina_origen)
+      conn.query("UPDATE opcion SET numero_pagina_origen = $2 WHERE id = $1", [id, numero_pagina_origen]);
 
-    if (id_pagina_destino)
-      conn.query("UPDATE opcion SET id_pagina_destino = $2 WHERE id = $1", [id, id_pagina_destino]);
+    if (numero_pagina_destino)
+      conn.query("UPDATE opcion SET numero_pagina_destino = $2 WHERE id = $1", [id, numero_pagina_destino]);
 
     const result = await conn.query("SELECT * FROM opcion WHERE id = $1", [id]);
     return result.rows[0];
@@ -95,7 +97,7 @@ async function updateOpcionById(
 
 
 export default {
-  getAllOpcionesByPaginaId,
+  getAllOpcionesByPaginaNumero,
   createOpcion,
   deleteOpcionById,
   updateOpcionById,
