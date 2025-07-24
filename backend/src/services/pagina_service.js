@@ -8,7 +8,15 @@ async function getPaginaById(id) {
 
     if (res.rowCount === 0) throw new Error("Pagina no encontrada");
 
-    return res.rows[0];
+    return new Pagina(
+          res.rows[0].id,
+          res.rows[0].titulo,
+          res.rows[0].id_aventura,
+          res.rows[0].numero,
+          res.rows[0].contenido,
+          res.rows[0].imagen,
+          res.rows[0].imagen_de_fondo
+        );
   } catch (error) {
     console.error("Error en getPaginaById:", error);
     throw error;
@@ -21,7 +29,15 @@ async function getPaginaByNumero(id_aventura, numero) {
 
     if (res.rowCount === 0) throw new Error("Página no encontrada");
 
-    return res.rows[0];
+    return new Pagina(
+          res.rows[0].id,
+          res.rows[0].titulo,
+          res.rows[0].id_aventura,
+          res.rows[0].numero,
+          res.rows[0].contenido,
+          res.rows[0].imagen,
+          res.rows[0].imagen_de_fondo
+        );
   } catch (error) {
     throw new Error("Error en getPaginaByNumero", error);
   }
