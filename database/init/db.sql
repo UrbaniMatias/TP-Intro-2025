@@ -4,7 +4,7 @@ CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     contrasenia VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(250) UNIQUE NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_de_nacimiento DATE NOT NULL
 );
@@ -13,29 +13,30 @@ CREATE TABLE usuario (
 CREATE TABLE aventura (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(200) NULL,
+    descripcion VARCHAR(500) NULL,
     autor_id INT NOT NULL REFERENCES usuario(id),
-    genero VARCHAR(30) NOT NULL,
+    genero VARCHAR(50) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    portada VARCHAR(255) NULL
+    portada VARCHAR(1024) NULL
 );
 
 -- entidad 3
 CREATE TABLE pagina (
     id SERIAL PRIMARY KEY,
     id_aventura INT NOT NULL REFERENCES aventura(id),
+    numero INT NOT NULL,
     titulo VARCHAR(100) NOT NULL,
-    contenido VARCHAR(255) NOT NULL,
-    imagen VARCHAR(255) NULL,
-    es_inicio BOOLEAN
+    contenido VARCHAR(500) NOT NULL,
+    imagen VARCHAR(1024) NULL
 );
 
 -- relacion entre paginas
 CREATE TABLE opcion (
     id SERIAL PRIMARY KEY,
-    descripcion VARCHAR(200) NOT NULL,
-    id_pagina_origen INT NOT NULL REFERENCES pagina(id),
-    id_pagina_destino INT REFERENCES pagina(id)
+    id_aventura NOT NULL REFERENCES aventura(id),
+    descripcion VARCHAR(500) NOT NULL,
+    numero_pagina_origen INT,
+    numero_pagina_final INT 
 );
 
 -- relacion entre aventura y pagina
@@ -51,5 +52,3 @@ CREATE TABLE usuario_final (
     id_usuario INT NOT NULL REFERENCES usuario(id),
     id_final INT NOT NULL REFERENCES finales(id)
 );
-
--- PARA HACER: INSERTAR DATOS INICIALES DE LA BASE DE DATOS

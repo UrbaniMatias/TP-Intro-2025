@@ -18,8 +18,8 @@ export default class Aventura {
     if (!(typeof fecha_creacion === "string" || fecha_creacion instanceof Date))
       throw new Error("fecha_creacion inválida");
 
-    if (typeof portada !== "string" || portada.length === 0)
-      throw new Error("portada inválida: debe ser un string no vacio ");
+    if (typeof portada !== "string" && portada !== null)
+      throw new Error("portada inválida: debe ser un string o vacio ");
 
     this.id = id;
     this.titulo = titulo;
