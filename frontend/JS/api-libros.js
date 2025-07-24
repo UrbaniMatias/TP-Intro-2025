@@ -110,16 +110,28 @@ async function obtenerFinalesPorUsuario(id) {
   }
 }
 
+async function obtenerUsuario(idUsuario) {
+  try {
+    const response = await fetch(`${API_BASE}/usuario/${idUsuario}`);
+    const usuario = await response.json();
+    if (!usuario) throw new Error("El usuario no existe o el id es invalido.");
+    return usuario;
+  } catch (error) {
+    console.error("Hubo un error al encontrar el usuario: ", error.message);
+    throw error;
+  }
+}
+
 // --- LIBROS ---
 
 async function obtenerAventuraPorID(id) {
   try {
     const res = await fetch(`${API_BASE}/aventuras/${id}`);
-    if (!res.ok) throw new Error(`No se pudo obtener la aventura con ID ${id}`);
+    if (!res.ok) throw new Error(`No se pudo obtener la aventura de id ${id}`);
     const aventura = await res.json();
     return aventura;
   } catch (err) {
-    console.error("Error al obtener la aventura por ID:", err);
+    console.error("Hubo un error al obtener la aventura: ", err);
     return null;
   }
 }
@@ -319,5 +331,6 @@ export {
   crearLibro, actualizarLibro, eliminarLibro,
   mostrarLibros, mostrarUnicoLibro,
   crearPagina,
+  obtenerUsuario,
   portada_defecto
 };
