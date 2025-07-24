@@ -64,12 +64,6 @@ router.put("/:id_usuario", async (req, res) => {
   res.status(501).send("Error al actualizar el usuario");
 });
 
-// PUT /v1/usuario/:id_usuario/finales
-router.put("/:id_usuario/finales", async (req, res) => {
-  console.log(`Actualizar finales del usuario ${req.params.id_usuario}`);
-  res.status(501).send("Error al actualizar los finales de usuario");
-});
-
 // DELETE /v1/usuario/:id_usuario
 router.delete("/:id_usuario", async (req, res) => {
   console.log(`Eliminar usuario ${req.params.id_usuario}`);
