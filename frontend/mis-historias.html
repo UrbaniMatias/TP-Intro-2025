@@ -40,75 +40,7 @@
     </div>
     
     <script src="./JS/navbar.js"></script>
-    <script>
-      const API_BASE = "http://localhost:3007";
-const portada_defecto = "./imagenes/portada_default.jpg";
+    <script type="module" src="./JS/mis-libros.js"></script>
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const cargando = document.getElementById("cargando");
-  const error = document.getElementById("error");
-  const sinHistorias = document.getElementById("sin-historias");
-
-  try {
-    // Verificamos usuario logueado (ajustar si el nombre de clave es otro)
-    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
-
-    if (!usuarioActual || !usuarioActual.id) {
-      throw new Error("No hay usuario logueado.");
-    }
-
-    // Obtenemos todas las aventuras
-    const res = await fetch(`${API_BASE}/aventura`);
-    const aventuras = await res.json();
-
-    // Filtramos las del usuario actual
-    const misAventuras = aventuras.filter(
-      aventura => aventura.id_usuario === usuarioActual.id
-    );
-
-    mostrarHistorias(misAventuras);
-  } catch (err) {
-    console.error("Error:", err.message);
-    error.style.display = "block";
-  } finally {
-    cargando.style.display = "none";
-  }
-});
-
-function mostrarHistorias(historias) {
-  const container = document.getElementById("historias-container");
-
-  if (!historias || historias.length === 0) {
-    document.getElementById("sin-historias").style.display = "block";
-    return;
-  }
-
-  historias.forEach(h => {
-    const portada = h.portada && h.portada.trim() !== "" ? h.portada : portada_defecto;
-
-    const card = document.createElement("div");
-    card.className = "historia sb-blanco";
-
-    card.innerHTML = `
-      <div class="contenido-izq">
-        <div class="rel-portada">
-          <img src="${portada}" alt="Portada de ${h.titulo}" width="80" height="80" style="border-radius: 6px; object-fit: cover;">
-        </div>
-        <div class="datos">
-          <h4 class="card-titulo">${h.titulo}</h4>
-          <p class="card-autor">${h.descripcion || "Sin descripción."}</p>
-        </div>
-      </div>
-      <div class="botones">
-        <a href="./historia.html?id=${h.id}" class="btn btn-verde btn-simple">Ver</a>
-        <a href="./editar.html?id=${h.id}" class="btn btn-simple">Editar</a>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-    </script>
 </body>
 </html>

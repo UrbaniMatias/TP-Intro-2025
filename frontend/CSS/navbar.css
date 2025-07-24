@@ -203,8 +203,6 @@ html {
 }
 
 
-
-/* Estilos para la sección de usuario */
 #userSection {
   display: flex;
   align-items: center;
@@ -272,9 +270,63 @@ html {
 .user-dropdown-content .material-symbols-outlined {
   font-size: 18px;
 }
+.user-dropdown-content hr{
+  color: var(--gris);
+}
+/* 
 
 
 
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+}
 
 
+.modal-contenido {
+  background-color: #fff;
+  padding: 2em;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3); 
+}
 
+.modal-botones {
+  margin-top: 1.5em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-cancelar, .btn-confirmar {
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancelar {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn-confirmar {
+  background-color: #b30000;
+  color: white;
+}
+
+.btn-cancelar:hover {
+  background-color: #bbb;
+}
+
+.btn-confirmar:hover {
+  background-color: #800000;
+} */

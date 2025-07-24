@@ -26,6 +26,128 @@ async function obtenerLibros() {
   }
 }
 
+async function obtenerUsuarios() {
+  try {
+    const response = await fetch(`${API_BASE}/usuarios`);
+    if (!response.ok) throw new Error("Error al obtener usuarios");
+    const usuarios = await response.json();
+    console.log("Usuarios obtenidos:", usuarios);
+    return usuarios;
+  } catch (error) {
+    console.error("Error en obtenerUsuarios:", error.message);
+    throw error;
+  }
+}
+
+async function crearUsuario(usuarioData) {
+  try {
+    const res = await fetch(`${API_BASE}/usuario`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuarioData),
+    });
+
+    if (!res.ok) throw new Error("Error al crear usuario");
+
+    const nuevoUsuario = await res.json();
+    console.log("Usuario creado:", nuevoUsuario);
+    return nuevoUsuario;
+  } catch (error) {
+    console.error("Error en crearUsuario:", error.message);
+    throw error;
+  }
+}
+
+async function actualizarUsuario(id, usuarioData) {
+  try {
+    const res = await fetch(`${API_BASE}/usuario/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuarioData),
+    });
+
+    if (!res.ok) throw new Error("Error al actualizar usuario");
+
+    const usuarioActualizado = await res.json();
+    console.log("Usuario actualizado:", usuarioActualizado);
+    return usuarioActualizado;
+  } catch (error) {
+    console.error("Error en actualizarUsuario:", error.message);
+    throw error;
+  }
+}
+
+async function eliminarUsuario(id) {
+  try {
+    const res = await fetch(`${API_BASE}/usuario/${id}`, {
+      method: "DELETE"
+    });
+
+    if (!res.ok) throw new Error("Error al eliminar usuario");
+
+    console.log(`Usuario con ID ${id} eliminado correctamente`);
+    return true;
+  } catch (error) {
+    console.error("Error en eliminarUsuario:", error.message);
+    throw error;
+  }
+}
+
+async function obtenerFinalesPorUsuario(id) {
+  try {
+    const res = await fetch(`${API_BASE}/usuario/${id}/finales`);
+
+    if (!res.ok) throw new Error("No se pudieron obtener los finales del usuario");
+
+    const finales = await res.json();
+    console.log(`Finales del usuario ${id}:`, finales);
+    return finales;
+  } catch (error) {
+    console.error("Error en obtenerFinalesPorUsuario:", error.message);
+    throw error;
+  }
+}
+
+async function obtenerAventuraPorID(id) {
+  try {
+    const res = await fetch(`${API_BASE}/aventuras/${id}`);
+    if (!res.ok) throw new Error(`No se pudo obtener la aventura con ID ${id}`);
+    const aventura = await res.json();
+    return aventura;
+  } catch (err) {
+    console.error("Error al obtener la aventura por ID:", err);
+    return null;
+  }
+}
+
+
+async function mostrarAventuraEnLectura(id, paginaN = 1) {
+  const aventura = await obtenerAventuraPorID(id);
+  if (!aventura) return;
+
+  const contenedor = document.getElementById("contenido-aventura");
+  if (!contenedor) {
+    console.warn("No se encontró el contenedor para mostrar la aventura.");
+    return;
+  }
+
+  const pagina = aventura.paginas?.find(p => p.numero == paginaN);
+  if (!pagina) {
+    contenedor.innerHTML = `<p>Página no encontrada.</p>`;
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <h2>${aventura.titulo}</h2>
+    <div class="pagina-texto">${pagina.texto}</div>
+    <div class="opciones">
+      ${pagina.opciones.map(op => `
+        <a href="leer.html?id=${id}&pagina=${op.ir_a}" class="btn-opcion">${op.texto}</a>
+      `).join("")}
+    </div>
+  `;
+}
+
 async function crearLibro(libroData) {
   try {
     const response = await fetch(`${API_BASE}/aventuras`, {
@@ -91,13 +213,13 @@ function mostrarLibros(aventuras, usuarios) {
 
     const card = document.createElement("div");
     card.className = "card";
-
+    const urlLectura = `leer.html?id=${aventura.id}&pagina=1`;
     card.innerHTML = `
       <img class="card-imagen" src="${portada}" alt="Portada de ${aventura.titulo}" />
       <h3 class="card-titulo">${aventura.titulo}</h3>
       <h4 class="card-autor">${nombreAutor}</h4>
       <div class="card-actions">
-        <a class="btn-libros" href="./leer.html">
+        <a class="btn-libros"  href="${urlLectura}">
           <span class="btn-icon">▶</span>
           <span class="btn-text">Empezar a leer</span>
         </a>
@@ -146,4 +268,4 @@ async function mostrarUnicoLibro(id) {
   }
 }
 
-export { obtenerLibros, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, portada_defecto };
+export { obtenerLibros, obtenerUsuarios, mostrarAventuraEnLectura, crearUsuario, actualizarUsuario, eliminarUsuario, obtenerFinalesPorUsuario, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, portada_defecto };
