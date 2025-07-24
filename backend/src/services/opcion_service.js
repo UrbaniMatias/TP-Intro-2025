@@ -1,5 +1,5 @@
-import conn from "../services/db_connection";
-import Opcion from "../models/opcion";
+import conn from "./db_connection.js";
+import Opcion from "../models/opcion.js";
 
 async function getAllOpcionesByPaginaNumero(numero_pagina_origen, id_aventura) {
   try {
