@@ -83,6 +83,13 @@ async function updateOpcionByNumero(
     if (numero_pagina_destino)
       await conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
 
+    return new Opcion(
+     res.rows[0].id,
+     res.rows[0].id_aventura,
+     res.rows[0].descripcion,
+     res.rows[0].numero_pagina_origen,
+     res.rows[0].numero_pagina_destino
+    );
   } catch (error) {
     console.error("Error en updateOpcionById:", error);
     throw error;
