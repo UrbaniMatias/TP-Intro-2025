@@ -7,7 +7,7 @@
 // JS/libros-main.js
 import { mostrarLibros } from "./api-libros.js";
 
-const aventurasFake = [
+const aventurasFijos = [
   {
     id: 1,
     titulo: "La Cueva Misteriosa",
@@ -66,7 +66,7 @@ const aventurasFake = [
   }
 ];
 
-const usuariosFake = [
+const usuariosFijos = [
   {
     id: 1,
     nombre: "Ana García",
@@ -105,8 +105,8 @@ const usuariosFake = [
   }
 ];
 
-let aventurasGlobal = [...aventurasFake];
-let usuariosGlobal = [...usuariosFake];
+let aventurasGlobal = [...aventurasFijos];
+let usuariosGlobal = [...usuariosFijos];
 
 function agregarOrdenamiento() {
   const selector = document.getElementById("ordenar");
@@ -134,7 +134,6 @@ function agregarOrdenamiento() {
   });
 }
 
-// Mostrar inicialmente con datos fijos
 mostrarLibros(aventurasGlobal, usuariosGlobal);
 agregarOrdenamiento();
 
