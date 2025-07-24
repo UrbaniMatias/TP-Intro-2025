@@ -151,14 +151,13 @@ async function deletePaginaByNumero(id_aventura, numero) {
       throw new Error("id_aventura y número de página son requeridos");
 
     const res = await conn.query(
-      "DELETE FROM pagina WHERE id_aventura = $1 AND numero = $2 RETURNING *",
+      "DELETE FROM pagina WHERE id_aventura = $1 AND numero = $2 ",
       [id_aventura, numero]
     );
 
     if (res.rowCount === 0)
       throw new Error("Página no encontrada");
 
-    return res.rows[0]; 
   } catch (error) {
     console.error("Error en deletePaginaByNumero:", error);
     throw error;
@@ -170,6 +169,7 @@ async function getAllPaginasFinalesByUsuarioId(id_usuario) {}
 
 export default {
   getPaginaById,
+  getPaginaByNumero,
   createPagina,
   updatePaginaById,
   updatePaginaByNumero,
