@@ -33,10 +33,10 @@ async function obtenerUsuarios() {
     const response = await fetch(`${API_BASE}/usuarios`);
     if (!response.ok) throw new Error("Error al obtener usuarios");
     const usuarios = await response.json();
-    console.log("Usuarios obtenidos:", usuarios);
+    console.log("Usuarios obtenidos: ", usuarios);
     return usuarios;
   } catch (error) {
-    console.error("Error en obtenerUsuarios:", error.message);
+    console.error("Error al obtener usuarios: ", error.message);
     throw error;
   }
 }
@@ -55,7 +55,7 @@ async function crearUsuario(usuarioData) {
     console.log("Usuario creado:", nuevoUsuario);
     return nuevoUsuario;
   } catch (error) {
-    console.error("Error en crearUsuario:", error.message);
+    console.error("Error al intentar crear un usuario:", error.message);
     throw error;
   }
 }
@@ -74,7 +74,7 @@ async function actualizarUsuario(id, usuarioData) {
     console.log("Usuario actualizado:", usuarioActualizado);
     return usuarioActualizado;
   } catch (error) {
-    console.error("Error en actualizarUsuario:", error.message);
+    console.error("Error al intentar actualizar el usuario: ", error.message);
     throw error;
   }
 }
@@ -87,10 +87,10 @@ async function eliminarUsuario(id) {
 
     if (!res.ok) throw new Error("Error al eliminar usuario");
 
-    console.log(`Usuario con ID ${id} eliminado correctamente`);
+    console.log(`Usuario de ID ${id} eliminado correctamente`);
     return true;
   } catch (error) {
-    console.error("Error en eliminarUsuario:", error.message);
+    console.error("Error al tratar de eliminar un usuario: ", error.message);
     throw error;
   }
 }
@@ -99,13 +99,25 @@ async function obtenerFinalesPorUsuario(id) {
   try {
     const res = await fetch(`${API_BASE}/usuario/${id}/finales`);
 
-    if (!res.ok) throw new Error("No se pudieron obtener los finales del usuario");
+    if (!res.ok) throw new Error("No se pudieron obtener los finales conseguidos por el usuario");
 
     const finales = await res.json();
     console.log(`Finales del usuario ${id}:`, finales);
     return finales;
   } catch (error) {
-    console.error("Error en obtenerFinalesPorUsuario:", error.message);
+    console.error("Error al tratar de obtener finales: ", error.message);
+    throw error;
+  }
+}
+
+async function obtenerUnicoUsuario(idUsuario) {
+  try {
+    const response = await fetch(`${API_BASE}/usuario/${idUsuario}`);
+    const usuario = await response.json();
+    if (!usuario) throw new Error("El usuario no existe o el id es invalido.");
+    return usuario;
+  } catch (error) {
+    console.error("Hubo un error al encontrar el usuario: ", error.message);
     throw error;
   }
 }
@@ -115,11 +127,11 @@ async function obtenerFinalesPorUsuario(id) {
 async function obtenerAventuraPorID(id) {
   try {
     const res = await fetch(`${API_BASE}/aventuras/${id}`);
-    if (!res.ok) throw new Error(`No se pudo obtener la aventura con ID ${id}`);
+    if (!res.ok) throw new Error(`No se pudo obtener la aventura de id ${id}`);
     const aventura = await res.json();
     return aventura;
   } catch (err) {
-    console.error("Error al obtener la aventura por ID:", err);
+    console.error("Hubo un error al obtener la aventura: ", err);
     return null;
   }
 }
@@ -191,10 +203,10 @@ async function actualizarLibro(id, infoLibro) {
     if (!response.ok) throw new Error("Error al actualizar el libro");
 
     const libroActualizado = await response.json();
-    console.log("Libro actualizado:", libroActualizado);
+    console.log("Libro actualizado: ", libroActualizado);
     return libroActualizado;
   } catch (error) {
-    console.error("Error al actualizar el libro:", error.message);
+    console.error("Error al intentar actualizar el libro: ", error.message);
     throw error;
   }
 }
@@ -276,7 +288,7 @@ async function mostrarUnicoLibro(id) {
       </div>
     `;
   } catch (error) {
-    console.error("Error al mostrar el libro:", error.message);
+    console.error("Error al intentar mostrar el libro: ", error.message);
     const errorDiv = document.getElementById("error");
     if (errorDiv) errorDiv.style.display = "block";
   }
@@ -319,5 +331,6 @@ export {
   crearLibro, actualizarLibro, eliminarLibro,
   mostrarLibros, mostrarUnicoLibro,
   crearPagina,
+  obtenerUnicoUsuario,
   portada_defecto
 };
