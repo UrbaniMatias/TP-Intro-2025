@@ -3,11 +3,11 @@ const portada_defecto = "./imagenes/portada_default2.jpg";
 
 async function obtenerLibros() {
   try {
-    const [libros, autores] = await Promise.all([ // promise.all ejecuta promesas en paralelo y no una detras de otra
+    const [libros, autores] = await Promise.all([
       fetch(`${API_BASE}/aventuras`),
       fetch(`${API_BASE}/usuarios`)
     ]);
-    
+
     const aventuras = await libros.json();
     const usuarios = await autores.json();
 
@@ -19,12 +19,14 @@ async function obtenerLibros() {
     console.error("Error al obtener libros:", error.message);
     const errorDiv = document.getElementById("error");
     if (errorDiv) errorDiv.style.display = "block";
-    throw error; // Re-lanzamos el error para manejarlo donde se llame
+    throw error;
   } finally {
     const cargandoDiv = document.getElementById("cargando");
     if (cargandoDiv) cargandoDiv.style.display = "none";
   }
 }
+
+// --- USUARIOS ---
 
 async function obtenerUsuarios() {
   try {
@@ -108,6 +110,8 @@ async function obtenerFinalesPorUsuario(id) {
   }
 }
 
+// --- LIBROS ---
+
 async function obtenerAventuraPorID(id) {
   try {
     const res = await fetch(`${API_BASE}/aventuras/${id}`);
@@ -119,7 +123,6 @@ async function obtenerAventuraPorID(id) {
     return null;
   }
 }
-
 
 async function mostrarAventuraEnLectura(id, paginaN = 1) {
   const aventura = await obtenerAventuraPorID(id);
@@ -148,12 +151,22 @@ async function mostrarAventuraEnLectura(id, paginaN = 1) {
   `;
 }
 
-async function crearLibro(libroData) {
+async function crearLibro(infoLibro) {
   try {
+    const libro = {
+      autor_id: infoLibro.autor_id || 0,
+      contrasenia: infoLibro.contrasenia || "",
+      titulo: infoLibro.titulo || "",
+      descripcion: infoLibro.descripcion || "",
+      genero: infoLibro.genero || "",
+      portada: infoLibro.portada || "",
+      id_pagina_inicial: 0
+    };
+
     const response = await fetch(`${API_BASE}/aventuras`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(libroData),
+      body: JSON.stringify(libro),
     });
 
     if (!response.ok) throw new Error("Error al crear el libro");
@@ -167,12 +180,12 @@ async function crearLibro(libroData) {
   }
 }
 
-async function actualizarLibro(id, libroData) {
+async function actualizarLibro(id, infoLibro) {
   try {
     const response = await fetch(`${API_BASE}/aventuras/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(libroData),
+      body: JSON.stringify(infoLibro),
     });
 
     if (!response.ok) throw new Error("Error al actualizar el libro");
@@ -229,6 +242,7 @@ function mostrarLibros(aventuras, usuarios) {
     container.appendChild(card);
   });
 }
+
 async function mostrarUnicoLibro(id) {
   try {
     const libroRes = await fetch(`${API_BASE}/aventuras/${id}`);
@@ -238,13 +252,13 @@ async function mostrarUnicoLibro(id) {
       throw new Error("Libro no encontrado");
     }
 
-    const autorRes = await fetch(`${API_BASE}/usuarios/${libro.id_usuario}`); //con esto recibo los datos del autor
-    const autor = await autorRes.json(); //aca convierto los datos en un objeto de js
+    const autorRes = await fetch(`${API_BASE}/usuarios/${libro.id_usuario}`);
+    const autor = await autorRes.json();
 
-    const nombreAutor = autor ? autor.nombre : "Autor desconocido"; //verifica que el nombre exista, sino devuelve error
+    const nombreAutor = autor ? autor.nombre : "Autor desconocido";
     const portada = libro.portada || portada_defecto;
 
-    const container = document.getElementById("container-libros"); //hago esta estructura para contener el libro
+    const container = document.getElementById("container-libros");
     container.innerHTML = `
       <div class="card">
         <img class="card-imagen" src="${portada}" alt="Portada de ${libro.titulo}" />
@@ -268,4 +282,42 @@ async function mostrarUnicoLibro(id) {
   }
 }
 
-export { obtenerLibros, obtenerUsuarios, mostrarAventuraEnLectura, crearUsuario, actualizarUsuario, eliminarUsuario, obtenerFinalesPorUsuario, mostrarLibros, actualizarLibro, eliminarLibro, crearLibro, mostrarUnicoLibro, portada_defecto };
+// --- PÁGINAS ---
+
+async function crearPagina(idAventura, infoPagina) {
+  try {
+    const pagina = {
+      titulo: infoPagina.titulo || "",
+      contenido: infoPagina.contenido || "",
+      imagen: infoPagina.imagen || "",
+      imagen_de_fondo: infoPagina.imagen_de_fondo || "",
+    };
+
+    const response = await fetch(`${API_BASE}/aventuras/${idAventura}/pagina`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(pagina),
+    });
+
+    if (!response.ok) throw new Error("Error al crear la página");
+
+    const nuevaPagina = await response.json();
+    console.log("Página creada:", nuevaPagina);
+    return nuevaPagina;
+  } catch (error) {
+    console.error("Error al crear una nueva página:", error.message);
+    throw error;
+  }
+}
+
+// --- EXPORTACIÓN ---
+
+export {
+  obtenerLibros, obtenerUsuarios,
+  crearUsuario, actualizarUsuario, eliminarUsuario, obtenerFinalesPorUsuario,
+  obtenerAventuraPorID, mostrarAventuraEnLectura,
+  crearLibro, actualizarLibro, eliminarLibro,
+  mostrarLibros, mostrarUnicoLibro,
+  crearPagina,
+  portada_defecto
+};
