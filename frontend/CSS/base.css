@@ -97,6 +97,7 @@
 .cb-verde:hover{
   background-color: var(--verde);
   color: white;
+  border:none;
 }
 
 .btn-simple {
@@ -144,10 +145,8 @@
   color: var(--verde);
   gap: 0.5rem;         
   padding: 0.5rem 1rem; 
-  border-radius: 6px;
   font-size: 0.8rem;
   transition: all 0.3s ease;
-  border: none;
 }
 .btn-borrar:hover{
   transform: translateY(-2px);
@@ -158,10 +157,8 @@
 .btn-verde-blanco {
   gap: 0.5rem;         
   padding: 0.5rem 1rem; 
-  border-radius: 6px;
   font-size: 0.8rem;
   transition: all 0.3s ease;
-  border: none;
   color: var(--verde);
 }
 .btn-verde-blanco:hover{
@@ -169,6 +166,7 @@
   background-color: var(--verde);
   box-shadow: 0 7px 14px var(--verde-oscuro);
   color: var(--blanco);
+  border:none;
 }
 
 .subrayado {
