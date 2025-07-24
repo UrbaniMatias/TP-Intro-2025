@@ -66,27 +66,34 @@ router.post("/:id_aventura/pagina", async (req, res) => {
   }
 });
 
-// POST /v1/aventura/pagina/:id_pagina/opcion
-router.post("/pagina/:id_pagina/opcion", async (req, res) => {
+// POST /v1/aventura/:id_aventura/:numero_pagina/opcion
+router.post("/:id_aventura/:numero_pagina/opcion", async (req, res) => {
   try {
-    console.log("Method: POST\nURI: /v1/aventura/pagina/:id_pagina/opcion");
+    console.log(
+      "Method: POST\nURI: /v1/aventura/:id_aventura/:numero_pagina/opcion"
+    );
 
-    const id_pagina = req.params.id_pagina;
-    console.log(`id_pagina: ${id_pagina}`);
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
 
-    const { descripcion, id_pagina_destino } = req.body;
+    const numero_pagina = req.params.numero_pagina;
+    console.log(`numero_pagina: ${numero_pagina}`);
+
+    const { descripcion, numero_pagina_destino } = req.body;
     console.log(
       `
+      id_aventura: ${id_aventura},
       descripcion: ${descripcion},
-      id_pagina_origen: ${id_pagina},
-      id_pagina_destino: ${id_pagina_destino}
+      numero_pagina_origen: ${numero_pagina},
+      numero_pagina_destino: ${numero_pagina_destino}
       `
     );
 
     const nueva_opcion = opcion_service.createOpcion(
+      id_aventura,
       descripcion,
-      id_pagina,
-      id_pagina_destino
+      numero_pagina,
+      numero_pagina_destino
     );
     console.log(`Response: ${nueva_opcion}`);
 
@@ -113,15 +120,18 @@ router.get("/:id_aventura", async (req, res) => {
   }
 });
 
-// GET /v1/aventura/pagina/:id_pagina
-router.get("/pagina/:id_pagina", async (req, res) => {
+// GET /v1/aventura/:id_aventura/:numero_pagina
+router.get("/:id_aventura/:numero_pagina", async (req, res) => {
   try {
-    console.log(`Method: GET\nURI: /v1/aventura/pagina/:id_pagina`);
+    console.log(`Method: GET\nURI: /v1/aventura/:id_aventura/:numero_pagina`);
 
-    const id_pagina = req.params.id_pagina;
-    console.log(`id_pagina: ${id_pagina}`);
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
 
-    const pagina = pagina_service.getPaginaById(id_pagina);
+    const numero_pagina = req.params.numero_pagina;
+    console.log(`numero_pagina: ${numero_pagina}`);
+
+    const pagina = pagina_service.getPaginaByNumero(id_aventura, numero_pagina);
     console.log(`Response: ${pagina}`);
 
     res.send(pagina);
@@ -130,15 +140,23 @@ router.get("/pagina/:id_pagina", async (req, res) => {
   }
 });
 
-// GET /v1/aventura/pagina/:id_pagina/opciones
-router.get("/pagina/:id_pagina/opciones", async (req, res) => {
+// GET /v1/aventura/:id_aventura/:numero_pagina/opciones
+router.get("/:id_aventura/:numero_pagina/opciones", async (req, res) => {
   try {
-    console.log(`Method: GET\nURI: /v1/aventura/pagina/:id_pagina/opciones`);
+    console.log(
+      `Method: GET\nURI: /v1/aventura/:id_aventura/:numero_pagina/opciones`
+    );
 
-    const id_pagina = req.params.id_pagina;
-    console.log(`id_pagina: ${id_pagina}`);
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
 
-    const opciones = opcion_service.getAllOpcionesByPaginaId(id_pagina);
+    const numero_pagina = req.params.numero_pagina;
+    console.log(`numero_pagina: ${numero_pagina}`);
+
+    const opciones = opcion_service.getAllOpcionesByNumeroPagina(
+      id_aventura,
+      numero_pagina
+    );
     console.log(`Response: ${opciones}`);
 
     res.send(opciones);
@@ -157,10 +175,10 @@ router.put("/:id_aventura/pagina", async (req, res) => {
   res.send(`Actualizar página en aventura ${req.params.id_aventura}`);
 });
 
-// PUT /v1/aventura/pagina/:id_pagina/opcion
-router.put("/pagina/:id_pagina/opcion", async (req, res) => {
+// PUT /v1/aventura/:id_aventura/:numero_pagina/opcion
+router.put("/:id_aventura/:numero_pagina/opcion", async (req, res) => {
   res.send(
-    `Actualizar opción en página ${req.params.id_pagina} de aventura ${req.params.id_aventura}`
+    `Actualizar opción en página ${req.params.numero_pagina} de aventura ${req.params.id_aventura}`
   );
 });
 
@@ -182,15 +200,20 @@ router.delete("/:id_aventura", async (req, res) => {
   }
 });
 
-// DELETE /v1/aventura/pagina/:id_pagina
-router.delete("/pagina/:id_pagina", async (req, res) => {
+// DELETE /v1/aventura/:id_aventura/:numero_pagina
+router.delete("/:id_aventura/:numero_pagina", async (req, res) => {
   try {
-    console.log(`Method: DELETE\nURI: /v1/aventura/pagina/:id_pagina`);
+    console.log(
+      `Method: DELETE\nURI: /v1/aventura/:id_aventura/:numero_pagina`
+    );
 
-    const id_pagina = req.params.id_pagina;
-    console.log(`id_pagina: ${id_pagina}`);
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
 
-    if (pagina_service.deletePaginaById(id_pagina)) {
+    const numero_pagina = req.params.numero_pagina;
+    console.log(`numero_pagina: ${numero_pagina}`);
+
+    if (pagina_service.deletePaginaByNumero(id_aventura, numero_pagina)) {
       res.status(200).send("OK");
     } else {
       res.status(401).send("Unauthorized");
@@ -200,13 +223,26 @@ router.delete("/pagina/:id_pagina", async (req, res) => {
   }
 });
 
-// DELETE /v1/aventura/pagina/opcion/:id_opcion
-router.delete("/pagina/opcion/:id_opcion", async (req, res) => {
+// DELETE /v1/aventura/:id_aventura/:numero_pagina/:id_opcion
+router.delete("/:id_aventura/:numero_pagina/:id_opcion", async (req, res) => {
   try {
-    console.log(`Method: DELETE\nURI: /v1/aventura/pagina/opcion/:id_opcion`);
+    console.log(
+      `Method: DELETE\nURI: /v1/aventura/:id_aventura/:numero_pagina/:id_opcion`
+    );
+
+    const id_aventura = req.params.id_aventura;
+    console.log(`id_aventura: ${id_aventura}`);
+
+    const numero_pagina = req.params.numero_pagina;
+    console.log(`numero_pagina: ${numero_pagina}`);
 
     const id_opcion = req.params.id_opcion;
     console.log(`id_opcion: ${id_opcion}`);
+
+    // id_aventura y numero_pagina no se usan realmente
+    // estan en la URI por un error de diseño
+    // se pueden rellenar con cualquier numero
+    // e igual funcionaria para la misma opcion
 
     if (opcion_service.deleteOpcionById(id_opcion)) {
       res.status(200).send("OK");
