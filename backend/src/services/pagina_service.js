@@ -14,8 +14,7 @@ async function getPaginaById(id) {
           res.rows[0].id_aventura,
           res.rows[0].numero,
           res.rows[0].contenido,
-          res.rows[0].imagen,
-          res.rows[0].imagen_de_fondo
+          res.rows[0].imagen
         );
   } catch (error) {
     console.error("Error en getPaginaById:", error);
@@ -35,8 +34,7 @@ async function getPaginaByNumero(id_aventura, numero) {
           res.rows[0].id_aventura,
           res.rows[0].numero,
           res.rows[0].contenido,
-          res.rows[0].imagen,
-          res.rows[0].imagen_de_fondo
+          res.rows[0].imagen
         );
   } catch (error) {
     throw new Error("Error en getPaginaByNumero", error);
@@ -48,7 +46,7 @@ async function createPagina(
   id_aventura,
   contenido,
   imagen,
-  imagen_de_fondo
+
 ) {
   try {
     if (!id_aventura) throw new Error("El id de la aventura es invalido");
@@ -61,20 +59,17 @@ async function createPagina(
     if (imagen === "")
       throw new Error("Imagen inválida: debe ser string o null");
 
-    if (imagen_de_fondo === "")
-      throw new Error("Imagen_de_fondo inválida: debe ser string o null");
-
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen, imagen_de_fondo) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [id_aventura, titulo, contenido, imagen, imagen_de_fondo]
+      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen) VALUES ($1, $2, $3, $4) RETURNING *",
+      [id_aventura, titulo, contenido, imagen]
     );
     return new Pagina(
       res.rows[0].id,
+      res.rows[0].numero,
       res.rows[0].titulo,
       res.rows[0].id_aventura,
       res.rows[0].contenido,
-      res.rows[0].imagen,
-      res.rows[0].imagen_de_fondo
+      res.rows[0].imagen
     );
   } catch (error) {
     console.error("Error en createPagina:", error);
@@ -93,8 +88,7 @@ async function updatePaginaById(
   id,
   titulo = null,
   contenido = null,
-  imagen = null,
-  imagen_de_fondo = null
+  imagen = null
 ) {
   try {
     if (!id) throw new Error("ID de pagina requerido");
@@ -113,12 +107,6 @@ async function updatePaginaById(
     if (imagen)
       conn.query("UPDATE pagina SET imagen = $2 WHERE id = $1", [id, imagen]);
 
-    if (imagen_de_fondo)
-      conn.query("UPDATE pagina SET imagen_de_fondo = $2 WHERE id = $1", [
-        id,
-        imagen_de_fondo,
-      ]);
-
     return getPaginaById(id);
   } catch (error) {
     console.error("Error en updatePaginaById:", error);
@@ -132,7 +120,7 @@ async function validatePaginaByNumero(id_aventura, numero) {
 
 
 
-async function updatePaginaByNumero(id_aventura, numero, titulo = null, contenido = null, imagen = null, imagen_de_fondo = null) {
+async function updatePaginaByNumero(id_aventura, numero, titulo = null, contenido = null, imagen = null) {
   try {
     if (!id_aventura || !numero)
       throw new Error("id_aventura y numero de página son requeridos");
@@ -148,15 +136,18 @@ async function updatePaginaByNumero(id_aventura, numero, titulo = null, contenid
     if (imagen)
       await conn.query("UPDATE pagina SET imagen = $3 WHERE id_aventura = $1 AND numero = $2", [id_aventura, numero, imagen]);
 
-    if (imagen_de_fondo)
-      await conn.query("UPDATE pagina SET imagen_de_fondo = $3 WHERE id_aventura = $1 AND numero = $2", [id_aventura, numero, imagen_de_fondo]);
-
     const res = await conn.query(
       "SELECT * FROM pagina WHERE id_aventura = $1 AND numero = $2",
       [id_aventura, numero]
     );
 
-    return res.rows[0];
+    return new Pagina(
+      res.rows[0].id,
+      res.rows[0].titulo,
+      res.rows[0].id_aventura,
+      res.rows[0].contenido,
+      res.rows[0].imagen
+    );
   } catch (error) {
     console.error("Error en updatePaginaByNumero:", error);
     throw error;
@@ -216,7 +207,6 @@ async function getAllPaginasFinalesByUsuarioId(id_usuario) {
           row.titulo,
           row.contenido,
           row.imagen,
-          row.imagen_de_fondo
         )
     );
   } catch (error) {
