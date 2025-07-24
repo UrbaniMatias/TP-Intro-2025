@@ -1,9 +1,9 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
-import usuarioRouter from "./routes/usuario.js";
-import usuariosRouter from "./routes/usuarios.js";
-import aventuraRouter from "./routes/aventura.js";
-import aventurasRouter from "./routes/aventuras.js";
+import usuarioRouter from "../routes/usuario.js";
+import usuariosRouter from "../routes/usuarios.js";
+import aventuraRouter from "../routes/aventura.js";
+import aventurasRouter from "../routes/aventuras.js";
 
 dotenv.config();
 
