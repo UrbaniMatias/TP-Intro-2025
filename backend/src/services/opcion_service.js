@@ -1,11 +1,11 @@
 import conn from "./db_connection";
 import Opcion from "../models/opcion";
 
-async function getAllOpcionesByPaginaNumero(numero_pagina_origen) {
+async function getAllOpcionesByPaginaNumero(numero_pagina_origen, id_aventura) {
   try {
     const res = await conn.query(
-      "SELECT * FROM opcion WHERE numero_pagina_origen = $1",
-      [numero_pagina_origen]
+      "SELECT * FROM opcion WHERE numero_pagina_origen = $1 AND id_aventura = $2",
+      [numero_pagina_origen, id_aventura]
     );
 
     if (res.rowCount === 0)
@@ -26,11 +26,11 @@ async function getAllOpcionesByPaginaNumero(numero_pagina_origen) {
   }
 }
 
-async function createOpcion(descripcion, numero_pagina_origen, numero_pagina_destino) {
+async function createOpcion(descripcion, numero_pagina_origen, numero_pagina_destino, id_aventura) {
   try {
     const res = await conn.query(
-      "INSERT INTO opcion (descripcion, numero_pagina_origen, numero_pagina_destino) VALUES ($1, $2, $3) RETURNING *",
-      [descripcion, numero_pagina_origen, numero_pagina_destino]
+      "INSERT INTO opcion (descripcion, numero_pagina_origen, numero_pagina_destino, id_aventura) VALUES ($1, $2, $3, $4) RETURNING *",
+      [descripcion, numero_pagina_origen, numero_pagina_destino, id_aventura]
     );
 
     if (res.rowCount === 0) throw new Error("No se pudo crear la opción");
@@ -60,35 +60,29 @@ async function deleteOpcionById(id) {
   }
 }
 
-async function validateIdOpcion(id) {
-  return (await conn.query("SELECT 1 FROM opcion WHERE id = $1 LIMIT 1", [id])).rowCount !== 0;
+async function validateOpcionByNumero(id_aventura, numero_pagina_origen) {
+  return (await conn.query("SELECT 1 FROM opcion WHERE id_aventura = $1 AND numero_pagina_origen = $2 LIMIT 1",[id_aventura, numero_pagina_origen])).rowCount !== 0;
 }
 
-
 async function updateOpcionById(
-  id,
+  id_aventura,
+  numero_pagina_origen,
   descripcion = null,
-  numero_pagina_origen = null,
-  numero_pagina_destino = null
-) {
-    try {
-    if (!id)
-      throw new Error("ID de opcion requerido");
+  numero_pagina_destino = null,
+  
+) {try {
+    if (!id_aventura || !numero_pagina_origen)
+      throw new Error("id_aventura y numero_pagina_origen de opcion son requeridos");
+
+    if (await validateOpcionByNumero(id_aventura, numero_pagina_origen) === false)
+      throw new Error("Opcion no encontrada");
     
-    if (validateIdOpcion(id) == false)
-      throw new Error("ID de la opcion invalida");
-   
     if (descripcion)
-      conn.query("UPDATE opcion SET descripcion= $2 WHERE id = $1", [id, descripcion]);
- 
-    if (numero_pagina_origen)
-      conn.query("UPDATE opcion SET numero_pagina_origen = $2 WHERE id = $1", [id, numero_pagina_origen]);
+      conn.query("UPDATE opcion SET descripcion= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, descripcion]);
 
     if (numero_pagina_destino)
-      conn.query("UPDATE opcion SET numero_pagina_destino = $2 WHERE id = $1", [id, numero_pagina_destino]);
+      conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
 
-    const result = await conn.query("SELECT * FROM opcion WHERE id = $1", [id]);
-    return result.rows[0];
   } catch (error) {
     console.error("Error en updateOpcionById:", error);
     throw error;
