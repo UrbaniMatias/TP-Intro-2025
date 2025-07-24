@@ -64,7 +64,7 @@ async function validateOpcionByNumero(id_aventura, numero_pagina_origen) {
   return (await conn.query("SELECT 1 FROM opcion WHERE id_aventura = $1 AND numero_pagina_origen = $2 LIMIT 1",[id_aventura, numero_pagina_origen])).rowCount !== 0;
 }
 
-async function updateOpcionById(
+async function updateOpcionByNumero(
   id_aventura,
   numero_pagina_origen,
   descripcion = null,
@@ -78,10 +78,10 @@ async function updateOpcionById(
       throw new Error("Opcion no encontrada");
     
     if (descripcion)
-      conn.query("UPDATE opcion SET descripcion= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, descripcion]);
+      await conn.query("UPDATE opcion SET descripcion= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, descripcion]);
 
     if (numero_pagina_destino)
-      conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
+      await conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
 
   } catch (error) {
     console.error("Error en updateOpcionById:", error);
@@ -94,5 +94,5 @@ export default {
   getAllOpcionesByPaginaNumero,
   createOpcion,
   deleteOpcionById,
-  updateOpcionById,
+  updateOpcionByNumero,
 };
