@@ -1,5 +1,5 @@
 export default class Opcion {
-    constructor(id, descripcion, id_pagina_origen, numero_pagina_destino, numero_pagina_origen) {
+    constructor(id, descripcion, id_aventura, numero_pagina_destino, numero_pagina_origen) {
 
         if (typeof id !== "number" || !Number.isInteger(id) || id <= 0)
         throw new Error("id invalido: debe ser un entero positivo");
