@@ -8,7 +8,6 @@ async function getAllUsuarios() {
       new Usuario(
         res.rows[0].id,
         res.rows[0].nombre,
-        res.rows[0].contrasenia,
         res.rows[0].email,
         res.rows[0].fecha_registro,
         res.rows[0].fecha_de_nacimiento
@@ -26,9 +25,9 @@ async function getUsuarioById(id, contrasenia) {
     if (res.row[0].contrasenia !== contrasenia)
       throw new Error("Contrasenia incorrecta");
 
-    return new Usuario(res.id,
+    return new Usuario(
+      res.rows[0].id,
       res.rows[0].nombre,
-      res.rows[0].contrasenia,
       res.rows[0].email,
       res.rows[0].fecha_registro,
       res.rows[0].fecha_de_nacimiento);
@@ -61,7 +60,6 @@ async function createUsuario(nombre, contrasenia, email, fecha_de_nacimiento) {
     return new Usuario(
       res.rows[0].id,
       res.rows[0].nombre,
-      res.rows[0].contrasenia,
       res.rows[0].email,
       res.rows[0].fecha_registro,
       res.rows[0].fecha_de_nacimiento
