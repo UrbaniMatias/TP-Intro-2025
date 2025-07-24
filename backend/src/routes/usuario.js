@@ -55,7 +55,7 @@ router.get("/:id_usuario", async (req, res) => {
 
 // GET /v1/usuario/:id_usuario/finales
 router.get("/:id_usuario/finales", async (req, res) => {
-    res.status(501).send("Error al obtener los finales que completo el usuario");
+  res.status(501).send("Error al obtener los finales que completo el usuario");
 });
 
 // PUT /v1/usuario/:id_usuario
@@ -66,8 +66,21 @@ router.put("/:id_usuario", async (req, res) => {
 
 // DELETE /v1/usuario/:id_usuario
 router.delete("/:id_usuario", async (req, res) => {
-  console.log(`Eliminar usuario ${req.params.id_usuario}`);
-  res.status(501).send("Error al eliminar el usuario");
+  try {
+    console.log(`Eliminar usuario ${req.params.id_usuario}`);
+    res.status(501).send("Error al eliminar el usuario");
+
+    const id_usuario = req.params.id_usuario;
+    console.log(`id_usuario: ${id_usuario}`);
+
+    if (usuario_service.deleteUsuarioById(id_usuario)) {
+      res.status(200).send("OK");
+    } else {
+      res.status(401).send("Unauthorized");
+    }
+  } catch (error) {
+    res.status(500).send("Error al eliminar el usuario");
+  }
 });
 
 export default router;
