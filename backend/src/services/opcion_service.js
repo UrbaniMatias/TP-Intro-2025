@@ -12,7 +12,7 @@ async function getAllOpcionesByPaginaNumero(numero_pagina_origen, id_aventura) {
       throw new Error("Fallo al optener las opciones de la pagina");
 
     return res.rows.map((row) =>
-      Opcion(
+      new Opcion(
         row.id,
         row.descripcion,
         row.id_aventura,
@@ -68,7 +68,7 @@ async function updateOpcionById(
   id_aventura,
   numero_pagina_origen,
   descripcion = null,
-  numero_pagina_destino = null,
+  numero_pagina_destino = null
   
 ) {try {
     if (!id_aventura || !numero_pagina_origen)
@@ -78,11 +78,18 @@ async function updateOpcionById(
       throw new Error("Opcion no encontrada");
     
     if (descripcion)
-      conn.query("UPDATE opcion SET descripcion= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, descripcion]);
+      await conn.query("UPDATE opcion SET descripcion= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, descripcion]);
 
     if (numero_pagina_destino)
-      conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
+      await conn.query("UPDATE opcion SET numero_pagina_destino= $3 WHERE id_aventura = $1 AND numero_pagina_origen = $2", [id_aventura, numero_pagina_origen, numero_pagina_destino]);
 
+    return new Opcion(
+      res.rows[0].id,
+      res.rows[0].descripcion,
+      res.rows[0].id_aventura,
+      res.rows[0].numero_pagina_origen,
+      res.rows[0].numero_pagina_destino
+    );
   } catch (error) {
     console.error("Error en updateOpcionById:", error);
     throw error;
