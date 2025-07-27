@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca</title>
+  <link rel="stylesheet" href="./CSS/navbar.css" />
+  <link rel="stylesheet" href="./CSS/libros.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="pagina-clara">
+  <div id="navbar-container"></div>
+  <div class="libros-header">
+    <h1 class="font-Lato font-verde gr subrayado subrayado--degrade">Biblioteca Digital</h1>
+    <div class="ordenar-container">
+      <label for="ordenar" class="ordenar-label font-Lato gr font-gris">Ordenar por:</label>
+      <select id="ordenar" class="ordenar-select">
+        <option value="titulo">Título (A-Z)</option>
+        <option value="titulo-desc">Título (Z-A)</option>
+        <option value="reciente">Más recientes</option>
+        <option value="antiguo">Más antiguos</option>
+      </select>
+    </div>
+  </div>
+  
+  <main>
+    <div id="container-libros"></div>
+    <div id="cargando" class="mensaje-info"><i class="fas fa-circle-notch fa-spin fa-2x icono"; ></i> <br> Cargando libros...</div>
+    <div id="error" class="mensaje-info" style="display: none;"><i class="fa-solid fa-circle-exclamation fa-2x icono"></i> <br> Ocurrió un error al cargar los libros.</div>
+  </main>
+
+  <script src="JS/navbar.js"></script>
+  <!-- <script type="module">
+    import { obtenerLibros, mostrarLibros } from './JS/api-libros.js';
+
+    window.onload = obtenerLibros; //Esto hace que se ejecute cuando cargue la pagina
+  </script> -->
+  <script type="module" src="./JS/main.js"></script>
+</body>
+</html>

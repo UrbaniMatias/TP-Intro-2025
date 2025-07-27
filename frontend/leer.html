@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>libro: </title>
+  <link rel="stylesheet" href="./CSS/navbar.css" />
+  <link rel="stylesheet" href="./CSS/leer.css" />
+</head>
+<body class="pagina-clara">
+  <div id="navbar-container"></div>
+  <div class="contenido">
+    <div  class="textos">
+      <div class="info">
+        <h1 id="titulo-capitulo">Título del capitulo</h1>
+        <h4 id="subtitulo-capitulo"></h4>
+      </div>
+      <hr>
+      <p id="texto-capitulo"  class="font-Lato">
+
+      </p>
+      <div class="contenedor-imagen">
+        <img id="imagen-ilustracion"  class="ilustracion" src="./imagenes/portada_default1.jpg" alt="Ilustración">
+      </div>
+      <hr>  
+      <div class="opciones">
+        <h3 class="font-Lato" >Elige tu camino . . .</h3>
+
+      </div>
+      <div class="btn-desplazamiento">
+        <button id="btn-anterior" class="btn gr btn-verde btn-simple btn-icon">
+        <span class="material-symbols-outlined">keyboard_arrow_left</span>Anterior
+        </button>
+        <button id="btn-siguiente" class="btn gr btn-verde btn-simple btn-icon">
+          Siguiente <span class="material-symbols-outlined">keyboard_arrow_right</span>
+        </button></div>
+    </div>
+    <div class="barra-estado">
+      <div class="portada-info">
+        <img id="barra-portada" class="barra-portada" src="" alt="Portada del libro" />
+        <div class="info-libro">
+          <h1 id="barra-titulo" class="barra-titulo"></h1>
+          <h3 id="barra-autor" class="barra-autor"></h3>
+        </div>  
+      </div>
+      <hr>
+    </div>
+  </div>
+  <script src="./JS/navbar.js"></script>
+  <script src="./JS/leer.js"></script>
+</body>
+</html>

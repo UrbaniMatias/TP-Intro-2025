@@ -2,36 +2,41 @@ import conn from "../services/db_connection.js";
 import Usuario from "../models/usuario.js";
 
 async function getAllUsuarios() {
-  const res = await conn.query("SELECT * FROM usuario");
-  return res.rows.map(
-    (row) =>
-      new Usuario(
-        res.rows[0].id,
-        res.rows[0].nombre,
-        res.rows[0].contrasenia,
-        res.rows[0].email,
-        res.rows[0].fecha_registro,
-        res.rows[0].fecha_de_nacimiento
-      )
-  );
+  try {
+    const res = await conn.query("SELECT * FROM usuario");
+
+    return res.rows.map(
+      (row) =>
+        new Usuario(
+          row.id,
+          row.nombre,
+          row.email,
+          row.fecha_registro,
+          row.fecha_de_nacimiento
+        )
+    );
+  } catch (error) {
+    console.log(`Error en getAllUsuarios: ${error}`);
+    throw error;
+  }
 }
 
 async function getUsuarioById(id, contrasenia) {
   try {
     const res = await conn.query("SELECT * FROM usuario WHERE id = $1", [id]);
 
-    if (res.rowCount === 0)
-      throw new Error("Usuario no encontrado");
+    if (res.rowCount === 0) throw new Error("Usuario no encontrado");
 
     if (res.row[0].contrasenia !== contrasenia)
       throw new Error("Contrasenia incorrecta");
 
-    return new Usuario(res.id,
+    return new Usuario(
+      res.rows[0].id,
       res.rows[0].nombre,
-      res.rows[0].contrasenia,
       res.rows[0].email,
       res.rows[0].fecha_registro,
-      res.rows[0].fecha_de_nacimiento);
+      res.rows[0].fecha_de_nacimiento
+    );
   } catch (error) {
     console.error("Error en getUsuarioById:", error);
     throw error;
@@ -61,7 +66,6 @@ async function createUsuario(nombre, contrasenia, email, fecha_de_nacimiento) {
     return new Usuario(
       res.rows[0].id,
       res.rows[0].nombre,
-      res.rows[0].contrasenia,
       res.rows[0].email,
       res.rows[0].fecha_registro,
       res.rows[0].fecha_de_nacimiento
