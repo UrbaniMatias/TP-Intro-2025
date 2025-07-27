@@ -27,7 +27,7 @@ async function getUsuarioById(id, contrasenia) {
 
     if (res.rowCount === 0) throw new Error("Usuario no encontrado");
 
-    if (res.row[0].contrasenia !== contrasenia)
+    if (res.rows[0].contrasenia !== contrasenia)
       throw new Error("Contrasenia incorrecta");
 
     return new Usuario(
@@ -97,19 +97,19 @@ async function updateUsuarioById(
       throw new Error("Usuario no encontrado");
 
     if (nombre)
-      conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
+      await conn.query("UPDATE usuario SET nombre = $2 WHERE id = $1", [id, nombre]);
 
     if (contrasenia)
-      conn.query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
+      await conn.query("UPDATE usuario SET contrasenia= $2 WHERE id = $1", [
         id,
         contrasenia,
       ]);
 
     if (email)
-      conn.query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
+      await conn.query("UPDATE usuario SET email = $2 WHERE id = $1", [id, email]);
 
     if (fecha_de_nacimiento)
-      conn.query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
+      await conn.query("UPDATE usuario SET fecha_nacimiento = $2 WHERE id = $1", [
         id,
         fecha_nacimiento,
       ]);
