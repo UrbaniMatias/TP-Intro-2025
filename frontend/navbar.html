@@ -15,8 +15,10 @@
 <body>
   <header class="navbar">
     <div class="navbar-izq">
-      <img class="logo" src="./imagenes/favicon.svg" alt="Logo">
-      <a class="logo-texto font-Montserrat">RAMTORIA</a>
+      <a href="index.html">
+        <img class="logo" src="./imagenes/favicon.svg" alt="Logo">
+      </a>
+      <a class="logo-texto font-Montserrat" href="index.html" >RAMTORIA</a>
     </div>
 
     <div class="navbar-centro">
@@ -45,12 +47,11 @@
             <span class="material-symbols-outlined">arrow_drop_down</span>
           </button>
           <div class="user-dropdown-content">
+            <a href="perfil.html" id="logoutBtn">
+              <span class="material-symbols-outlined">account_circle</span>Perfil</a>
+            <hr>
             <a href="#" id="logoutBtn">
               <span class="material-symbols-outlined">logout</span> Cerrar sesión</a>
-            <hr>
-            <a href="#" id="deleteAccountBtn">
-              <span class="material-symbols-outlined">delete_forever</span> Borrar Cuenta</a>
-          </div>
         </div>
       </div>
     </div>
@@ -70,7 +71,6 @@
       menuEscribir.style.display = 'block';
       document.getElementById('usernameDisplay').textContent = user.nombre;
 
-      // 💡 Ahora que los elementos están visibles, los seleccionamos
       const logoutBtn = document.getElementById('logoutBtn');
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {

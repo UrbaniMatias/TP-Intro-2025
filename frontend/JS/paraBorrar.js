@@ -7,7 +7,7 @@ export async function obtenerLibros() {
       id: 1,
       titulo: "La Cueva Misteriosa",
       descripcion: "Una aventura llena de secretos y sorpresas.",
-      id_usuario: 2,
+      id_usuario: 1,
       portada: "https://picsum.photos/200"
     },
     {

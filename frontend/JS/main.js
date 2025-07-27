@@ -113,7 +113,7 @@ function agregarOrdenamiento() {
 
   selector.addEventListener("change", () => {
     const criterio = selector.value;
-    let aventurasOrdenadas = [...aventurasGlobal]; // Copia para no modificar el original
+    let aventurasOrdenadas = [...aventurasGlobal]; 
 
     switch (criterio) {
       case "titulo":
