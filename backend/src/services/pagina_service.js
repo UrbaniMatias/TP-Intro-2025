@@ -37,7 +37,7 @@ async function getPaginaByNumero(id_aventura, numero) {
           res.rows[0].imagen
         );
   } catch (error) {
-    throw new Error("Error en getPaginaByNumero", error);
+    throw new error("Error en getPaginaByNumero", error);
   }
 }
 
@@ -59,14 +59,14 @@ async function createPagina(
       throw new Error("Imagen inválida: debe ser string o null");
 
     const res = await conn.query(
-      "INSERT INTO paginas (id_aventura, titulo, contenido, imagen) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO pagina (id_aventura, titulo, contenido, imagen) VALUES ($1, $2, $3, $4) RETURNING *",
       [id_aventura, titulo, contenido, imagen]
     );
     return new Pagina(
       res.rows[0].id,
-      res.rows[0].numero,
       res.rows[0].titulo,
       res.rows[0].id_aventura,
+      res.rows[0].numero,
       res.rows[0].contenido,
       res.rows[0].imagen
     );
